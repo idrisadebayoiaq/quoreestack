@@ -3,20 +3,19 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   ArrowLeft,
-  CalendarDays,
   Check,
-  Cpu,
-  FileArchive,
-  Layers3,
-  ShieldCheck,
+  Info,
+  Share2,
   Smartphone,
 } from "lucide-react";
 import { AppCard } from "@/components/apps/AppCard";
 import { DownloadButton } from "@/components/apps/DownloadButton";
-import { SectionHeading } from "@/components/animations/SectionHeading";
+import { ExpandableAbout } from "@/components/apps/ExpandableAbout";
+import { ScreenshotGallery } from "@/components/apps/ScreenshotGallery";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { createClient } from "@/lib/supabase/server";
 import { createStaticClient } from "@/lib/supabase/static";
+import { siteConfig } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -68,7 +67,7 @@ function parseFeatures(value: unknown): Feature[] {
 }
 
 function formatBytes(bytes: number | null) {
-  if (!bytes) return "Not listed";
+  if (!bytes) return "—";
   const units = ["B", "KB", "MB", "GB"];
   const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
   return `${(bytes / 1024 ** index).toFixed(index ? 1 : 0)} ${units[index]}`;
@@ -110,7 +109,7 @@ export default async function AppDetailPage({ params }: Props) {
   const supabase = await createClient();
   const { data: app, error } = await supabase
     .from("mobile_apps")
-    .select("*")
+    .select("*, categories(name)")
     .eq("slug", slug)
     .eq("status", "published")
     .maybeSingle();
@@ -160,253 +159,239 @@ export default async function AppDetailPage({ params }: Props) {
 
   const features = parseFeatures(app.features);
   const screenshots = app.screenshot_urls ?? [];
+  const categoryName =
+    app.categories && typeof app.categories === "object" && "name" in app.categories
+      ? String((app.categories as { name?: string }).name ?? "Apps")
+      : "Apps";
+  const aboutText =
+    app.long_description ??
+    app.short_description ??
+    app.tagline ??
+    "Product details are coming soon.";
+  const updatedLabel = latestVersion?.created_at
+    ? new Intl.DateTimeFormat("en", { dateStyle: "medium" }).format(
+        new Date(latestVersion.created_at),
+      )
+    : "—";
 
   return (
-    <main>
-      <section className="relative overflow-hidden border-b border-[var(--border-glow)]">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_25%,rgba(var(--accent-rgb),0.1),transparent_30%),radial-gradient(circle_at_15%_80%,rgba(var(--secondary-rgb),0.08),transparent_24%)]" />
-        <div className="relative mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
-          <Link
-            href="/apps"
-            className="font-mono-label mb-10 inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[var(--text-muted)] transition hover:text-[var(--neon-cyan)]"
-          >
-            <ArrowLeft className="size-4" /> App directory
-          </Link>
+    <main className="pb-28 md:pb-16">
+      <div className="mx-auto max-w-3xl px-4 pt-6 md:px-6 md:pt-10">
+        <Link
+          href="/apps"
+          className="inline-flex items-center gap-2 text-sm text-[var(--text-muted)] transition hover:text-white"
+        >
+          <ArrowLeft className="size-4" /> Apps
+        </Link>
 
-          <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
-            <div className="flex flex-col gap-7 sm:flex-row sm:items-start">
-              {app.icon_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={app.icon_url}
-                  alt={`${app.name} icon`}
-                  className="size-32 rounded-[1.8rem] border border-white/10 object-cover shadow-[var(--glow-sm)]"
-                />
-              ) : (
-                <div className="grid size-32 shrink-0 place-items-center rounded-[1.8rem] border border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/10">
-                  <Smartphone className="size-12 text-[var(--neon-cyan)]" />
-                </div>
-              )}
-              <div>
-                <p className="font-mono-label text-xs uppercase tracking-[0.25em] text-[var(--neon-cyan)]">
-                  Android application
-                </p>
-                <h1 className="font-display mt-3 text-4xl text-white md:text-6xl">
-                  {app.name}
-                </h1>
-                <p className="mt-4 max-w-2xl text-lg leading-8 text-[var(--text-muted)]">
-                  {app.tagline ?? app.short_description}
-                </p>
-              </div>
+        {/* Store header */}
+        <section className="mt-6 flex gap-4 sm:gap-5">
+          {app.icon_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={app.icon_url}
+              alt={`${app.name} icon`}
+              className="size-20 shrink-0 rounded-[1.35rem] border border-white/10 object-cover sm:size-28 sm:rounded-[1.75rem]"
+            />
+          ) : (
+            <div className="grid size-20 shrink-0 place-items-center rounded-[1.35rem] bg-[var(--neon-cyan)]/10 sm:size-28 sm:rounded-[1.75rem]">
+              <Smartphone className="size-10 text-[var(--neon-cyan)]" />
             </div>
-            <div className="flex flex-col items-stretch gap-3 sm:items-end">
-              <DownloadButton
-                slug={app.slug}
-                version={latestVersion?.version}
-                directUrl={app.download_url}
-                disabled={!app.download_url && !latestVersion}
-              />
-              <NeonButton
-                href={`/start?app=${encodeURIComponent(app.slug)}&service=mobile-android`}
-                variant="secondary"
-                className="min-w-56"
-              >
-                Build one like this
-              </NeonButton>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-        <section className="grid gap-12 lg:grid-cols-[1fr_320px]">
-          <div>
-            <SectionHeading index={1} eyebrow="Overview" title="Built for the Mission" />
-            <div className="whitespace-pre-wrap text-base leading-8 text-[var(--text-muted)]">
-              {app.long_description ?? app.short_description ?? "Product details are coming soon."}
-            </div>
-
-            {screenshots.length ? (
-              <div className="mt-12">
-                <h2 className="font-display mb-6 text-2xl text-white">Interface Preview</h2>
-                <div className="flex snap-x gap-5 overflow-x-auto pb-4">
-                  {screenshots.map((screenshot, index) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      key={`${screenshot}-${index}`}
-                      src={screenshot}
-                      alt={`${app.name} screenshot ${index + 1}`}
-                      className="h-[34rem] w-auto max-w-[85vw] shrink-0 snap-start rounded-xl border border-[var(--border-glow)] object-cover"
-                    />
-                  ))}
-                </div>
-              </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <h1 className="font-display text-2xl leading-tight text-white sm:text-4xl">
+              {app.name}
+            </h1>
+            <p className="mt-1 text-sm font-medium text-[var(--neon-cyan)] sm:text-base">
+              {siteConfig.name}
+            </p>
+            <p className="mt-1 text-xs text-[var(--text-muted)] sm:text-sm">
+              {categoryName}
+              {app.min_android_version ? ` · Android ${app.min_android_version}+` : ""}
+            </p>
+            {app.tagline ? (
+              <p className="mt-3 hidden text-sm text-[var(--text-muted)] sm:block">
+                {app.tagline}
+              </p>
             ) : null}
           </div>
-
-          <aside className="h-fit border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 backdrop-blur-md lg:sticky lg:top-24">
-            <p className="font-mono-label text-[10px] uppercase tracking-[0.25em] text-[var(--neon-cyan)]">
-              Latest release
-            </p>
-            <dl className="mt-6 space-y-5">
-              {[
-                {
-                  icon: Layers3,
-                  label: "Version",
-                  value: latestVersion?.version
-                    ? `${latestVersion.version}${latestVersion.version_code ? ` (${latestVersion.version_code})` : ""}`
-                    : "Pending",
-                },
-                {
-                  icon: FileArchive,
-                  label: "Package size",
-                  value: formatBytes(latestVersion?.file_size_bytes ?? null),
-                },
-                {
-                  icon: CalendarDays,
-                  label: "Released",
-                  value: latestVersion?.created_at
-                    ? new Intl.DateTimeFormat("en", { dateStyle: "medium" }).format(
-                        new Date(latestVersion.created_at),
-                      )
-                    : "Not listed",
-                },
-                {
-                  icon: Cpu,
-                  label: "Requires",
-                  value: app.min_android_version
-                    ? `Android ${app.min_android_version}+`
-                    : "Android device",
-                },
-              ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="flex gap-3">
-                  <Icon className="mt-0.5 size-4 shrink-0 text-[var(--neon-cyan)]" />
-                  <div>
-                    <dt className="font-mono-label text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
-                      {label}
-                    </dt>
-                    <dd className="mt-1 text-sm text-white">{value}</dd>
-                  </div>
-                </div>
-              ))}
-            </dl>
-            <div className="mt-7 flex items-start gap-2 border-t border-[var(--border-glow)] pt-5 text-xs leading-5 text-[var(--text-muted)]">
-              <ShieldCheck className="mt-0.5 size-4 shrink-0 text-[var(--neon-cyan)]" />
-              Authenticated, time-limited delivery from secure storage.
-            </div>
-          </aside>
         </section>
 
-        {features.length ? (
-          <section className="mt-20">
-            <SectionHeading index={2} eyebrow="Capabilities" title="Core Features" />
-            <div className="grid gap-4 md:grid-cols-2">
-              {features.map((feature, index) => (
-                <div
-                  key={`${feature.title}-${index}`}
-                  className="hud-corners border border-[var(--border-glow)] bg-[var(--bg-glass)] p-5"
-                >
-                  <div className="flex gap-3">
-                    <span className="grid size-6 shrink-0 place-items-center rounded-full border border-[var(--neon-cyan)]/40 bg-[var(--neon-cyan)]/10">
-                      <Check className="size-3.5 text-[var(--neon-cyan)]" />
-                    </span>
-                    <div>
-                      <h3 className="font-display text-lg text-white">{feature.title}</h3>
-                      {feature.description ? (
-                        <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">
-                          {feature.description}
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* Stats row like Play Store */}
+        <section className="mt-6 grid grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/8 bg-white/[0.03] py-4">
+          <div className="px-3 text-center">
+            <p className="text-sm font-semibold text-white">Free</p>
+            <p className="mt-1 text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
+              Price
+            </p>
+          </div>
+          <div className="px-3 text-center">
+            <p className="text-sm font-semibold text-white">
+              {formatBytes(latestVersion?.file_size_bytes ?? null)}
+            </p>
+            <p className="mt-1 text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
+              Download size
+            </p>
+          </div>
+          <div className="px-3 text-center">
+            <p className="text-sm font-semibold text-white">
+              {latestVersion?.version ?? "—"}
+            </p>
+            <p className="mt-1 text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
+              Version
+            </p>
+          </div>
+        </section>
+
+        {/* Install actions */}
+        <section className="mt-5 flex flex-wrap items-center gap-3">
+          <DownloadButton
+            slug={app.slug}
+            version={latestVersion?.version}
+            directUrl={app.download_url}
+            disabled={!app.download_url && !latestVersion}
+            storeStyle
+          />
+          <Link
+            href={`/start?app=${encodeURIComponent(app.slug)}&service=mobile-android`}
+            className="inline-flex size-11 items-center justify-center rounded-full border border-white/10 text-[var(--text-muted)] transition hover:border-[var(--neon-cyan)]/40 hover:text-white"
+            aria-label="Share interest / commission similar app"
+          >
+            <Share2 className="size-4" />
+          </Link>
+        </section>
+
+        <ScreenshotGallery appName={app.name} screenshots={screenshots} />
+
+        {!screenshots.length ? (
+          <p className="mt-8 rounded-2xl border border-dashed border-white/10 px-4 py-8 text-center text-sm text-[var(--text-muted)]">
+            Screenshots will appear here once uploaded in Admin → Apps.
+          </p>
+        ) : null}
+
+        <ExpandableAbout text={aboutText} />
+
+        {latestVersion?.changelog ? (
+          <section className="border-b border-white/8 py-8">
+            <h2 className="font-display text-xl text-white md:text-2xl">What&apos;s new</h2>
+            <p className="mt-2 text-xs text-[var(--text-muted)]">
+              Version {latestVersion.version} · Updated {updatedLabel}
+            </p>
+            <p className="mt-4 whitespace-pre-wrap text-[15px] leading-7 text-[var(--text-muted)]">
+              {latestVersion.changelog}
+            </p>
           </section>
         ) : null}
 
-        <section className="mt-20 grid gap-8 md:grid-cols-2">
-          <div>
-            <SectionHeading index={3} eyebrow="System" title="Technology Stack" />
-            <div className="flex flex-wrap gap-3">
-              {(app.tech_stack ?? []).length ? (
-                app.tech_stack?.map((tech) => (
-                  <span
-                    key={tech}
-                    className="font-mono-label border border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/5 px-3 py-2 text-xs uppercase tracking-wider text-[var(--neon-cyan)]"
-                  >
-                    {tech}
-                  </span>
-                ))
-              ) : (
-                <p className="text-sm text-[var(--text-muted)]">Stack details are private.</p>
-              )}
+        {features.length ? (
+          <section className="border-b border-white/8 py-8">
+            <h2 className="font-display text-xl text-white md:text-2xl">Features</h2>
+            <ul className="mt-5 space-y-3">
+              {features.map((feature, index) => (
+                <li key={`${feature.title}-${index}`} className="flex gap-3">
+                  <Check className="mt-0.5 size-4 shrink-0 text-[var(--neon-cyan)]" />
+                  <div>
+                    <p className="text-sm font-medium text-white">{feature.title}</p>
+                    {feature.description ? (
+                      <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">
+                        {feature.description}
+                      </p>
+                    ) : null}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        <section className="border-b border-white/8 py-8">
+          <h2 className="font-display mb-5 text-xl text-white md:text-2xl">App info</h2>
+          <dl className="grid gap-4 sm:grid-cols-2">
+            {[
+              { label: "Version", value: latestVersion?.version ?? "—" },
+              { label: "Updated on", value: updatedLabel },
+              { label: "Download size", value: formatBytes(latestVersion?.file_size_bytes ?? null) },
+              {
+                label: "Requires",
+                value: app.min_android_version
+                  ? `Android ${app.min_android_version}+`
+                  : "Android device",
+              },
+              { label: "Offered by", value: siteConfig.name },
+              { label: "Category", value: categoryName },
+            ].map((item) => (
+              <div key={item.label} className="rounded-xl bg-white/[0.03] px-4 py-3">
+                <dt className="text-[11px] uppercase tracking-wider text-[var(--text-muted)]">
+                  {item.label}
+                </dt>
+                <dd className="mt-1 text-sm text-white">{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+          {(app.tech_stack ?? []).length ? (
+            <div className="mt-5 flex flex-wrap gap-2">
+              {app.tech_stack?.map((tech) => (
+                <span
+                  key={tech}
+                  className="rounded-full border border-white/10 px-3 py-1 text-xs text-[var(--text-muted)]"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          ) : null}
+        </section>
+
+        <section className="border-b border-white/8 py-8">
+          <div className="flex items-start gap-3 rounded-2xl border border-white/8 bg-white/[0.03] p-4">
+            <Info className="mt-0.5 size-5 shrink-0 text-[var(--neon-cyan)]" />
+            <div>
+              <h2 className="text-sm font-semibold text-white">Safe install</h2>
+              <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">
+                Downloads come from QuoreStack storage or a verified Expo build link.
+                Android may ask you to allow installs from your browser.
+              </p>
             </div>
           </div>
-          <div>
-            <SectionHeading index={4} eyebrow="Compatibility" title="Requirements" />
-            <ul className="space-y-3 text-sm text-[var(--text-muted)]">
-              <li className="flex gap-3">
-                <Check className="size-5 text-[var(--neon-cyan)]" />
-                Android {app.min_android_version ?? "compatible"} device
-              </li>
-              <li className="flex gap-3">
-                <Check className="size-5 text-[var(--neon-cyan)]" />
-                Permission to install apps from your browser
-              </li>
-              <li className="flex gap-3">
-                <Check className="size-5 text-[var(--neon-cyan)]" />
-                Stable connection for the timed download link
-              </li>
-            </ul>
-          </div>
         </section>
 
-        <section className="mt-20">
-          <SectionHeading index={5} eyebrow="Release log" title="What's New" />
-          <div className="hud-corners border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6">
-            <p className="font-mono-label text-xs uppercase tracking-wider text-[var(--neon-cyan)]">
-              Version {latestVersion?.version ?? "pending"}
-            </p>
-            <p className="mt-4 whitespace-pre-wrap text-sm leading-7 text-[var(--text-muted)]">
-              {latestVersion?.changelog ?? "Release notes will appear with the next published build."}
-            </p>
-          </div>
-        </section>
-
-        <section className="mt-20 border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center md:p-10">
-          <p className="font-mono-label text-xs uppercase tracking-[0.25em] text-[var(--neon-cyan)]">
-            Need a custom build?
+        <section className="py-10 text-center">
+          <h2 className="font-display text-2xl text-white">Need a custom build?</h2>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-[var(--text-muted)]">
+            Commission an Android app like {app.name} — scoped, built, and launched with you.
           </p>
-          <h2 className="font-display mt-3 text-2xl text-white md:text-3xl">
-            Commission an app like {app.name}
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[var(--text-muted)]">
-            Tell me your goals and timeline. I&apos;ll map scope, stack, and a clear
-            delivery plan for your Android product.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <NeonButton
-              href={`/start?app=${encodeURIComponent(app.slug)}&service=mobile-android`}
-            >
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <NeonButton href={`/start?app=${encodeURIComponent(app.slug)}&service=mobile-android`}>
               Start a project
             </NeonButton>
             <NeonButton href="/apps" variant="ghost">
-              ← All apps
+              More apps
             </NeonButton>
           </div>
         </section>
 
         {relatedApps?.length ? (
-          <section className="mt-20">
-            <SectionHeading index={5} eyebrow="Continue exploring" title="Related Apps" />
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <section className="pb-10">
+            <h2 className="font-display mb-5 text-xl text-white md:text-2xl">Similar apps</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
               {relatedApps.map((relatedApp) => (
                 <AppCard key={relatedApp.id} app={relatedApp} />
               ))}
             </div>
           </section>
         ) : null}
+      </div>
+
+      {/* Sticky mobile install bar */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#070b12]/95 px-4 py-3 backdrop-blur md:hidden">
+        <DownloadButton
+          slug={app.slug}
+          version={latestVersion?.version}
+          directUrl={app.download_url}
+          disabled={!app.download_url && !latestVersion}
+          storeStyle
+          fullWidth
+        />
       </div>
     </main>
   );

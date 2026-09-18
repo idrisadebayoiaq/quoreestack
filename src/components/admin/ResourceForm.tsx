@@ -6,6 +6,7 @@ import { useFormStatus } from "react-dom";
 import type { AdminResource, ResourceConfig } from "@/lib/admin/resources";
 import { saveResourceAction } from "@/lib/admin/actions";
 import { createClient } from "@/lib/supabase/client";
+import { MultiImageField } from "@/components/admin/MultiImageField";
 
 const inputClass =
   "w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14] px-3 py-2 text-sm text-white outline-none transition focus:border-[var(--neon-cyan)]";
@@ -122,10 +123,12 @@ export function ResourceForm({
         {config.fields.map((field) => {
           const value = record?.[field.name];
           const wide = ["textarea", "json", "image", "images"].includes(field.kind);
+          const Wrapper = field.kind === "image" || field.kind === "images" ? "div" : "label";
           return (
-            <label key={field.name} className={wide ? "lg:col-span-2" : ""}>
+            <Wrapper key={field.name} className={wide ? "lg:col-span-2" : ""}>
               <span className="mb-1.5 block text-xs uppercase tracking-wider text-[var(--text-muted)]">
-                {field.label}{field.required ? " *" : ""}
+                {field.label}
+                {field.required ? " *" : ""}
               </span>
               {field.kind === "textarea" || field.kind === "json" ? (
                 <textarea
@@ -155,51 +158,43 @@ export function ResourceForm({
                 <select name={field.name} defaultValue={printable(value)} className={inputClass}>
                   <option value="">None</option>
                   {categories.map((category) => (
-                    <option key={category.id} value={category.id}>{category.name}</option>
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
                   ))}
                 </select>
               ) : field.kind === "image" || field.kind === "images" ? (
-                <div className="space-y-2">
-                  <input
-                    type="hidden"
-                    name={`${field.name}_existing`}
-                    value={printable(value)}
-                  />
-                  <input
-                    name={field.name}
-                    type="file"
-                    accept="image/*"
-                    multiple={field.kind === "images"}
-                    className={inputClass}
-                  />
-                  {printable(value) ? (
-                    <p className="break-all text-xs text-[var(--text-muted)]">
-                      Existing: {printable(value)}
-                    </p>
-                  ) : null}
-                </div>
+                <MultiImageField
+                  name={field.name}
+                  label={field.label}
+                  value={value}
+                  help={field.help}
+                  multiple={field.kind === "images"}
+                />
               ) : field.kind === "datetime" ? (
                 <input
                   name={field.name}
                   type="datetime-local"
                   defaultValue={
-                    value
-                      ? new Date(String(value)).toISOString().slice(0, 16)
-                      : ""
+                    value ? new Date(String(value)).toISOString().slice(0, 16) : ""
                   }
                   className={inputClass}
                 />
               ) : (
                 <input
                   name={field.name}
-                  type={field.kind === "number" ? "number" : field.kind === "url" ? "url" : "text"}
+                  type={
+                    field.kind === "number" ? "number" : field.kind === "url" ? "url" : "text"
+                  }
                   defaultValue={printable(value)}
                   required={field.required}
                   className={inputClass}
                 />
               )}
-              {field.help ? <small className="text-[var(--text-muted)]">{field.help}</small> : null}
-            </label>
+              {field.help && field.kind !== "image" && field.kind !== "images" ? (
+                <small className="text-[var(--text-muted)]">{field.help}</small>
+              ) : null}
+            </Wrapper>
           );
         })}
       </div>
@@ -210,7 +205,10 @@ export function ResourceForm({
           </legend>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map((category) => (
-              <label key={category.id} className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
+              <label
+                key={category.id}
+                className="flex items-center gap-2 text-sm text-[var(--text-muted)]"
+              >
                 <input
                   type="checkbox"
                   name="_category_ids"
@@ -231,7 +229,10 @@ export function ResourceForm({
           </legend>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
-              <label key={service.id} className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
+              <label
+                key={service.id}
+                className="flex items-center gap-2 text-sm text-[var(--text-muted)]"
+              >
                 <input
                   type="checkbox"
                   name="_service_ids"
@@ -245,9 +246,21 @@ export function ResourceForm({
           </div>
         </fieldset>
       ) : null}
-      {state.error ? <p className="rounded border border-red-500/50 bg-red-500/10 p-3 text-red-300">{state.error}</p> : null}
-      {clientError ? <p className="rounded border border-red-500/50 bg-red-500/10 p-3 text-red-300">{clientError}</p> : null}
-      {state.success ? <p className="rounded border border-green-500/50 bg-green-500/10 p-3 text-green-300">{state.success}</p> : null}
+      {state.error ? (
+        <p className="rounded border border-red-500/50 bg-red-500/10 p-3 text-red-300">
+          {state.error}
+        </p>
+      ) : null}
+      {clientError ? (
+        <p className="rounded border border-red-500/50 bg-red-500/10 p-3 text-red-300">
+          {clientError}
+        </p>
+      ) : null}
+      {state.success ? (
+        <p className="rounded border border-green-500/50 bg-green-500/10 p-3 text-green-300">
+          {state.success}
+        </p>
+      ) : null}
       <div className="flex flex-wrap items-center gap-3">
         <button
           disabled={uploading || pending}

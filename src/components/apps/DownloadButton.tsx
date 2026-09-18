@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Download, LoaderCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { cn } from "@/lib/utils";
 
 type DownloadResponse = {
   signedUrl?: string;
@@ -39,18 +40,26 @@ export function DownloadButton({
   version,
   directUrl,
   disabled = false,
+  storeStyle = false,
+  fullWidth = false,
 }: {
   slug: string;
   version?: string | null;
   directUrl?: string | null;
   disabled?: boolean;
+  storeStyle?: boolean;
+  fullWidth?: boolean;
 }) {
   const [downloading, setDownloading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const hasDirectUrl = Boolean(directUrl && isSafeHttpUrl(directUrl));
-  const buttonClassName =
-    "font-mono-label inline-flex min-w-56 items-center justify-center gap-2 rounded-sm bg-[var(--neon-cyan)] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[var(--bg-primary)] shadow-[var(--glow-md)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50";
+  const buttonClassName = storeStyle
+    ? cn(
+        "inline-flex items-center justify-center gap-2 rounded-full bg-[var(--neon-cyan)] px-8 py-3 text-sm font-semibold text-[var(--bg-primary)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
+        fullWidth ? "w-full" : "min-w-40",
+      )
+    : "font-mono-label inline-flex min-w-56 items-center justify-center gap-2 rounded-sm bg-[var(--neon-cyan)] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[var(--bg-primary)] shadow-[var(--glow-md)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50";
 
   async function downloadFromStorage() {
     if (disabled || downloading) return;
@@ -86,13 +95,15 @@ export function DownloadButton({
   }
 
   const label = disabled
-    ? "Release unavailable"
+    ? "Unavailable"
     : downloading
-      ? "Preparing link..."
-      : `Download${version ? ` v${version}` : " APK"}`;
+      ? "Preparing…"
+      : storeStyle
+        ? "Install"
+        : `Download${version ? ` v${version}` : " APK"}`;
 
   return (
-    <div>
+    <div className={fullWidth ? "w-full" : undefined}>
       {hasDirectUrl && directUrl ? (
         <a
           href={directUrl}
@@ -106,7 +117,7 @@ export function DownloadButton({
             }
           }}
         >
-          <Download className="size-4" />
+          {!storeStyle ? <Download className="size-4" /> : null}
           {label}
         </a>
       ) : (
@@ -118,7 +129,7 @@ export function DownloadButton({
         >
           {downloading ? (
             <LoaderCircle className="size-4 animate-spin" />
-          ) : (
+          ) : storeStyle ? null : (
             <Download className="size-4" />
           )}
           {label}
@@ -128,7 +139,7 @@ export function DownloadButton({
         <p role="alert" className="mt-3 max-w-sm text-sm text-[var(--neon-magenta)]">
           {errorMessage}
         </p>
-      ) : (
+      ) : storeStyle ? null : (
         <p className="mt-3 text-xs text-[var(--text-muted)]">
           {hasDirectUrl
             ? isExpoBuildUrl(directUrl ?? "")
