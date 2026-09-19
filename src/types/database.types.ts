@@ -368,6 +368,8 @@ export type Database = {
           meta_title: string | null
           min_android_version: string | null
           name: string
+          app_version: string | null
+          download_size: string | null
           screenshot_urls: string[] | null
           short_description: string | null
           slug: string
@@ -390,6 +392,8 @@ export type Database = {
           meta_title?: string | null
           min_android_version?: string | null
           name: string
+          app_version?: string | null
+          download_size?: string | null
           screenshot_urls?: string[] | null
           short_description?: string | null
           slug: string
@@ -412,6 +416,8 @@ export type Database = {
           meta_title?: string | null
           min_android_version?: string | null
           name?: string
+          app_version?: string | null
+          download_size?: string | null
           screenshot_urls?: string[] | null
           short_description?: string | null
           slug?: string

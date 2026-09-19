@@ -7,5 +7,7 @@ export type PublicApp = {
   icon_url: string | null;
   featured: boolean;
   tech_stack: string[] | null;
-  min_android_version: string | null;
+  min_android_version?: string | null;
+  app_version?: string | null;
+  download_size?: string | null;
 };

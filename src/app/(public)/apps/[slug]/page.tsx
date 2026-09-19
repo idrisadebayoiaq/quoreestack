@@ -196,6 +196,12 @@ export default async function AppDetailPage({ params }: Props) {
   const features = parseFeatures(app.features);
   const screenshots = app.screenshot_urls ?? [];
   const categoryName = category?.name ?? "Apps";
+  const displayVersion = app.app_version || latestVersion?.version || null;
+  const displaySize =
+    app.download_size ||
+    (latestVersion?.file_size_bytes
+      ? formatBytes(latestVersion.file_size_bytes)
+      : null);
   const aboutText =
     app.long_description ??
     app.short_description ??
@@ -240,7 +246,6 @@ export default async function AppDetailPage({ params }: Props) {
             </p>
             <p className="mt-1 text-xs text-[var(--text-muted)] sm:text-sm">
               {categoryName}
-              {app.min_android_version ? ` · Android ${app.min_android_version}+` : ""}
             </p>
             {app.tagline ? (
               <p className="mt-3 hidden text-sm text-[var(--text-muted)] sm:block">
@@ -260,7 +265,7 @@ export default async function AppDetailPage({ params }: Props) {
           </div>
           <div className="px-3 text-center">
             <p className="text-sm font-semibold text-white">
-              {formatBytes(latestVersion?.file_size_bytes ?? null)}
+              {displaySize ?? "—"}
             </p>
             <p className="mt-1 text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
               Download size
@@ -268,7 +273,7 @@ export default async function AppDetailPage({ params }: Props) {
           </div>
           <div className="px-3 text-center">
             <p className="text-sm font-semibold text-white">
-              {latestVersion?.version ?? "—"}
+              {displayVersion ?? "—"}
             </p>
             <p className="mt-1 text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
               Version
@@ -280,7 +285,7 @@ export default async function AppDetailPage({ params }: Props) {
         <section className="mt-5 flex flex-wrap items-center gap-3">
           <DownloadButton
             slug={app.slug}
-            version={latestVersion?.version}
+            version={displayVersion}
             directUrl={app.download_url}
             disabled={!app.download_url && !latestVersion}
             storeStyle
@@ -308,7 +313,8 @@ export default async function AppDetailPage({ params }: Props) {
           <section className="border-b border-white/8 py-8">
             <h2 className="font-display text-xl text-white md:text-2xl">What&apos;s new</h2>
             <p className="mt-2 text-xs text-[var(--text-muted)]">
-              Version {latestVersion.version} · Updated {updatedLabel}
+              Version {displayVersion ?? latestVersion?.version ?? "—"}
+              {updatedLabel !== "—" ? ` · Updated ${updatedLabel}` : ""}
             </p>
             <p className="mt-4 whitespace-pre-wrap text-[15px] leading-7 text-[var(--text-muted)]">
               {latestVersion.changelog}
@@ -341,15 +347,9 @@ export default async function AppDetailPage({ params }: Props) {
           <h2 className="font-display mb-5 text-xl text-white md:text-2xl">App info</h2>
           <dl className="grid gap-4 sm:grid-cols-2">
             {[
-              { label: "Version", value: latestVersion?.version ?? "—" },
+              { label: "Version", value: displayVersion ?? "—" },
               { label: "Updated on", value: updatedLabel },
-              { label: "Download size", value: formatBytes(latestVersion?.file_size_bytes ?? null) },
-              {
-                label: "Requires",
-                value: app.min_android_version
-                  ? `Android ${app.min_android_version}+`
-                  : "Android device",
-              },
+              { label: "Download size", value: displaySize ?? "—" },
               { label: "Offered by", value: siteConfig.name },
               { label: "Category", value: categoryName },
             ].map((item) => (
@@ -419,7 +419,7 @@ export default async function AppDetailPage({ params }: Props) {
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#070b12]/95 px-4 py-3 backdrop-blur md:hidden">
         <DownloadButton
           slug={app.slug}
-          version={latestVersion?.version}
+          version={displayVersion}
           directUrl={app.download_url}
           disabled={!app.download_url && !latestVersion}
           storeStyle

@@ -128,7 +128,18 @@ export const resourceConfigs: Record<AdminResource, ResourceConfig> = {
       },
       { name: "features", label: "Features (JSON)", kind: "json" },
       { name: "tech_stack", label: "Tech stack", kind: "tags" },
-      { name: "min_android_version", label: "Minimum Android version", kind: "text" },
+      {
+        name: "app_version",
+        label: "App version",
+        kind: "text",
+        help: "Shown on the public app page (e.g. 1.0.2).",
+      },
+      {
+        name: "download_size",
+        label: "Download size",
+        kind: "text",
+        help: "Shown on the public app page (e.g. 28 MB).",
+      },
       {
         name: "download_url",
         label: "Expo build download URL",

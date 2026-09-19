@@ -1,4 +1,4 @@
-import { ArrowUpRight, Cpu, Smartphone } from "lucide-react";
+import { ArrowUpRight, Smartphone } from "lucide-react";
 import { GlowCard } from "@/components/ui/GlowCard";
 import type { PublicApp } from "./types";
 
@@ -45,12 +45,6 @@ export function AppCard({ app }: { app: PublicApp }) {
             {tech}
           </span>
         ))}
-        {app.min_android_version ? (
-          <span className="ml-auto inline-flex items-center gap-1 text-xs text-[var(--text-muted)]">
-            <Cpu className="size-3.5" />
-            Android {app.min_android_version}+
-          </span>
-        ) : null}
       </div>
     </GlowCard>
   );
