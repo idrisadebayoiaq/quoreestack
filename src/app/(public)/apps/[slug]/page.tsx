@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import {
   ArrowLeft,
   Check,
@@ -13,11 +13,11 @@ import { DownloadButton } from "@/components/apps/DownloadButton";
 import { ExpandableAbout } from "@/components/apps/ExpandableAbout";
 import { ScreenshotGallery } from "@/components/apps/ScreenshotGallery";
 import { NeonButton } from "@/components/ui/NeonButton";
-import { createClient } from "@/lib/supabase/server";
 import { createStaticClient } from "@/lib/supabase/static";
 import { siteConfig } from "@/lib/utils";
 
 export const revalidate = 60;
+export const dynamicParams = true;
 
 type Props = { params: Promise<{ slug: string }> };
 type Feature = { title: string; description?: string };
@@ -73,9 +73,39 @@ function formatBytes(bytes: number | null) {
   return `${(bytes / 1024 ** index).toFixed(index ? 1 : 0)} ${units[index]}`;
 }
 
+async function resolvePublishedApp(slug: string) {
+  const supabase = createStaticClient();
+  const exact = await supabase
+    .from("mobile_apps")
+    .select("*")
+    .eq("slug", slug)
+    .eq("status", "published")
+    .maybeSingle();
+
+  if (exact.error) {
+    console.error("App lookup failed", exact.error);
+    return { supabase, app: null as null, lookupError: true };
+  }
+  if (exact.data) return { supabase, app: exact.data, lookupError: false };
+
+  // Short/legacy URLs like /apps/x → /apps/x-relax when uniquely matched
+  const { data: matches } = await supabase
+    .from("mobile_apps")
+    .select("slug")
+    .eq("status", "published")
+    .or(`slug.eq.${slug},slug.ilike.${slug}-%`)
+    .limit(5);
+
+  if (matches?.length === 1 && matches[0].slug !== slug) {
+    redirect(`/apps/${matches[0].slug}`);
+  }
+
+  return { supabase, app: null as null, lookupError: false };
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const supabase = await createClient();
+  const supabase = createStaticClient();
   const { data: app } = await supabase
     .from("mobile_apps")
     .select("name, tagline, short_description, meta_title, meta_description, icon_url")
@@ -106,15 +136,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function AppDetailPage({ params }: Props) {
   const { slug } = await params;
-  const supabase = await createClient();
-  const { data: app, error } = await supabase
-    .from("mobile_apps")
-    .select("*, categories(name)")
-    .eq("slug", slug)
-    .eq("status", "published")
-    .maybeSingle();
+  const { supabase, app, lookupError } = await resolvePublishedApp(slug);
 
-  if (error) throw new Error("Unable to load this app.");
+  if (lookupError) {
+    console.error("Unable to load app for slug", slug);
+    notFound();
+  }
   if (!app) notFound();
 
   const latestVersionRequest = supabase
@@ -148,21 +175,27 @@ export default async function AppDetailPage({ params }: Props) {
         .order("sort_order", { ascending: true })
         .limit(3);
 
+  const categoryRequest = app.category_id
+    ? supabase
+        .from("categories")
+        .select("name")
+        .eq("id", app.category_id)
+        .eq("status", "published")
+        .maybeSingle()
+    : Promise.resolve({ data: null, error: null });
+
   const [
     { data: latestVersion, error: versionError },
     { data: relatedApps, error: relatedError },
-  ] = await Promise.all([latestVersionRequest, relatedAppsRequest]);
+    { data: category },
+  ] = await Promise.all([latestVersionRequest, relatedAppsRequest, categoryRequest]);
 
-  if (versionError || relatedError) {
-    throw new Error("Unable to load release details.");
-  }
+  if (versionError) console.error("App version lookup failed", versionError);
+  if (relatedError) console.error("Related apps lookup failed", relatedError);
 
   const features = parseFeatures(app.features);
   const screenshots = app.screenshot_urls ?? [];
-  const categoryName =
-    app.categories && typeof app.categories === "object" && "name" in app.categories
-      ? String((app.categories as { name?: string }).name ?? "Apps")
-      : "Apps";
+  const categoryName = category?.name ?? "Apps";
   const aboutText =
     app.long_description ??
     app.short_description ??

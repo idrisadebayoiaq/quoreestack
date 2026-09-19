@@ -45,7 +45,13 @@ export type ResourceConfig = {
 
 const common = (nameLabel = "Name"): ResourceField[] => [
   { name: "name", label: nameLabel, kind: "text", required: true },
-  { name: "slug", label: "Slug", kind: "text", required: true },
+  {
+    name: "slug",
+    label: "Slug",
+    kind: "text",
+    required: true,
+    help: "URL id, e.g. x-relax for /apps/x-relax. Use lowercase letters, numbers, and hyphens.",
+  },
   { name: "short_description", label: "Short description", kind: "textarea" },
   { name: "long_description", label: "Long description", kind: "textarea" },
   { name: "status", label: "Status", kind: "status", required: true },

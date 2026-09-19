@@ -43,6 +43,15 @@ function safeSlug(value: string) {
   return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value);
 }
 
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-");
+}
+
 function parseField(form: FormData, name: string, kind: FieldKind) {
   const value = text(form, name);
   if (kind === "checkbox") return form.get(name) === "on";
@@ -113,10 +122,13 @@ export async function saveResourceAction(
       }
     }
 
-    const slug = String(payload.slug ?? "");
+    const slugRaw = String(payload.slug ?? "");
+    const nameRaw = String(payload.name ?? payload.title ?? "");
+    const slug = safeSlug(slugRaw) ? slugRaw : slugify(slugRaw || nameRaw);
     if (!safeSlug(slug)) {
-      return { error: "Slug must use lowercase letters, numbers, and single hyphens." };
+      return { error: "Slug must use lowercase letters, numbers, and single hyphens (e.g. x-relax)." };
     }
+    payload.slug = slug;
     if (!["draft", "published", "archived"].includes(String(payload.status))) {
       return { error: "Invalid publishing status." };
     }

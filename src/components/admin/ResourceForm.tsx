@@ -30,6 +30,15 @@ function printable(value: unknown, json = false) {
   return String(value);
 }
 
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-");
+}
+
 export function ResourceForm({
   resource,
   config,
@@ -189,6 +198,27 @@ export function ResourceForm({
                   defaultValue={printable(value)}
                   required={field.required}
                   className={inputClass}
+                  data-auto-slug={
+                    field.name === "slug" && !record?.slug ? "1" : undefined
+                  }
+                  onChange={
+                    field.name === "name" || field.name === "title"
+                      ? (event) => {
+                          const form = event.currentTarget.form;
+                          const slugInput = form?.elements.namedItem("slug");
+                          if (
+                            slugInput instanceof HTMLInputElement &&
+                            slugInput.dataset.autoSlug === "1"
+                          ) {
+                            slugInput.value = slugify(event.currentTarget.value);
+                          }
+                        }
+                      : field.name === "slug"
+                        ? (event) => {
+                            event.currentTarget.dataset.autoSlug = "0";
+                          }
+                        : undefined
+                  }
                 />
               )}
               {field.help && field.kind !== "image" && field.kind !== "images" ? (
