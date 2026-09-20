@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import { BlogCarousel } from "@/components/blog/BlogCarousel";
 import { SectionCta } from "@/components/cards/ContentCards";
@@ -10,25 +11,32 @@ export default async function BlogPage() {
 
   return (
     <main>
-      <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
-        <SectionHeading index={1} eyebrow="Journal" title="Blog" />
-        <p className="max-w-2xl text-lg text-[var(--text-muted)]">
-          Notes on full-stack delivery, Android distribution, APIs, and shipping
-          products that stay maintainable.
-        </p>
-      </section>
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
+          <SectionHeading index={1} eyebrow="Journal" title="Blog" />
+          <p className="max-w-2xl text-lg text-[var(--text-muted)]">
+            Notes on full-stack delivery, Android distribution, APIs, and shipping
+            products that stay maintainable.
+          </p>
+        </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-6xl px-4 pb-20 md:px-6">
-        <BlogCarousel blogs={blogs} />
-      </section>
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 pb-20 md:px-6">
+          <BlogCarousel blogs={blogs} />
+        </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
-        <SectionHeading index={2} eyebrow="Next" title="Have a Topic in Mind?" />
-        <SectionCta
-          body="Want a walkthrough of a stack decision or a build process? Start a conversation."
-          button="Contact QuoreStack"
-        />
-      </section>
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
+          <SectionHeading index={2} eyebrow="Next" title="Have a Topic in Mind?" />
+          <SectionCta
+            href="/start"
+            body="Want a walkthrough of a stack decision or a build process? Start a conversation."
+            button="Start a project"
+          />
+        </section>
+      </Reveal>
     </main>
   );
 }

@@ -10,8 +10,12 @@ const footerLinks = [
   { href: "/projects", label: "Work" },
   { href: "/services", label: "Services" },
   { href: "/apps", label: "Apps" },
-  { href: "/about", label: "About" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/industries", label: "Industries" },
+  { href: "/stack", label: "Stack" },
   { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About" },
+  { href: "/faq", label: "FAQ" },
   { href: "/start", label: "Start a project" },
   { href: "/portal", label: "Client portal" },
 ];
@@ -135,6 +139,18 @@ export async function Footer() {
             <p className="font-mono-label text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
               Designed & engineered with Next.js + Supabase
             </p>
+            <Link
+              href="/privacy"
+              className="font-mono-label text-[10px] uppercase tracking-wider text-[var(--text-muted)] transition hover:text-[var(--neon-cyan)]"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className="font-mono-label text-[10px] uppercase tracking-wider text-[var(--text-muted)] transition hover:text-[var(--neon-cyan)]"
+            >
+              Terms
+            </Link>
             <Link
               href="/login?next=/admin"
               className="font-mono-label text-[10px] uppercase tracking-wider text-[var(--text-muted)]/50 transition hover:text-[var(--text-muted)]"

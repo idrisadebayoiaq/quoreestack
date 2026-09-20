@@ -25,6 +25,13 @@ const budgets = [
 
 const timelines = ["ASAP", "2–4 weeks", "1–2 months", "3+ months", "Flexible"];
 
+const serviceGoalMap: Record<string, string> = {
+  "full-stack-web": "Build a web app / dashboard",
+  "mobile-android": "Ship an Android app",
+  "api-backend": "API / backend system",
+  "mvp-prototype": "MVP prototype",
+};
+
 type BriefState = {
   goal: string;
   packageSlug: string;
@@ -32,6 +39,18 @@ type BriefState = {
   timeline: string;
   details: string;
 };
+
+function resolveInitialGoal(
+  service: string,
+  project: string,
+  app: string,
+): string {
+  if (service && serviceGoalMap[service]) return serviceGoalMap[service];
+  if (project) return `Project like ${project.replace(/-/g, " ")}`;
+  if (app) return `App like ${app.replace(/-/g, " ")}`;
+  if (service) return service.replace(/-/g, " ");
+  return "";
+}
 
 export function BriefBuilder({ packages }: { packages: EngagementPackage[] }) {
   const router = useRouter();
@@ -43,15 +62,13 @@ export function BriefBuilder({ packages }: { packages: EngagementPackage[] }) {
 
   const [step, setStep] = useState(0);
   const [brief, setBrief] = useState<BriefState>({
-    goal: initialProject
-      ? `Project like ${initialProject.replace(/-/g, " ")}`
-      : initialApp
-        ? `App like ${initialApp.replace(/-/g, " ")}`
-        : "",
+    goal: resolveInitialGoal(initialService, initialProject, initialApp),
     packageSlug: initialPackage,
     budget: "",
     timeline: "",
-    details: "",
+    details: initialService
+      ? `Interested in the ${initialService.replace(/-/g, " ")} service.`
+      : "",
   });
 
   const selectedPackage = useMemo(
@@ -76,24 +93,27 @@ export function BriefBuilder({ packages }: { packages: EngagementPackage[] }) {
       params.set("subject", brief.goal);
     }
 
-    if (brief.goal.toLowerCase().includes("android")) {
+    if (initialService) {
+      params.set("service", initialService);
+    } else if (brief.goal.toLowerCase().includes("android")) {
       params.set("service", "mobile-android");
-    } else if (brief.goal.toLowerCase().includes("api") || brief.goal.toLowerCase().includes("backend")) {
+    } else if (
+      brief.goal.toLowerCase().includes("api") ||
+      brief.goal.toLowerCase().includes("backend")
+    ) {
       params.set("service", "api-backend");
     } else if (brief.goal.toLowerCase().includes("mvp")) {
       params.set("service", "mvp-prototype");
-    } else if (initialService) {
-      params.set("service", initialService);
     } else if (brief.goal) {
       params.set("service", "full-stack-web");
     }
 
     if (initialProject) params.set("project", initialProject);
     if (initialApp) params.set("app", initialApp);
-    if (initialService && !params.get("service")) params.set("service", initialService);
 
     const message = [
       brief.goal ? `Goal: ${brief.goal}` : null,
+      initialService ? `Service: ${initialService}` : null,
       initialProject ? `Reference project: ${initialProject}` : null,
       initialApp ? `Reference app: ${initialApp}` : null,
       selectedPackage ? `Package: ${selectedPackage.name}` : null,

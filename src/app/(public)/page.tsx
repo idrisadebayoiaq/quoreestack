@@ -1,6 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { HeroBackground } from "@/components/hero/HeroBackground";
+import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import {
   ProjectCard,
@@ -25,6 +24,9 @@ import { defaultPackages, type AvailabilitySetting, type EngagementPackage } fro
 import { siteConfig } from "@/lib/utils";
 import { PackagesGrid } from "@/components/packages/PackagesGrid";
 import { AvailabilityBadge } from "@/components/ui/AvailabilityBadge";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
 export const revalidate = 60;
 
@@ -85,17 +87,7 @@ export default async function HomePage() {
         id="hero"
         className="relative flex min-h-[92vh] items-center overflow-hidden border-b border-[var(--border-glow)]"
       >
-        <Image
-          src="/images/quorestack-hero.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[68%_center]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050810] via-[#050810]/92 to-[#050810]/25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-transparent to-black/30" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_40%,rgba(var(--accent-rgb),0.12),transparent_42%)]" />
+        <HeroBackground />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-24 md:px-6">
           <div className="max-w-2xl">
             <p className="animate-hero-rise font-display text-5xl font-bold tracking-tight text-white md:text-7xl lg:text-8xl">
@@ -121,6 +113,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <Reveal>
       <section
         id="featured-projects"
         className="mx-auto max-w-6xl px-4 py-24 md:px-6"
@@ -147,10 +140,16 @@ export default async function HomePage() {
           </NeonButton>
         </div>
       </section>
+      </Reveal>
 
-      <ClientLogoStrip logos={logos} />
-      <TestimonialsGrid testimonials={testimonials} />
+      <Reveal>
+        <ClientLogoStrip logos={logos} />
+      </Reveal>
+      <Reveal delay={0.05}>
+        <TestimonialsGrid testimonials={testimonials} />
+      </Reveal>
 
+      <Reveal>
       <section id="stats" className="mx-auto max-w-6xl px-4 py-20 md:px-6">
         <SectionHeading index={3} eyebrow="Track record" title="By the numbers" />
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
@@ -175,7 +174,9 @@ export default async function HomePage() {
           />
         </div>
       </section>
+      </Reveal>
 
+      <Reveal>
       <section
         id="featured-services"
         className="mx-auto max-w-6xl px-4 py-24 md:px-6"
@@ -198,8 +199,11 @@ export default async function HomePage() {
           </NeonButton>
         </div>
       </section>
+      </Reveal>
 
-      <PackagesGrid packages={engagementPackages} />
+      <Reveal>
+        <PackagesGrid packages={engagementPackages} />
+      </Reveal>
 
       <section id="process" className="border-y border-[var(--border-glow)] bg-[var(--bg-glass)]">
         <div className="mx-auto max-w-6xl px-4 py-24 md:px-6">
@@ -209,44 +213,47 @@ export default async function HomePage() {
           </p>
           <ol className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
             {processSteps.map((step, i) => (
-              <li key={step.slug}>
-                <Link
-                  href={`/process/${step.slug}`}
-                  data-cursor="hover"
-                  className="group relative block overflow-hidden border border-[var(--border-glow)]/70 bg-black/20 transition hover:border-[var(--neon-cyan)]/40"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={step.image}
-                      alt=""
-                      fill
-                      sizes="(min-width: 1024px) 18vw, (min-width: 768px) 45vw, 100vw"
-                      className="object-cover transition duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050810] via-[#050810]/45 to-transparent" />
-                    <span className="font-mono-label absolute left-4 top-4 text-xs text-[var(--neon-cyan)]">
-                      0{i + 1}
-                    </span>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-display text-xl text-white">
-                      {step.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
-                      {step.short}
-                    </p>
-                    <span className="font-mono-label mt-4 inline-flex items-center gap-2 text-[10px] uppercase tracking-wider text-[var(--neon-cyan)]">
-                      View details
-                      <ArrowRight className="size-3.5 transition group-hover:translate-x-1" />
-                    </span>
-                  </div>
-                </Link>
-              </li>
+              <Reveal key={step.slug} delay={i * 0.06}>
+                <li>
+                  <Link
+                    href={`/process/${step.slug}`}
+                    data-cursor="hover"
+                    className="group relative block overflow-hidden border border-[var(--border-glow)]/70 bg-black/20 transition hover:-translate-y-1 hover:border-[var(--neon-cyan)]/40"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={step.image}
+                        alt=""
+                        fill
+                        sizes="(min-width: 1024px) 18vw, (min-width: 768px) 45vw, 100vw"
+                        className="object-cover transition duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#050810] via-[#050810]/45 to-transparent" />
+                      <span className="font-mono-label absolute left-4 top-4 text-xs text-[var(--neon-cyan)]">
+                        0{i + 1}
+                      </span>
+                    </div>
+                    <div className="p-5">
+                      <h3 className="font-display text-xl text-white">
+                        {step.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
+                        {step.short}
+                      </p>
+                      <span className="font-mono-label mt-4 inline-flex items-center gap-2 text-[10px] uppercase tracking-wider text-[var(--neon-cyan)]">
+                        View details
+                        <ArrowRight className="size-3.5 transition group-hover:translate-x-1" />
+                      </span>
+                    </div>
+                  </Link>
+                </li>
+              </Reveal>
             ))}
           </ol>
         </div>
       </section>
 
+      <Reveal>
       <section
         id="cta"
         className="mx-auto max-w-4xl px-4 py-24 text-center md:px-6"
@@ -263,7 +270,9 @@ export default async function HomePage() {
         </p>
         <NeonButton href="/start">Start a Project</NeonButton>
       </section>
+      </Reveal>
 
+      <Reveal>
       <section id="faq" className="mx-auto max-w-4xl px-4 pb-24 md:px-6">
         <SectionHeading index={2} eyebrow="FAQ" title="Quick answers" />
         <div className="mt-4 divide-y divide-[var(--border-glow)] border-y border-[var(--border-glow)]">
@@ -281,7 +290,13 @@ export default async function HomePage() {
             </details>
           ))}
         </div>
+        <div className="mt-8 text-center">
+          <NeonButton href="/faq" variant="ghost">
+            Full FAQ
+          </NeonButton>
+        </div>
       </section>
+      </Reveal>
     </main>
   );
 }

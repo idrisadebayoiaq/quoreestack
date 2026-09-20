@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  /* QuoreStack — mint teal + warm amber on deep ink */
-  --bg-primary: #070b12;
-  --bg-secondary: #0f1623;
-  --bg-glass: rgba(15, 22, 35, 0.72);
-  --neon-cyan: #1ad4a8;
-  --neon-magenta: #e0a04a;
-  --neon-green: #4ade80;
+  /* QuoreStack — Signal Blue */
+  --bg-primary: #06080f;
+  --bg-secondary: #0c1220;
+  --bg-glass: rgba(12, 18, 32, 0.78);
+  --neon-cyan: #3d8bff;
+  --neon-magenta: #d6b48a;
+  --neon-green: #5ddea8;
   --text-primary: #e8edf5;
-  --text-muted: #93a0b4;
-  --accent-rgb: 26, 212, 168;
-  --secondary-rgb: 224, 160, 74;
-  --border-glow: rgba(var(--accent-rgb), 0.28);
+  --text-muted: #919cb0;
+  --accent-rgb: 61, 139, 255;
+  --secondary-rgb: 214, 180, 138;
+  --border-glow: rgba(var(--accent-rgb), 0.26);
   --grid-line: rgba(var(--accent-rgb), 0.05);
-  --glow-sm: 0 0 14px rgba(var(--accent-rgb), 0.18);
-  --glow-md: 0 0 22px rgba(var(--accent-rgb), 0.26);
+  --glow-sm: 0 0 14px rgba(var(--accent-rgb), 0.16);
+  --glow-md: 0 0 22px rgba(var(--accent-rgb), 0.24);
   --cursor-size: 32px;
 }
 
@@ -46,7 +46,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom cursor — desktop fine pointer only */
 @media (hover: hover) and (pointer: fine) {
   body.has-cyber-cursor,
   body.has-cyber-cursor a,
@@ -64,7 +63,6 @@ body {
   font-family: var(--font-jetbrains), monospace;
 }
 
-/* HUD corner accents */
 .hud-corners {
   position: relative;
 }
@@ -100,7 +98,6 @@ body {
   opacity: 1;
 }
 
-/* Glitch keyframes */
 @keyframes glitch-skew {
   0% {
     transform: none;
@@ -141,15 +138,6 @@ body {
   55% {
     opacity: 0.35;
     text-shadow: none;
-  }
-}
-
-@keyframes scanline-wipe {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
   }
 }
 

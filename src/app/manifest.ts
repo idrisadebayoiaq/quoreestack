@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Full Stack Developer portfolio, web projects, and Android app downloads.",
     start_url: "/",
     display: "standalone",
-    background_color: "#070b12",
-    theme_color: "#1ad4a8",
+    theme_color: "#3d8bff",
+    background_color: "#06080f",
     icons: [{ src: "/icon", sizes: "64x64", type: "image/png" }],
   };
 }

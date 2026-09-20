@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { NeonButton } from "@/components/ui/NeonButton";
@@ -81,127 +82,140 @@ export default async function AboutPage() {
 
   return (
     <main>
-      <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
-        <SectionHeading
-          index={1}
-          eyebrow="Profile"
-          title="About Quoreeb"
-        />
-        <div className="grid items-start gap-10 md:grid-cols-[1fr_1.4fr]">
-          <GlowCard className="p-3">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-sm">
-              <Image
-                src="/images/quoreeb-adebayo.png"
-                alt={`${siteConfig.author}, Full Stack Developer`}
-                fill
-                priority
-                sizes="(min-width: 768px) 36vw, 100vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#080c14] via-transparent to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-5 text-left">
-                <p className="font-display text-xl text-white">
-                  {siteConfig.author}
-                </p>
-                <p className="font-mono-label mt-1 text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
-                  {siteConfig.title}
-                </p>
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
+          <SectionHeading
+            index={1}
+            eyebrow="Profile"
+            title="About Quoreeb"
+          />
+          <div className="grid items-start gap-10 md:grid-cols-[1fr_1.4fr]">
+            <GlowCard className="p-3">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-sm">
+                <Image
+                  src="/images/quoreeb-adebayo.png"
+                  alt={`${siteConfig.author}, Full Stack Developer`}
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 36vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#080c14] via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-5 text-left">
+                  <p className="font-display text-xl text-white">
+                    {siteConfig.author}
+                  </p>
+                  <p className="font-mono-label mt-1 text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
+                    {siteConfig.title}
+                  </p>
+                </div>
               </div>
-            </div>
-          </GlowCard>
-          <div>
-            <p className="mb-6 text-lg leading-relaxed text-[var(--text-muted)]">
-              {about?.bio ??
-                `I am ${siteConfig.author}, a Full Stack Developer building web platforms, Android apps, and backend systems that ship.`}
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <span className="font-mono-label rounded-sm border border-[var(--border-glow)] px-3 py-2 text-xs uppercase tracking-wider text-[var(--text-muted)]">
-                {about?.location ?? "Osogbo, Nigeria · Remote worldwide"}
-              </span>
-              <span className="font-mono-label rounded-sm border border-[var(--neon-green)]/40 px-3 py-2 text-xs uppercase tracking-wider text-[var(--neon-green)]">
-                {about?.availability ?? "Open for projects"}
-              </span>
-            </div>
-            <div className="mt-8">
-              <NeonButton href="/contact">Work with me</NeonButton>
+            </GlowCard>
+            <div>
+              <p className="mb-6 text-lg leading-relaxed text-[var(--text-muted)]">
+                {about?.bio ??
+                  `I am ${siteConfig.author}, a Full Stack Developer building web platforms, Android apps, and backend systems that ship.`}
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <span className="font-mono-label rounded-sm border border-[var(--border-glow)] px-3 py-2 text-xs uppercase tracking-wider text-[var(--text-muted)]">
+                  {about?.location ?? "Osogbo, Nigeria · Remote worldwide"}
+                </span>
+                <span className="font-mono-label rounded-sm border border-[var(--neon-green)]/40 px-3 py-2 text-xs uppercase tracking-wider text-[var(--neon-green)]">
+                  {about?.availability ?? "Open for projects"}
+                </span>
+              </div>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <NeonButton href="/start">Work with me</NeonButton>
+                <NeonButton href="/stack" variant="secondary">
+                  View stack
+                </NeonButton>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
-        <SectionHeading index={2} eyebrow="Timeline" title="The Journey" />
-        <div className="space-y-6 border-l border-[var(--border-glow)] pl-6">
-          {journey.map((item) => (
-            <div key={item.year} className="relative">
-              <span className="absolute -left-[1.9rem] top-1.5 h-3 w-3 rounded-full bg-[var(--neon-cyan)] shadow-[var(--glow-sm)]" />
-              <p className="font-mono-label text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
-                {item.year}
-              </p>
-              <h3 className="font-display mt-1 text-xl text-white">
-                {item.title}
-              </h3>
-              <p className="mt-2 text-[var(--text-muted)]">{item.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
-        <SectionHeading index={3} eyebrow="Capabilities" title="Skills" />
-        <div className="grid gap-6 md:grid-cols-2">
-          {skillGroups.map((group) => (
-            <GlowCard key={group.name}>
-              <h3 className="font-display mb-4 text-lg text-white">
-                {group.name}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((item) => (
-                  <span
-                    key={item}
-                    className="font-mono-label rounded-sm bg-[var(--neon-cyan)]/10 px-2.5 py-1 text-xs uppercase tracking-wider text-[var(--neon-cyan)]"
-                  >
-                    {item}
-                  </span>
-                ))}
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
+          <SectionHeading index={2} eyebrow="Timeline" title="The Journey" />
+          <div className="space-y-6 border-l border-[var(--border-glow)] pl-6">
+            {journey.map((item) => (
+              <div key={item.year} className="relative">
+                <span className="absolute -left-[1.9rem] top-1.5 h-3 w-3 rounded-full bg-[var(--neon-cyan)] shadow-[var(--glow-sm)]" />
+                <p className="font-mono-label text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
+                  {item.year}
+                </p>
+                <h3 className="font-display mt-1 text-xl text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-[var(--text-muted)]">{item.text}</p>
               </div>
-            </GlowCard>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
-        <SectionHeading index={4} eyebrow="Stack" title="Tools I Use" />
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-          {tools.map((tool) => (
-            <div
-              key={tool}
-              className="hud-corners rounded-sm border border-[var(--border-glow)] bg-[var(--bg-glass)] px-4 py-5 text-center backdrop-blur-md"
-            >
-              <span className="font-mono-label text-sm uppercase tracking-wider text-[var(--text-primary)]">
-                {tool}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
+          <SectionHeading index={3} eyebrow="Capabilities" title="Skills" />
+          <div className="grid gap-6 md:grid-cols-2">
+            {skillGroups.map((group) => (
+              <GlowCard key={group.name}>
+                <h3 className="font-display mb-4 text-lg text-white">
+                  {group.name}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((item) => (
+                    <span
+                      key={item}
+                      className="font-mono-label rounded-sm bg-[var(--neon-cyan)]/10 px-2.5 py-1 text-xs uppercase tracking-wider text-[var(--neon-cyan)]"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </GlowCard>
+            ))}
+          </div>
+        </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
-        <SectionHeading index={5} eyebrow="Philosophy" title="How I Work" />
-        <div className="grid gap-6 md:grid-cols-3">
-          {values.map((item) => (
-            <GlowCard key={item.title} hoverAccent="magenta">
-              <h3 className="font-display mb-2 text-xl text-white">
-                {item.title}
-              </h3>
-              <p className="text-[var(--text-muted)]">{item.text}</p>
-            </GlowCard>
-          ))}
-        </div>
-        <div className="mt-12 text-center">
-          <NeonButton href="/projects">See the work</NeonButton>
-        </div>
-      </section>
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
+          <SectionHeading index={4} eyebrow="Stack" title="Tools I Use" />
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+            {tools.map((tool) => (
+              <div
+                key={tool}
+                className="hud-corners rounded-sm border border-[var(--border-glow)] bg-[var(--bg-glass)] px-4 py-5 text-center backdrop-blur-md transition hover:-translate-y-1"
+              >
+                <span className="font-mono-label text-sm uppercase tracking-wider text-[var(--text-primary)]">
+                  {tool}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
+          <SectionHeading index={5} eyebrow="Philosophy" title="How I Work" />
+          <div className="grid gap-6 md:grid-cols-3">
+            {values.map((item) => (
+              <GlowCard key={item.title} hoverAccent="magenta">
+                <h3 className="font-display mb-2 text-xl text-white">
+                  {item.title}
+                </h3>
+                <p className="text-[var(--text-muted)]">{item.text}</p>
+              </GlowCard>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <NeonButton href="/projects">See the work</NeonButton>
+          </div>
+        </section>
+      </Reveal>
     </main>
   );
 }

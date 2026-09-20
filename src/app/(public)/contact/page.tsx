@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CalendarDays, Clock3, Mail, MapPin, MessageCircle, Radio } from "lucide-react";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { getPublishedServices, getSiteSetting } from "@/lib/data/content";
@@ -110,92 +111,94 @@ export default async function ContactPage({ searchParams }: Props) {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-10 px-4 py-20 md:px-6 lg:grid-cols-[0.72fr_1.28fr]">
-        <div>
-          <SectionHeading index={1} eyebrow="Reach out" title="Contact details" />
-          <div className="space-y-4">
-            {[
-              { icon: Mail, label: "Email", value: email, href: `mailto:${email}` },
-              { icon: MapPin, label: "Location", value: "Osogbo, Nigeria · Remote worldwide" },
-              { icon: Clock3, label: "Response", value: responseNote },
-              { icon: Radio, label: "Status", value: statusLabel },
-            ].map(({ icon: Icon, label, value, href }) => (
-              <div
-                key={label}
-                className="flex gap-4 border-b border-white/5 py-4"
-              >
-                <Icon className="mt-1 size-5 shrink-0 text-[var(--neon-cyan)]" />
-                <div>
-                  <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--text-muted)]">
-                    {label}
-                  </p>
-                  {href ? (
-                    <a href={href} className="mt-1 block text-white hover:text-[var(--neon-cyan)]">
-                      {value}
-                    </a>
-                  ) : (
-                    <p className="mt-1 text-white">{value}</p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {(whatsapp || bookingUrl) && (
-            <div className="mt-8 space-y-3">
-              <p className="font-display text-lg text-white">Prefer a faster channel?</p>
-              <div className="flex flex-col gap-3">
-                {whatsapp ? (
-                  <a
-                    href={whatsapp}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-mono-label inline-flex items-center gap-2 border border-[var(--neon-green)]/40 bg-[var(--neon-green)]/5 px-4 py-3 text-xs uppercase tracking-wider text-[var(--neon-green)] transition hover:bg-[var(--neon-green)]/10"
-                  >
-                    <MessageCircle className="size-4" />
-                    Chat on WhatsApp
-                  </a>
-                ) : null}
-                {bookingUrl ? (
-                  <a
-                    href={bookingUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-mono-label inline-flex items-center gap-2 border border-[var(--border-glow)] px-4 py-3 text-xs uppercase tracking-wider text-[var(--text-muted)] transition hover:border-[var(--neon-cyan)] hover:text-[var(--neon-cyan)]"
-                  >
-                    <CalendarDays className="size-4" />
-                    Book a discovery call
-                  </a>
-                ) : null}
-              </div>
-            </div>
-          )}
-
-          <div className="mt-10">
-            <p className="font-display text-lg text-white">Follow the build</p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              {socialLinks.map((social) => (
-                <Link
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-mono-label border border-[var(--border-glow)] px-3 py-2 text-xs uppercase tracking-wider text-[var(--text-muted)] transition hover:border-[var(--neon-cyan)] hover:text-[var(--neon-cyan)]"
+      <Reveal>
+        <section className="mx-auto grid max-w-6xl gap-10 px-4 py-20 md:px-6 lg:grid-cols-[0.72fr_1.28fr]">
+          <div>
+            <SectionHeading index={1} eyebrow="Reach out" title="Contact details" />
+            <div className="space-y-4">
+              {[
+                { icon: Mail, label: "Email", value: email, href: `mailto:${email}` },
+                { icon: MapPin, label: "Location", value: "Osogbo, Nigeria · Remote worldwide" },
+                { icon: Clock3, label: "Response", value: responseNote },
+                { icon: Radio, label: "Status", value: statusLabel },
+              ].map(({ icon: Icon, label, value, href }) => (
+                <div
+                  key={label}
+                  className="flex gap-4 border-b border-white/5 py-4"
                 >
-                  {social.label}
-                </Link>
+                  <Icon className="mt-1 size-5 shrink-0 text-[var(--neon-cyan)]" />
+                  <div>
+                    <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--text-muted)]">
+                      {label}
+                    </p>
+                    {href ? (
+                      <a href={href} className="mt-1 block text-white hover:text-[var(--neon-cyan)]">
+                        {value}
+                      </a>
+                    ) : (
+                      <p className="mt-1 text-white">{value}</p>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
-        </div>
 
-        <ContactForm
-          services={serviceOptions}
-          defaultServiceSlug={params.service}
-          defaultSubject={defaultSubject}
-          defaultBudget={params.budget}
-        />
-      </section>
+            {(whatsapp || bookingUrl) && (
+              <div className="mt-8 space-y-3">
+                <p className="font-display text-lg text-white">Prefer a faster channel?</p>
+                <div className="flex flex-col gap-3">
+                  {whatsapp ? (
+                    <a
+                      href={whatsapp}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-mono-label inline-flex items-center gap-2 border border-[var(--neon-green)]/40 bg-[var(--neon-green)]/5 px-4 py-3 text-xs uppercase tracking-wider text-[var(--neon-green)] transition hover:bg-[var(--neon-green)]/10"
+                    >
+                      <MessageCircle className="size-4" />
+                      Chat on WhatsApp
+                    </a>
+                  ) : null}
+                  {bookingUrl ? (
+                    <a
+                      href={bookingUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-mono-label inline-flex items-center gap-2 border border-[var(--border-glow)] px-4 py-3 text-xs uppercase tracking-wider text-[var(--text-muted)] transition hover:border-[var(--neon-cyan)] hover:text-[var(--neon-cyan)]"
+                    >
+                      <CalendarDays className="size-4" />
+                      Book a discovery call
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+            )}
+
+            <div className="mt-10">
+              <p className="font-display text-lg text-white">Follow the build</p>
+              <div className="mt-4 flex flex-wrap gap-3">
+                {socialLinks.map((social) => (
+                  <Link
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-mono-label border border-[var(--border-glow)] px-3 py-2 text-xs uppercase tracking-wider text-[var(--text-muted)] transition hover:border-[var(--neon-cyan)] hover:text-[var(--neon-cyan)]"
+                  >
+                    {social.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <ContactForm
+            services={serviceOptions}
+            defaultServiceSlug={params.service}
+            defaultSubject={defaultSubject}
+            defaultBudget={params.budget}
+          />
+        </section>
+      </Reveal>
     </main>
   );
 }

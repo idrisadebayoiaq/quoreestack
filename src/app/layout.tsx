@@ -50,7 +50,7 @@ export const metadata: Metadata = {
       "Premium websites, mobile apps, APIs, and product platforms engineered from interface to infrastructure.",
     images: [
       {
-        url: "/images/quorestack-hero.png",
+        url: "/images/quorestack-hero-poster.jpg",
         width: 1536,
         height: 1024,
         alt: `${siteConfig.author} — ${siteConfig.title}`,
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} — ${siteConfig.title}`,
     description:
       "Premium websites, mobile apps, APIs, and product platforms.",
-    images: ["/images/quorestack-hero.png"],
+    images: ["/images/quorestack-hero-poster.jpg"],
   },
   robots: {
     index: true,

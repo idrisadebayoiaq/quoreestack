@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Download, ShieldCheck, Smartphone } from "lucide-react";
+import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import { AppsCatalog } from "@/components/apps/AppsCatalog";
 import { NeonButton } from "@/components/ui/NeonButton";
@@ -110,11 +111,14 @@ export default async function AppsPage() {
         </div>
       </section>
 
+      <Reveal>
       <section id="catalog" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-20 md:px-6">
         <SectionHeading index={1} eyebrow="App directory" title="Explore the Catalog" />
         <AppsCatalog apps={apps} />
       </section>
+      </Reveal>
 
+      <Reveal>
       <section className="border-y border-[var(--border-glow)] bg-[var(--bg-glass)]">
         <div className="mx-auto max-w-6xl px-4 py-20 md:px-6">
           <SectionHeading index={2} eyebrow="Trust protocol" title="Install with Confidence" />
@@ -136,7 +140,7 @@ export default async function AppsPage() {
                 text: "Allow installs from your browser when prompted, open the APK, then confirm.",
               },
             ].map(({ icon: Icon, title, text }, index) => (
-              <div key={title} className="hud-corners border border-[var(--border-glow)] bg-black/15 p-6">
+              <div key={title} className="hud-corners border border-[var(--border-glow)] bg-black/15 p-6 transition hover:-translate-y-1">
                 <div className="flex items-center justify-between">
                   <Icon className="size-6 text-[var(--neon-cyan)]" />
                   <span className="font-mono-label text-[10px] text-[var(--text-muted)]">
@@ -150,7 +154,9 @@ export default async function AppsPage() {
           </div>
         </div>
       </section>
+      </Reveal>
 
+      <Reveal>
       <section className="mx-auto max-w-4xl px-4 py-16 md:px-6">
         <div className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center md:p-10">
           <p className="font-display text-2xl text-white md:text-3xl">
@@ -167,7 +173,9 @@ export default async function AppsPage() {
           </div>
         </div>
       </section>
+      </Reveal>
 
+      <Reveal>
       <section className="mx-auto max-w-4xl px-4 py-20 md:px-6">
         <SectionHeading index={3} eyebrow="Field notes" title="Frequently Asked Questions" />
         <div className="divide-y divide-[var(--border-glow)] border-y border-[var(--border-glow)]">
@@ -182,6 +190,7 @@ export default async function AppsPage() {
           ))}
         </div>
       </section>
+      </Reveal>
     </main>
   );
 }

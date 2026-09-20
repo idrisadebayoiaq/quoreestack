@@ -15,8 +15,8 @@ export function GlowCard({
   hoverAccent = "cyan",
 }: GlowCardProps) {
   const classes = cn(
-    "hud-corners group relative block overflow-hidden rounded-sm border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 backdrop-blur-md transition duration-300",
-    "hover:scale-[1.02] hover:border-[var(--neon-cyan)]/60",
+    "hud-corners group relative block overflow-hidden rounded-sm border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 backdrop-blur-md transition duration-300 ease-out",
+    "hover:-translate-y-1 hover:border-[var(--neon-cyan)]/60",
     hoverAccent === "magenta" && "hover:border-[var(--neon-magenta)]/50",
     "hover:shadow-[var(--glow-sm)]",
     className,

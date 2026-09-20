@@ -21,9 +21,27 @@ export function BlogCarousel({ blogs }: { blogs: Blog[] }) {
 
   if (!blogs.length) {
     return (
-      <p className="text-[var(--text-muted)]">
-        Blog posts will appear here once published.
-      </p>
+      <div className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center">
+        <p className="font-display text-xl text-white">No posts published yet</p>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-[var(--text-muted)]">
+          Articles on shipping web, mobile, and API products will land here. In the
+          meantime, browse the work or start a brief.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <a
+            href="/projects"
+            className="font-mono-label rounded-sm border border-[var(--border-glow)] px-4 py-2 text-xs uppercase tracking-wider text-[var(--neon-cyan)] transition hover:border-[var(--neon-cyan)]"
+          >
+            View work
+          </a>
+          <a
+            href="/start"
+            className="font-mono-label rounded-sm bg-[var(--neon-cyan)] px-4 py-2 text-xs uppercase tracking-wider text-[var(--bg-primary)]"
+          >
+            Start a project
+          </a>
+        </div>
+      </div>
     );
   }
 

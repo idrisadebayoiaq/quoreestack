@@ -2,25 +2,28 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { siteConfig, cn } from "@/lib/utils";
 import { NeonButton } from "@/components/ui/NeonButton";
 import type { AvailabilitySetting } from "@/lib/packages";
 
-const navLinks = [
-  { href: "/projects", label: "Work" },
-  { href: "/services", label: "Services" },
-  { href: "/apps", label: "Apps" },
-  { href: "/about", label: "About" },
-  { href: "/blog", label: "Blog" },
-];
+export type NavChild = { href: string; label: string; description?: string };
+
+export type NavItem = {
+  href: string;
+  label: string;
+  children?: NavChild[];
+};
 
 export function Header({
   availability,
+  navItems,
 }: {
   availability?: AvailabilitySetting | null;
+  navItems: NavItem[];
 }) {
   const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState<string | null>(null);
   const status = availability?.status ?? "open";
   const openForWork = status === "open" || status === "limited";
 
@@ -41,16 +44,56 @@ export function Header({
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              data-cursor="hover"
-              className="font-mono-label px-3 py-2 text-xs uppercase tracking-wider text-[var(--text-muted)] transition hover:text-[var(--neon-cyan)]"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navItems.map((item) =>
+            item.children?.length ? (
+              <div key={item.href} className="group relative">
+                <Link
+                  href={item.href}
+                  data-cursor="hover"
+                  className="font-mono-label inline-flex items-center gap-1 px-3 py-2 text-xs uppercase tracking-wider text-[var(--text-muted)] transition hover:text-[var(--neon-cyan)]"
+                >
+                  {item.label}
+                  <ChevronDown className="size-3.5 opacity-70 transition group-hover:rotate-180" />
+                </Link>
+                <div className="invisible absolute left-0 top-full z-50 min-w-[18rem] translate-y-2 pt-2 opacity-0 transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                  <div className="rounded-sm border border-[var(--border-glow)] bg-[var(--bg-secondary)]/95 p-2 shadow-[var(--glow-sm)] backdrop-blur-xl">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        data-cursor="hover"
+                        className="block rounded-sm px-3 py-2.5 transition hover:bg-[var(--neon-cyan)]/10"
+                      >
+                        <span className="font-mono-label text-xs uppercase tracking-wider text-white">
+                          {child.label}
+                        </span>
+                        {child.description ? (
+                          <span className="mt-1 block text-xs leading-5 text-[var(--text-muted)]">
+                            {child.description}
+                          </span>
+                        ) : null}
+                      </Link>
+                    ))}
+                    <Link
+                      href={item.href}
+                      className="font-mono-label mt-1 block border-t border-white/5 px-3 py-2.5 text-[10px] uppercase tracking-wider text-[var(--neon-cyan)]"
+                    >
+                      View all {item.label.toLowerCase()} →
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                data-cursor="hover"
+                className="font-mono-label px-3 py-2 text-xs uppercase tracking-wider text-[var(--text-muted)] transition hover:text-[var(--neon-cyan)]"
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
           {openForWork ? (
             <span className="ml-2 hidden items-center gap-2 font-mono-label text-[10px] uppercase tracking-wider text-[var(--neon-green)] xl:inline-flex">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--neon-green)]" />
@@ -64,9 +107,9 @@ export function Header({
 
         <button
           type="button"
-          className="lg:hidden text-[var(--neon-cyan)]"
+          className="text-[var(--neon-cyan)] lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => setOpen((value) => !value)}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -79,15 +122,59 @@ export function Header({
         )}
       >
         <nav className="flex flex-col px-4 py-3">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="font-mono-label border-b border-white/5 py-3 text-sm uppercase tracking-wider text-[var(--text-muted)]"
-            >
-              {link.label}
-            </Link>
+          {navItems.map((item) => (
+            <div key={item.href} className="border-b border-white/5">
+              {item.children?.length ? (
+                <>
+                  <button
+                    type="button"
+                    className="font-mono-label flex w-full items-center justify-between py-3 text-sm uppercase tracking-wider text-[var(--text-muted)]"
+                    onClick={() =>
+                      setMobileOpen((current) =>
+                        current === item.href ? null : item.href,
+                      )
+                    }
+                  >
+                    {item.label}
+                    <ChevronDown
+                      className={cn(
+                        "size-4 transition",
+                        mobileOpen === item.href && "rotate-180",
+                      )}
+                    />
+                  </button>
+                  {mobileOpen === item.href ? (
+                    <div className="space-y-1 pb-3 pl-2">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => setOpen(false)}
+                          className="block py-2 text-sm text-white"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                      <Link
+                        href={item.href}
+                        onClick={() => setOpen(false)}
+                        className="block py-2 text-sm text-[var(--neon-cyan)]"
+                      >
+                        All {item.label.toLowerCase()}
+                      </Link>
+                    </div>
+                  ) : null}
+                </>
+              ) : (
+                <Link
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="font-mono-label block py-3 text-sm uppercase tracking-wider text-[var(--text-muted)]"
+                >
+                  {item.label}
+                </Link>
+              )}
+            </div>
           ))}
           <Link
             href="/start"

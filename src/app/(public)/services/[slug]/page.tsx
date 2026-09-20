@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowRight, Check, MessageCircle, FolderKanban } from "lucide-react";
 import {
   CategoryCard,
   ProjectCard,
   ServiceCard,
 } from "@/components/cards/ContentCards";
 import { MarkdownBody } from "@/components/content/MarkdownBody";
+import { Reveal } from "@/components/animations/Reveal";
 import {
   DetailHero,
   DetailSection,
@@ -14,12 +17,14 @@ import {
 } from "@/components/details/DetailLayout";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { NeonButton } from "@/components/ui/NeonButton";
-import { createClient } from "@/lib/supabase/server";
 import { createStaticClient } from "@/lib/supabase/static";
+import { processSteps } from "@/lib/process";
 
 export const revalidate = 60;
 
 type Props = { params: Promise<{ slug: string }> };
+
+const serviceProcess = processSteps.slice(0, 4);
 
 export async function generateStaticParams() {
   const supabase = createStaticClient();
@@ -32,7 +37,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const supabase = await createClient();
+  const supabase = createStaticClient();
   const { data: service } = await supabase
     .from("services")
     .select("name, short_description, meta_title, meta_description, cover_image_url")
@@ -61,7 +66,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
-  const supabase = await createClient();
+  const supabase = createStaticClient();
   const { data: service } = await supabase
     .from("services")
     .select("*")
@@ -136,12 +141,12 @@ export default async function ServiceDetailPage({ params }: Props) {
   return (
     <main>
       <DetailHero
-        eyebrow="Service capability"
+        eyebrow="Service"
         title={service.name}
         summary={service.short_description}
         imageUrl={service.cover_image_url}
         imageAlt={`${service.name} service cover`}
-        accent="magenta"
+        accent="cyan"
         facts={
           service.pricing_note
             ? [{ label: "Engagement", value: service.pricing_note }]
@@ -149,94 +154,193 @@ export default async function ServiceDetailPage({ params }: Props) {
         }
       />
 
-      <DetailSection eyebrow="Overview" title="What this service unlocks">
-        <div className="grid gap-10 lg:grid-cols-[1fr_18rem]">
-          <MarkdownBody
-            content={service.long_description}
-            fallback="The full service brief is being prepared. Get in touch for scope, fit, and availability."
-          />
-          <aside>
-            <p className="font-display mb-4 text-lg text-white">Technology</p>
-            <TagList
-              items={service.technologies}
-              emptyLabel="Technology selected per project"
-            />
-          </aside>
+      <section className="border-b border-[var(--border-glow)] bg-[var(--bg-glass)]">
+        <div className="mx-auto flex max-w-6xl flex-wrap gap-3 px-4 py-6 md:px-6">
+          <NeonButton href={`/start?service=${encodeURIComponent(service.slug)}`}>
+            Start with this service
+          </NeonButton>
+          <NeonButton
+            href={`/contact?service=${encodeURIComponent(service.slug)}`}
+            variant="secondary"
+          >
+            <MessageCircle className="size-4" />
+            Contact about this
+          </NeonButton>
+          <NeonButton href="/projects" variant="ghost">
+            <FolderKanban className="size-4" />
+            See related work
+          </NeonButton>
+          <NeonButton href="/pricing" variant="ghost">
+            Pricing
+          </NeonButton>
         </div>
-      </DetailSection>
+      </section>
 
-      <DetailSection eyebrow="Scope" title="Typical deliverables">
-        {deliverables.length ? (
-          <div className="grid gap-4 sm:grid-cols-2">
-            {deliverables.map((deliverable, index) => (
-              <GlowCard key={`${deliverable}-${index}`}>
-                <p className="font-mono-label text-[10px] text-[var(--neon-magenta)]">
+      <Reveal>
+        <DetailSection eyebrow="Overview" title="What this service unlocks">
+          <div className="grid gap-10 lg:grid-cols-[1fr_18rem]">
+            <MarkdownBody
+              content={service.long_description}
+              fallback="The full service brief is being prepared. Get in touch for scope, fit, and availability."
+            />
+            <aside className="space-y-8">
+              <div>
+                <p className="font-display mb-4 text-lg text-white">Technology</p>
+                <TagList
+                  items={service.technologies}
+                  emptyLabel="Technology selected per project"
+                />
+              </div>
+              <div className="rounded-sm border border-[var(--border-glow)] bg-black/20 p-5">
+                <p className="font-mono-label text-[10px] uppercase tracking-wider text-[var(--neon-cyan)]">
+                  Next step
+                </p>
+                <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
+                  Share your goals and timeline. I&apos;ll map scope and whether this
+                  service is the right fit.
+                </p>
+                <Link
+                  href={`/start?service=${encodeURIComponent(service.slug)}`}
+                  className="font-mono-label mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[var(--neon-cyan)]"
+                >
+                  Build a brief <ArrowRight className="size-3.5" />
+                </Link>
+              </div>
+            </aside>
+          </div>
+        </DetailSection>
+      </Reveal>
+
+      <Reveal>
+        <DetailSection eyebrow="How it runs" title="Delivery path">
+          <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {serviceProcess.map((step, index) => (
+              <li
+                key={step.slug}
+                className="border border-[var(--border-glow)] bg-black/20 p-5"
+              >
+                <p className="font-mono-label text-[10px] text-[var(--neon-cyan)]">
                   0{index + 1}
                 </p>
-                <p className="mt-3 leading-7 text-white">{deliverable}</p>
-              </GlowCard>
+                <h3 className="font-display mt-3 text-xl text-white">{step.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
+                  {step.short}
+                </p>
+              </li>
             ))}
-          </div>
-        ) : (
-          <EmptyState
-            title="Scope shaped around the brief"
-            body="Deliverables are tailored to product goals, constraints, and the existing stack."
-          />
-        )}
-      </DetailSection>
+          </ol>
+        </DetailSection>
+      </Reveal>
 
-      <DetailSection eyebrow="Proof" title="Projects using this service">
-        {projects?.length ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState
-            title="Case studies being linked"
-            body="Published work using this capability will appear here."
-          />
-        )}
-      </DetailSection>
+      <Reveal>
+        <DetailSection eyebrow="Scope" title="Typical deliverables">
+          {deliverables.length ? (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {deliverables.map((deliverable, index) => (
+                <GlowCard key={`${deliverable}-${index}`}>
+                  <div className="flex gap-3">
+                    <Check className="mt-1 size-4 shrink-0 text-[var(--neon-cyan)]" />
+                    <div>
+                      <p className="font-mono-label text-[10px] text-[var(--neon-magenta)]">
+                        0{index + 1}
+                      </p>
+                      <p className="mt-2 leading-7 text-white">{deliverable}</p>
+                    </div>
+                  </div>
+                </GlowCard>
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              title="Scope shaped around the brief"
+              body="Deliverables are tailored to product goals, constraints, and the existing stack."
+            />
+          )}
+        </DetailSection>
+      </Reveal>
 
-      <DetailSection eyebrow="Domains" title="Where it applies">
-        {categories?.length ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {categories.map((category) => (
-              <CategoryCard key={category.id} category={category} />
-            ))}
+      <Reveal>
+        <DetailSection eyebrow="Proof" title="Projects using this service">
+          {projects?.length ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {projects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              title="Browse the full portfolio"
+              body="Published case studies for this capability will appear here as they are linked."
+            />
+          )}
+          <div className="mt-8">
+            <NeonButton href="/projects" variant="secondary">
+              View all work
+            </NeonButton>
           </div>
-        ) : (
-          <EmptyState
-            title="Built for varied domains"
-            body="This service is not limited to a published category. Share your use case to assess fit."
-          />
-        )}
-      </DetailSection>
+        </DetailSection>
+      </Reveal>
 
-      <DetailSection eyebrow="Explore" title="Related services">
-        {relatedServices?.length ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {relatedServices.map((related) => (
-              <ServiceCard key={related.id} service={related} />
-            ))}
+      <Reveal>
+        <DetailSection eyebrow="Domains" title="Where it applies">
+          {categories?.length ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {categories.map((category) => (
+                <CategoryCard key={category.id} category={category} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              title="Built for varied domains"
+              body="This service is not limited to a published category. Share your use case to assess fit."
+            />
+          )}
+        </DetailSection>
+      </Reveal>
+
+      <Reveal>
+        <DetailSection eyebrow="Explore" title="Related services">
+          {relatedServices?.length ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {relatedServices.map((related) => (
+                <ServiceCard key={related.id} service={related} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              title="A focused capability"
+              body="Browse all services to assemble the right delivery mix."
+            />
+          )}
+        </DetailSection>
+      </Reveal>
+
+      <section className="mx-auto max-w-6xl px-4 pb-24 md:px-6">
+        <div className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center md:p-10">
+          <p className="font-display text-2xl text-white md:text-3xl">
+            Ready to use {service.name}?
+          </p>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[var(--text-muted)]">
+            Tell me what you need built. I&apos;ll reply with fit, rough scope, and clear next steps.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <NeonButton href={`/start?service=${encodeURIComponent(service.slug)}`}>
+              Start a project
+            </NeonButton>
+            <NeonButton
+              href={`/contact?service=${encodeURIComponent(service.slug)}`}
+              variant="secondary"
+            >
+              Contact
+            </NeonButton>
+            <NeonButton href="/pricing" variant="ghost">
+              View pricing
+            </NeonButton>
+            <NeonButton href="/services" variant="ghost">
+              ← All services
+            </NeonButton>
           </div>
-        ) : (
-          <EmptyState
-            title="A focused capability"
-            body="Browse all services to assemble the right delivery mix."
-          />
-        )}
-      </DetailSection>
-
-      <section className="mx-auto flex max-w-6xl flex-wrap gap-4 px-4 pb-24 md:px-6">
-        <NeonButton href={`/start?service=${encodeURIComponent(service.slug)}`}>
-          Discuss this service
-        </NeonButton>
-        <NeonButton href="/services" variant="ghost">
-          ← All services
-        </NeonButton>
+        </div>
       </section>
     </main>
   );

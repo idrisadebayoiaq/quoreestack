@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { getProcessStep, processSteps } from "@/lib/process";
@@ -71,91 +72,96 @@ export default async function ProcessDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-12 px-4 py-20 md:px-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <div>
-          <SectionHeading index={2} eyebrow="Focus" title="What this stage unlocks" />
-          <ul className="mt-2 space-y-4">
-            {step.outcomes.map((item) => (
-              <li key={item} className="flex gap-3 text-[var(--text-muted)]">
-                <Check className="mt-1 size-5 shrink-0 text-[var(--neon-cyan)]" />
-                <span className="leading-7">{item}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-16">
-            <SectionHeading index={3} eyebrow="Workstream" title="How we execute" />
-            <div className="mt-2 space-y-4">
-              {step.activities.map((item, i) => (
-                <div
-                  key={item}
-                  className="border-l border-[var(--neon-cyan)]/40 pl-5"
-                >
-                  <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--neon-cyan)]">
-                    Step 0{i + 1}
-                  </p>
-                  <p className="mt-2 text-lg text-white">{item}</p>
-                </div>
+      <Reveal>
+        <section className="mx-auto grid max-w-6xl gap-12 px-4 py-20 md:px-6 lg:grid-cols-[1.2fr_0.8fr]">
+          <div>
+            <SectionHeading index={2} eyebrow="Focus" title="What this stage unlocks" />
+            <ul className="mt-2 space-y-4">
+              {step.outcomes.map((item, i) => (
+                <Reveal key={item} delay={i * 0.05}>
+                  <li className="flex gap-3 text-[var(--text-muted)]">
+                    <Check className="mt-1 size-5 shrink-0 text-[var(--neon-cyan)]" />
+                    <span className="leading-7">{item}</span>
+                  </li>
+                </Reveal>
               ))}
+            </ul>
+
+            <div className="mt-16">
+              <SectionHeading index={3} eyebrow="Workstream" title="How we execute" />
+              <div className="mt-2 space-y-4">
+                {step.activities.map((item, i) => (
+                  <Reveal key={item} delay={i * 0.06}>
+                    <div className="border-l border-[var(--neon-cyan)]/40 pl-5">
+                      <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--neon-cyan)]">
+                        Step 0{i + 1}
+                      </p>
+                      <p className="mt-2 text-lg text-white">{item}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <aside className="h-fit border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 backdrop-blur-md lg:sticky lg:top-24">
-          <p className="font-mono-label text-[10px] uppercase tracking-[0.25em] text-[var(--neon-magenta)]">
-            Deliverables
-          </p>
-          <ul className="mt-5 space-y-3">
-            {step.deliverables.map((item) => (
-              <li
-                key={item}
-                className="border-b border-white/5 pb-3 text-sm text-[var(--text-muted)] last:border-0"
+          <aside className="h-fit border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 backdrop-blur-md lg:sticky lg:top-24">
+            <p className="font-mono-label text-[10px] uppercase tracking-[0.25em] text-[var(--neon-magenta)]">
+              Deliverables
+            </p>
+            <ul className="mt-5 space-y-3">
+              {step.deliverables.map((item) => (
+                <li
+                  key={item}
+                  className="border-b border-white/5 pb-3 text-sm text-[var(--text-muted)] last:border-0"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <NeonButton href={`/start?service=full-stack-web`} className="mt-8 w-full">
+              Start with this stage
+            </NeonButton>
+          </aside>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 pb-24 md:px-6">
+          <SectionHeading index={4} eyebrow="Pipeline" title="Continue the journey" />
+          <div className="mt-2 grid gap-4 md:grid-cols-2">
+            {previous ? (
+              <Link
+                href={`/process/${previous.slug}`}
+                className="group border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 transition hover:-translate-y-1 hover:border-[var(--neon-cyan)]/50"
               >
-                {item}
-              </li>
-            ))}
-          </ul>
-          <NeonButton href="/contact" className="mt-8 w-full">
-            Start with this stage
-          </NeonButton>
-        </aside>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 pb-24 md:px-6">
-        <SectionHeading index={4} eyebrow="Pipeline" title="Continue the journey" />
-        <div className="mt-2 grid gap-4 md:grid-cols-2">
-          {previous ? (
-            <Link
-              href={`/process/${previous.slug}`}
-              className="group border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 transition hover:border-[var(--neon-cyan)]/50"
-            >
-              <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--text-muted)]">
-                Previous
-              </p>
-              <p className="font-display mt-2 flex items-center gap-2 text-2xl text-white">
-                <ArrowLeft className="size-5 text-[var(--neon-cyan)] transition group-hover:-translate-x-1" />
-                {previous.title}
-              </p>
-            </Link>
-          ) : (
-            <div />
-          )}
-          {next ? (
-            <Link
-              href={`/process/${next.slug}`}
-              className="group border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 text-right transition hover:border-[var(--neon-cyan)]/50"
-            >
-              <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--text-muted)]">
-                Next
-              </p>
-              <p className="font-display mt-2 flex items-center justify-end gap-2 text-2xl text-white">
-                {next.title}
-                <ArrowRight className="size-5 text-[var(--neon-cyan)] transition group-hover:translate-x-1" />
-              </p>
-            </Link>
-          ) : null}
-        </div>
-      </section>
+                <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--text-muted)]">
+                  Previous
+                </p>
+                <p className="font-display mt-2 flex items-center gap-2 text-2xl text-white">
+                  <ArrowLeft className="size-5 text-[var(--neon-cyan)] transition group-hover:-translate-x-1" />
+                  {previous.title}
+                </p>
+              </Link>
+            ) : (
+              <div />
+            )}
+            {next ? (
+              <Link
+                href={`/process/${next.slug}`}
+                className="group border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 text-right transition hover:-translate-y-1 hover:border-[var(--neon-cyan)]/50"
+              >
+                <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--text-muted)]">
+                  Next
+                </p>
+                <p className="font-display mt-2 flex items-center justify-end gap-2 text-2xl text-white">
+                  {next.title}
+                  <ArrowRight className="size-5 text-[var(--neon-cyan)] transition group-hover:translate-x-1" />
+                </p>
+              </Link>
+            ) : null}
+          </div>
+        </section>
+      </Reveal>
     </main>
   );
 }
