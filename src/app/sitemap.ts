@@ -16,6 +16,7 @@ const routes = [
   "/portal",
   "/pricing",
   "/faq",
+  "/reviews",
   "/industries",
   "/stack",
   "/privacy",

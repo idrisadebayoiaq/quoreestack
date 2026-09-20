@@ -1,5 +1,5 @@
 import { HeroBackground } from "@/components/hero/HeroBackground";
-import { Reveal } from "@/components/animations/Reveal";
+import { Reveal, revealVariantForIndex } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import {
   ProjectCard,
@@ -19,6 +19,7 @@ import {
   getPublishedClientLogos,
   getSiteSetting,
 } from "@/lib/data/content";
+import { yearsOfExperience } from "@/lib/experience";
 import { processSteps } from "@/lib/process";
 import { defaultPackages, type AvailabilitySetting, type EngagementPackage } from "@/lib/packages";
 import { siteConfig } from "@/lib/utils";
@@ -63,6 +64,8 @@ export default async function HomePage() {
     getSiteSetting<{
       headline?: string;
       subheadline?: string;
+      background_image?: string;
+      background_video?: string;
     }>("hero"),
     getSiteSetting<{
       years?: number;
@@ -72,7 +75,7 @@ export default async function HomePage() {
     }>("stats"),
     getFeaturedProjects(3),
     getFeaturedServices(3),
-    getFeaturedTestimonials(3),
+    getFeaturedTestimonials(6),
     getPublishedClientLogos(8),
     getSiteSetting<EngagementPackage[]>("packages"),
     getSiteSetting<AvailabilitySetting>("availability"),
@@ -80,6 +83,14 @@ export default async function HomePage() {
   ]);
 
   const engagementPackages = packages?.length ? packages : defaultPackages;
+  const years = yearsOfExperience();
+  const projectsCount = counts.projects || 1;
+  const appsCount = counts.apps || 1;
+  const techCount = stats?.technologies ?? 12;
+  const posterSrc =
+    hero?.background_image || "/images/quorestack-hero-poster.jpg";
+  const videoSrc =
+    hero?.background_video || "/videos/quorestack-hero.mp4";
 
   return (
     <main>
@@ -87,7 +98,7 @@ export default async function HomePage() {
         id="hero"
         className="relative flex min-h-[92vh] items-center overflow-hidden border-b border-[var(--border-glow)]"
       >
-        <HeroBackground />
+        <HeroBackground videoSrc={videoSrc} posterSrc={posterSrc} />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-24 md:px-6">
           <div className="max-w-2xl">
             <p className="animate-hero-rise font-display text-5xl font-bold tracking-tight text-white md:text-7xl lg:text-8xl">
@@ -125,8 +136,10 @@ export default async function HomePage() {
         />
         {featuredProjects.length ? (
           <div className="grid gap-6 md:grid-cols-3">
-            {featuredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+            {featuredProjects.map((project, index) => (
+              <Reveal key={project.id} delay={index * 0.06} variant={revealVariantForIndex(index)}>
+                <ProjectCard project={project} />
+              </Reveal>
             ))}
           </div>
         ) : (
@@ -142,33 +155,34 @@ export default async function HomePage() {
       </section>
       </Reveal>
 
-      <Reveal>
+      <Reveal variant="fade-left">
         <ClientLogoStrip logos={logos} />
       </Reveal>
-      <Reveal delay={0.05}>
+      <Reveal delay={0.05} variant="scale">
         <TestimonialsGrid testimonials={testimonials} />
       </Reveal>
 
-      <Reveal>
+      <Reveal variant="fade-up">
       <section id="stats" className="mx-auto max-w-6xl px-4 py-20 md:px-6">
         <SectionHeading index={3} eyebrow="Track record" title="By the numbers" />
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <StatCounter
-            value={stats?.years ?? 1}
+            value={years}
             label="Years building"
             suffix="+"
           />
           <StatCounter
-            value={stats?.projects ?? Math.max(counts.projects, 1)}
+            value={projectsCount}
             label="Projects shipped"
             suffix="+"
           />
           <StatCounter
-            value={stats?.apps ?? Math.max(counts.apps, 1)}
+            value={appsCount}
             label="Apps released"
+            suffix="+"
           />
           <StatCounter
-            value={stats?.technologies ?? 20}
+            value={techCount}
             label="Technologies"
             suffix="+"
           />
@@ -184,8 +198,10 @@ export default async function HomePage() {
         <SectionHeading index={4} eyebrow="Services" title="How I can help" />
         {featuredServices.length ? (
           <div className="grid gap-6 md:grid-cols-3">
-            {featuredServices.map((service) => (
-              <ServiceCard key={service.id} service={service} />
+            {featuredServices.map((service, index) => (
+              <Reveal key={service.id} delay={index * 0.06} variant={revealVariantForIndex(index + 1)}>
+                <ServiceCard service={service} />
+              </Reveal>
             ))}
           </div>
         ) : (

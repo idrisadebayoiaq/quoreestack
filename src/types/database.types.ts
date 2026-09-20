@@ -776,11 +776,15 @@ export type Database = {
           avatar_url: string | null
           company: string | null
           created_at: string
+          email: string | null
           featured: boolean
           id: string
+          image_url: string | null
           quote: string
+          rating: number | null
           slug: string
           sort_order: number
+          source: string
           status: Database["public"]["Enums"]["content_status"]
           updated_at: string
         }
@@ -790,11 +794,15 @@ export type Database = {
           avatar_url?: string | null
           company?: string | null
           created_at?: string
+          email?: string | null
           featured?: boolean
           id?: string
+          image_url?: string | null
           quote: string
+          rating?: number | null
           slug: string
           sort_order?: number
+          source?: string
           status?: Database["public"]["Enums"]["content_status"]
           updated_at?: string
         }
@@ -804,11 +812,15 @@ export type Database = {
           avatar_url?: string | null
           company?: string | null
           created_at?: string
+          email?: string | null
           featured?: boolean
           id?: string
+          image_url?: string | null
           quote?: string
+          rating?: number | null
           slug?: string
           sort_order?: number
+          source?: string
           status?: Database["public"]["Enums"]["content_status"]
           updated_at?: string
         }

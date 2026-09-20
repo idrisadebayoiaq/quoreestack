@@ -72,6 +72,11 @@ export async function SiteHeader() {
           description: "Engineering toolkit",
         },
         {
+          href: "/reviews",
+          label: "Reviews",
+          description: "Client feedback & leave a review",
+        },
+        {
           href: "/blog",
           label: "Blog",
           description: "Notes on shipping products",

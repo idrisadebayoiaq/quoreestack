@@ -3,6 +3,7 @@ import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { NeonButton } from "@/components/ui/NeonButton";
+import { yearsOfExperienceLabel } from "@/lib/experience";
 import { siteConfig } from "@/lib/utils";
 import { getSiteSetting } from "@/lib/data/content";
 
@@ -79,10 +80,11 @@ export default async function AboutPage() {
     availability?: string;
     bio?: string;
   }>("about");
+  const yearsLabel = yearsOfExperienceLabel();
 
   return (
     <main>
-      <Reveal>
+      <Reveal variant="fade-up">
         <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
           <SectionHeading
             index={1}
@@ -119,6 +121,9 @@ export default async function AboutPage() {
               <div className="flex flex-wrap gap-4">
                 <span className="font-mono-label rounded-sm border border-[var(--border-glow)] px-3 py-2 text-xs uppercase tracking-wider text-[var(--text-muted)]">
                   {about?.location ?? "Osogbo, Nigeria · Remote worldwide"}
+                </span>
+                <span className="font-mono-label rounded-sm border border-[var(--neon-cyan)]/40 px-3 py-2 text-xs uppercase tracking-wider text-[var(--neon-cyan)]">
+                  {yearsLabel} years experience
                 </span>
                 <span className="font-mono-label rounded-sm border border-[var(--neon-green)]/40 px-3 py-2 text-xs uppercase tracking-wider text-[var(--neon-green)]">
                   {about?.availability ?? "Open for projects"}

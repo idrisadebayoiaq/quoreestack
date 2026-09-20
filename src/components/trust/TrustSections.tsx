@@ -1,4 +1,7 @@
 import type { ClientLogo, Testimonial } from "@/lib/data/content";
+import { ExpandableReviewCard } from "@/components/trust/ExpandableReviewCard";
+import { Reveal, revealVariantForIndex } from "@/components/animations/Reveal";
+import Link from "next/link";
 
 export function ClientLogoStrip({ logos }: { logos: ClientLogo[] }) {
   if (!logos.length) return null;
@@ -45,7 +48,13 @@ export function ClientLogoStrip({ logos }: { logos: ClientLogo[] }) {
   );
 }
 
-export function TestimonialsGrid({ testimonials }: { testimonials: Testimonial[] }) {
+export function TestimonialsGrid({
+  testimonials,
+  showCta = true,
+}: {
+  testimonials: Testimonial[];
+  showCta?: boolean;
+}) {
   if (!testimonials.length) return null;
 
   return (
@@ -57,37 +66,28 @@ export function TestimonialsGrid({ testimonials }: { testimonials: Testimonial[]
         What clients say after we ship
       </h2>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {testimonials.map((item) => (
-          <figure
-            key={item.id}
-            className="flex h-full flex-col border border-[var(--border-glow)]/70 bg-[var(--bg-glass)] p-6"
-          >
-            <blockquote className="flex-1 text-base leading-7 text-slate-200">
-              “{item.quote}”
-            </blockquote>
-            <figcaption className="mt-6 flex items-center gap-3 border-t border-white/5 pt-5">
-              {item.avatar_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={item.avatar_url}
-                  alt=""
-                  className="size-10 rounded-full object-cover"
-                />
-              ) : (
-                <span className="grid size-10 place-items-center rounded-full border border-[var(--border-glow)] font-mono-label text-xs text-[var(--neon-cyan)]">
-                  {item.author_name.slice(0, 1).toUpperCase()}
-                </span>
-              )}
-              <div>
-                <p className="text-sm font-medium text-white">{item.author_name}</p>
-                <p className="text-xs text-[var(--text-muted)]">
-                  {[item.author_title, item.company].filter(Boolean).join(" · ")}
-                </p>
-              </div>
-            </figcaption>
-          </figure>
+        {testimonials.map((item, index) => (
+          <Reveal key={item.id} delay={index * 0.05} variant={revealVariantForIndex(index)}>
+            <ExpandableReviewCard item={item} />
+          </Reveal>
         ))}
       </div>
+      {showCta ? (
+        <div className="mt-10 flex flex-wrap gap-4">
+          <Link
+            href="/reviews"
+            className="font-mono-label text-xs uppercase tracking-wider text-[var(--neon-cyan)] transition hover:underline"
+          >
+            Browse all reviews →
+          </Link>
+          <Link
+            href="/reviews#submit"
+            className="font-mono-label text-xs uppercase tracking-wider text-[var(--text-muted)] transition hover:text-[var(--neon-cyan)]"
+          >
+            Leave a review
+          </Link>
+        </div>
+      ) : null}
     </section>
   );
 }

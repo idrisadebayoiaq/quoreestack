@@ -14,6 +14,7 @@ const footerLinks = [
   { href: "/industries", label: "Industries" },
   { href: "/stack", label: "Stack" },
   { href: "/blog", label: "Blog" },
+  { href: "/reviews", label: "Reviews" },
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQ" },
   { href: "/start", label: "Start a project" },

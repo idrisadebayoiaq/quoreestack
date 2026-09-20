@@ -20,8 +20,13 @@ export function HeroWebGL() {
       alpha: true,
       antialias: false,
       powerPreference: "low-power",
+      premultipliedAlpha: true,
     });
     if (!gl) return;
+
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.clearColor(0, 0, 0, 0);
 
     const vsSource = `
       attribute vec2 a_position;
@@ -52,19 +57,18 @@ export function HeroWebGL() {
         float beam = smoothstep(0.45, 0.0, abs(p.y + wave + 0.15));
         float glow = exp(-length(p - vec2(0.55, -0.1)) * 1.6) * 0.55;
 
-        vec3 ink = vec3(0.024, 0.031, 0.059);
         vec3 blue = vec3(0.24, 0.55, 1.0);
         vec3 sand = vec3(0.84, 0.71, 0.54);
 
-        vec3 color = ink;
-        color += blue * (beam * 0.22 + glow * 0.35 + grid * 0.25);
-        color += sand * (glow * 0.08);
-        color *= 0.85 + 0.15 * hash(uv + t);
-
         float vignette = smoothstep(1.35, 0.25, length(p));
+        float intensity = clamp(beam * 0.45 + glow * 0.55 + grid * 0.4, 0.0, 1.0);
+        vec3 color = blue * (beam * 0.55 + glow * 0.7 + grid * 0.45);
+        color += sand * (glow * 0.12);
+        color *= 0.9 + 0.1 * hash(uv + t);
         color *= vignette;
 
-        gl_FragColor = vec4(color, 0.92);
+        float alpha = intensity * 0.42 * vignette;
+        gl_FragColor = vec4(color, alpha);
       }
     `;
 
@@ -126,6 +130,7 @@ export function HeroWebGL() {
     const draw = (now: number) => {
       if (!alive) return;
       const elapsed = (now - start) / 1000;
+      gl.clear(gl.COLOR_BUFFER_BIT);
       gl.uniform2f(uResolution, canvas.width, canvas.height);
       gl.uniform1f(uTime, elapsed);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
