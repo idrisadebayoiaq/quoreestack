@@ -239,6 +239,7 @@ export async function saveResourceAction(
     revalidatePath("/admin");
     revalidatePath(`/admin/${resource}`);
     revalidatePath("/");
+    revalidatePath("/about");
     if (resource === "blogs") {
       revalidatePath("/blog");
       revalidatePath(`/blog/${slug}`);
@@ -254,6 +255,9 @@ export async function saveResourceAction(
     if (resource === "apps") {
       revalidatePath("/apps");
       revalidatePath(`/apps/${slug}`);
+    }
+    if (resource === "testimonials") {
+      revalidatePath("/reviews");
     }
     return {
       success: `${config.singular} saved.`,
@@ -288,9 +292,19 @@ export async function deleteResourceAction(form: FormData) {
   }
   revalidatePath("/admin");
   revalidatePath(`/admin/${resource}`);
+  revalidatePath("/");
+  revalidatePath("/about");
   if (resource === "blogs") {
-    revalidatePath("/");
     revalidatePath("/blog");
+  }
+  if (resource === "projects") {
+    revalidatePath("/projects");
+  }
+  if (resource === "apps") {
+    revalidatePath("/apps");
+  }
+  if (resource === "testimonials") {
+    revalidatePath("/reviews");
   }
 }
 

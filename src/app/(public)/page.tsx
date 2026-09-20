@@ -12,14 +12,13 @@ import {
 import { NeonButton } from "@/components/ui/NeonButton";
 import { StatCounter } from "@/components/ui/StatCounter";
 import {
-  getContentCounts,
   getFeaturedProjects,
   getFeaturedServices,
   getFeaturedTestimonials,
   getPublishedClientLogos,
   getSiteSetting,
+  getTrackRecord,
 } from "@/lib/data/content";
-import { yearsOfExperience } from "@/lib/experience";
 import { processSteps } from "@/lib/process";
 import { defaultPackages, type AvailabilitySetting, type EngagementPackage } from "@/lib/packages";
 import { siteConfig } from "@/lib/utils";
@@ -52,14 +51,13 @@ const faqs = [
 export default async function HomePage() {
   const [
     hero,
-    stats,
     featuredProjects,
     featuredServices,
     testimonials,
     logos,
     packages,
     availability,
-    counts,
+    trackRecord,
   ] = await Promise.all([
     getSiteSetting<{
       headline?: string;
@@ -67,26 +65,16 @@ export default async function HomePage() {
       background_image?: string;
       background_video?: string;
     }>("hero"),
-    getSiteSetting<{
-      years?: number;
-      projects?: number;
-      apps?: number;
-      technologies?: number;
-    }>("stats"),
     getFeaturedProjects(3),
     getFeaturedServices(3),
     getFeaturedTestimonials(6),
     getPublishedClientLogos(8),
     getSiteSetting<EngagementPackage[]>("packages"),
     getSiteSetting<AvailabilitySetting>("availability"),
-    getContentCounts(),
+    getTrackRecord(),
   ]);
 
   const engagementPackages = packages?.length ? packages : defaultPackages;
-  const years = yearsOfExperience();
-  const projectsCount = counts.projects || 1;
-  const appsCount = counts.apps || 1;
-  const techCount = stats?.technologies ?? 12;
   const posterSrc =
     hero?.background_image || "/images/quorestack-hero-poster.jpg";
   const videoSrc =
@@ -167,22 +155,22 @@ export default async function HomePage() {
         <SectionHeading index={3} eyebrow="Track record" title="By the numbers" />
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <StatCounter
-            value={years}
+            value={trackRecord.years}
             label="Years building"
             suffix="+"
           />
           <StatCounter
-            value={projectsCount}
+            value={trackRecord.projects}
             label="Projects shipped"
             suffix="+"
           />
           <StatCounter
-            value={appsCount}
+            value={trackRecord.apps}
             label="Apps released"
             suffix="+"
           />
           <StatCounter
-            value={techCount}
+            value={trackRecord.technologies}
             label="Technologies"
             suffix="+"
           />

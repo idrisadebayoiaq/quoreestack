@@ -1,3 +1,4 @@
+import { yearsOfExperience } from "@/lib/experience";
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/types/database.types";
 
@@ -150,5 +151,48 @@ export async function getContentCounts() {
     categories: categories.count ?? 0,
     apps: apps.count ?? 0,
     blogs: blogs.count ?? 0,
+  };
+}
+
+/** Live track-record metrics for the homepage (always recomputed from CMS). */
+export async function getTrackRecord() {
+  const supabase = await createClient();
+  const [{ count: projects }, { count: apps }, { data: projectStacks }, { data: serviceStacks }] =
+    await Promise.all([
+      supabase
+        .from("projects")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "published"),
+      supabase
+        .from("mobile_apps")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "published"),
+      supabase.from("projects").select("tech_stack").eq("status", "published"),
+      supabase.from("services").select("technologies").eq("status", "published"),
+    ]);
+
+  const tech = new Set<string>();
+  for (const row of projectStacks ?? []) {
+    const tags = Array.isArray(row.tech_stack) ? row.tech_stack : [];
+    for (const tag of tags) {
+      if (typeof tag === "string" && tag.trim()) {
+        tech.add(tag.trim().toLowerCase());
+      }
+    }
+  }
+  for (const row of serviceStacks ?? []) {
+    const tags = Array.isArray(row.technologies) ? row.technologies : [];
+    for (const tag of tags) {
+      if (typeof tag === "string" && tag.trim()) {
+        tech.add(tag.trim().toLowerCase());
+      }
+    }
+  }
+
+  return {
+    years: yearsOfExperience(),
+    projects: projects ?? 0,
+    apps: apps ?? 0,
+    technologies: Math.max(tech.size, 1),
   };
 }
