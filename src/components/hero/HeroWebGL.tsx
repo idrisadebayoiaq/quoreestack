@@ -108,7 +108,7 @@ export function HeroWebGL() {
     const uTime = gl.getUniformLocation(program, "u_time");
 
     let frame = 0;
-    let start = performance.now();
+    const start = performance.now();
     let alive = true;
 
     const resize = () => {

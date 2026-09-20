@@ -242,7 +242,7 @@ export function ContactForm({
 }
 
 function Field({
-  name,
+  name: _name,
   label,
   error,
   children,
@@ -252,6 +252,7 @@ function Field({
   error?: string;
   children: React.ReactNode;
 }) {
+  void _name;
   return (
     <div>
       <span className="font-mono-label mb-2 block text-xs uppercase tracking-wider text-[var(--text-muted)]">

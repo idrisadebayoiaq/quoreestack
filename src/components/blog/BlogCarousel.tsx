@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BlogCard } from "@/components/cards/ContentCards";
 import type { Blog } from "@/lib/data/content";
@@ -28,18 +29,18 @@ export function BlogCarousel({ blogs }: { blogs: Blog[] }) {
           meantime, browse the work or start a brief.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <a
+          <Link
             href="/projects"
             className="font-mono-label rounded-sm border border-[var(--border-glow)] px-4 py-2 text-xs uppercase tracking-wider text-[var(--neon-cyan)] transition hover:border-[var(--neon-cyan)]"
           >
             View work
-          </a>
-          <a
+          </Link>
+          <Link
             href="/start"
             className="font-mono-label rounded-sm bg-[var(--neon-cyan)] px-4 py-2 text-xs uppercase tracking-wider text-[var(--bg-primary)]"
           >
             Start a project
-          </a>
+          </Link>
         </div>
       </div>
     );
