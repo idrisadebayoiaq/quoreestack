@@ -33,12 +33,12 @@ export function ExpandableReviewCard({
       )}
     >
       {imageUrl ? (
-        <div className="relative aspect-[16/9] overflow-hidden border-b border-white/5">
+        <div className="relative aspect-[16/10] max-h-36 overflow-hidden border-b border-white/5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imageUrl}
             alt=""
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover"
           />
         </div>
       ) : null}

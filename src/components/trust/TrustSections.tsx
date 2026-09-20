@@ -1,7 +1,6 @@
 import type { ClientLogo, Testimonial } from "@/lib/data/content";
-import { ExpandableReviewCard } from "@/components/trust/ExpandableReviewCard";
+import { ReviewsMarquee } from "@/components/trust/ReviewsMarquee";
 import { Reveal } from "@/components/animations/Reveal";
-import { revealVariantForIndex } from "@/lib/motion";
 import Link from "next/link";
 
 export function ClientLogoStrip({ logos }: { logos: ClientLogo[] }) {
@@ -59,22 +58,24 @@ export function TestimonialsGrid({
   if (!testimonials.length) return null;
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
-      <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
-        Client feedback
-      </p>
-      <h2 className="font-display mb-10 max-w-2xl text-3xl text-white md:text-4xl">
-        What clients say after we ship
-      </h2>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {testimonials.map((item, index) => (
-          <Reveal key={item.id} delay={index * 0.05} variant={revealVariantForIndex(index)}>
-            <ExpandableReviewCard item={item} />
-          </Reveal>
-        ))}
+    <section className="py-20">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
+        <Reveal>
+          <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
+            Client feedback
+          </p>
+          <h2 className="font-display mb-10 max-w-2xl text-3xl text-white md:text-4xl">
+            What clients say after we ship
+          </h2>
+        </Reveal>
       </div>
+
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
+        <ReviewsMarquee testimonials={testimonials} />
+      </div>
+
       {showCta ? (
-        <div className="mt-10 flex flex-wrap gap-4">
+        <div className="mx-auto mt-10 flex max-w-6xl flex-wrap gap-4 px-4 md:px-6">
           <Link
             href="/reviews"
             className="font-mono-label text-xs uppercase tracking-wider text-[var(--neon-cyan)] transition hover:underline"

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
-import { ExpandableReviewCard } from "@/components/trust/ExpandableReviewCard";
+import { ReviewsMarquee } from "@/components/trust/ReviewsMarquee";
 import { ReviewForm } from "@/components/trust/ReviewForm";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { getFeaturedTestimonials } from "@/lib/data/content";
@@ -42,8 +42,8 @@ export default async function ReviewsPage() {
             Feedback from people I&apos;ve built with
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-muted)]">
-            Expand any card for the full review. If we shipped together, you can submit
-            your own — I approve before it goes live.
+            Reviews scroll continuously — hover to pause and expand any card. If we shipped
+            together, submit your own below for approval.
           </p>
           <div className="mt-8">
             <NeonButton href="#submit">Leave a review</NeonButton>
@@ -51,28 +51,30 @@ export default async function ReviewsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
-        <SectionHeading index={1} eyebrow="Published" title="Client reviews" />
+      <section className="py-20">
+        <div className="mx-auto max-w-6xl px-4 md:px-6">
+          <SectionHeading index={1} eyebrow="Published" title="Client reviews" />
+        </div>
         {reviews.length ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {reviews.map((item, index) => (
-              <Reveal key={item.id} delay={index * 0.05}>
-                <ExpandableReviewCard item={item} />
-              </Reveal>
-            ))}
+          <div className="mx-auto max-w-6xl px-4 md:px-6">
+            <ReviewsMarquee testimonials={reviews} />
           </div>
         ) : (
-          <p className="text-[var(--text-muted)]">Reviews will appear here once published.</p>
+          <p className="mx-auto max-w-6xl px-4 text-[var(--text-muted)] md:px-6">
+            Reviews will appear here once published.
+          </p>
         )}
       </section>
 
       <section id="submit" className="scroll-mt-24 border-t border-[var(--border-glow)]">
         <div className="mx-auto max-w-3xl px-4 py-20 md:px-6">
-          <SectionHeading index={2} eyebrow="Buyers" title="Add your review" />
-          <p className="mb-8 text-[var(--text-muted)]">
-            Share what we built and how delivery felt. Submissions stay private until approved.
-          </p>
-          <ReviewForm />
+          <Reveal>
+            <SectionHeading index={2} eyebrow="Buyers" title="Add your review" />
+            <p className="mb-8 text-[var(--text-muted)]">
+              Share what we built and how delivery felt. Submissions stay private until approved.
+            </p>
+            <ReviewForm />
+          </Reveal>
         </div>
       </section>
     </main>

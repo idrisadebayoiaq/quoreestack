@@ -78,8 +78,6 @@ export default async function HomePage() {
   const engagementPackages = packages?.length ? packages : defaultPackages;
   const posterSrc =
     hero?.background_image || "/images/quorestack-hero-poster.jpg";
-  const videoSrc =
-    hero?.background_video || "/videos/quorestack-hero.mp4";
 
   return (
     <main>
@@ -87,7 +85,7 @@ export default async function HomePage() {
         id="hero"
         className="relative flex min-h-[92vh] items-center overflow-hidden border-b border-[var(--border-glow)]"
       >
-        <HeroBackground videoSrc={videoSrc} posterSrc={posterSrc} />
+        <HeroBackground posterSrc={posterSrc} />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-24 md:px-6">
           <div className="max-w-2xl">
             <p className="animate-hero-rise font-display text-5xl font-bold tracking-tight text-white md:text-7xl lg:text-8xl">
