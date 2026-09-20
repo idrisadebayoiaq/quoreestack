@@ -24,6 +24,7 @@ import { processSteps } from "@/lib/process";
 import { defaultPackages, type AvailabilitySetting, type EngagementPackage } from "@/lib/packages";
 import { siteConfig } from "@/lib/utils";
 import { PackagesGrid } from "@/components/packages/PackagesGrid";
+import { HomeAboutSection } from "@/components/about/HomeAboutSection";
 import { AvailabilityBadge } from "@/components/ui/AvailabilityBadge";
 import Link from "next/link";
 import Image from "next/image";
@@ -141,6 +142,8 @@ export default async function HomePage() {
         </div>
       </section>
       </Reveal>
+
+      <HomeAboutSection />
 
       <Reveal variant="fade-left">
         <ClientLogoStrip logos={logos} />

@@ -64,9 +64,12 @@ export function TestimonialsGrid({
           <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
             Client feedback
           </p>
-          <h2 className="font-display mb-10 max-w-2xl text-3xl text-white md:text-4xl">
+          <h2 className="font-display mb-4 max-w-2xl text-3xl text-white md:text-4xl">
             What clients say after we ship
           </h2>
+          <p className="mb-10 max-w-xl text-sm text-[var(--text-muted)]">
+            Tap any review to read the full story.
+          </p>
         </Reveal>
       </div>
 

@@ -12,7 +12,7 @@ export async function SiteHeader() {
   const [availability, services, projects, { data: apps }] = await Promise.all([
     getSiteSetting<AvailabilitySetting>("availability"),
     getPublishedServices(),
-    getFeaturedProjects(4),
+    getFeaturedProjects(6),
     supabase
       .from("mobile_apps")
       .select("name, slug, tagline")
@@ -25,18 +25,11 @@ export async function SiteHeader() {
     {
       href: "/projects",
       label: "Work",
-      children: [
-        ...projects.map((project) => ({
-          href: `/projects/${project.slug}`,
-          label: project.title,
-          description: project.short_description?.slice(0, 80) || undefined,
-        })),
-        {
-          href: "/categories",
-          label: "Browse by category",
-          description: "E-commerce, mobile, SaaS, and APIs",
-        },
-      ],
+      children: projects.map((project) => ({
+        href: `/projects/${project.slug}`,
+        label: project.title,
+        description: project.short_description?.slice(0, 80) || undefined,
+      })),
     },
     {
       href: "/services",

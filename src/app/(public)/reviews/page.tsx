@@ -42,8 +42,8 @@ export default async function ReviewsPage() {
             Feedback from people I&apos;ve built with
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-muted)]">
-            Reviews scroll continuously — hover to pause and expand any card. If we shipped
-            together, submit your own below for approval.
+            Browse the scrolling reviews, then tap any card to open the full details.
+            If we shipped together, submit your own below for approval.
           </p>
           <div className="mt-8">
             <NeonButton href="#submit">Leave a review</NeonButton>
