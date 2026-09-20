@@ -1,6 +1,7 @@
 import type { ClientLogo, Testimonial } from "@/lib/data/content";
 import { ExpandableReviewCard } from "@/components/trust/ExpandableReviewCard";
-import { Reveal, revealVariantForIndex } from "@/components/animations/Reveal";
+import { Reveal } from "@/components/animations/Reveal";
+import { revealVariantForIndex } from "@/lib/motion";
 import Link from "next/link";
 
 export function ClientLogoStrip({ logos }: { logos: ClientLogo[] }) {

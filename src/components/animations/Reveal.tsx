@@ -4,14 +4,9 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "@/hooks/use-motion";
+import type { RevealVariant } from "@/lib/motion";
 
-export type RevealVariant =
-  | "fade-up"
-  | "fade-down"
-  | "fade-left"
-  | "fade-right"
-  | "scale"
-  | "blur";
+export type { RevealVariant };
 
 const variants: Record<
   RevealVariant,
@@ -74,16 +69,4 @@ export function Reveal({
       {children}
     </motion.div>
   );
-}
-
-export function revealVariantForIndex(index: number): RevealVariant {
-  const list: RevealVariant[] = [
-    "fade-up",
-    "fade-left",
-    "scale",
-    "fade-right",
-    "blur",
-    "fade-down",
-  ];
-  return list[index % list.length];
 }

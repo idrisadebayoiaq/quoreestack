@@ -1,5 +1,6 @@
 import { HeroBackground } from "@/components/hero/HeroBackground";
-import { Reveal, revealVariantForIndex } from "@/components/animations/Reveal";
+import { Reveal } from "@/components/animations/Reveal";
+import { revealVariantForIndex } from "@/lib/motion";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import {
   ProjectCard,
