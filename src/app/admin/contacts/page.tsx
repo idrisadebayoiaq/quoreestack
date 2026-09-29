@@ -18,20 +18,20 @@ export default async function ContactsPage() {
         <p className="text-xs uppercase tracking-widest text-[var(--neon-cyan)]">Inbox</p>
         <h1 className="font-display mt-2 text-3xl">Contact submissions</h1>
       </div>
-      {error ? <p className="text-red-300">{error.message}</p> : null}
+      {error ? <p className="text-[var(--danger)]">{error.message}</p> : null}
       <div className="space-y-4">
         {data?.map((contact) => (
           <article
             key={contact.id}
             className={`rounded-sm border p-5 ${
               contact.is_read
-                ? "border-white/10 bg-[var(--bg-glass)]"
-                : "border-[var(--neon-cyan)] bg-cyan-400/5"
+                ? "border-[var(--line)] bg-[var(--bg-glass)]"
+                : "border-[var(--neon-cyan)] bg-[var(--neon-cyan)]/5"
             }`}
           >
             <div className="flex flex-wrap justify-between gap-3">
               <div>
-                <h2 className="font-display text-lg text-white">
+                <h2 className="font-display text-lg text-[var(--text-strong)]">
                   {contact.subject || "No subject"}
                 </h2>
                 <p className="text-sm text-[var(--text-muted)]">
@@ -52,7 +52,7 @@ export default async function ContactsPage() {
                 <dt className="text-xs uppercase tracking-wider text-[var(--text-muted)]">
                   Delivery
                 </dt>
-                <dd className="mt-1 text-white">
+                <dd className="mt-1 text-[var(--text-strong)]">
                   {contact.delivery_at
                     ? new Date(contact.delivery_at).toLocaleString()
                     : "Not specified"}
@@ -62,7 +62,7 @@ export default async function ContactsPage() {
                 <dt className="text-xs uppercase tracking-wider text-[var(--text-muted)]">
                   Price / budget
                 </dt>
-                <dd className="mt-1 text-white">{contact.budget || "Not specified"}</dd>
+                <dd className="mt-1 text-[var(--text-strong)]">{contact.budget || "Not specified"}</dd>
               </div>
               {contact.attachment_path ? (
                 <div className="sm:col-span-2">

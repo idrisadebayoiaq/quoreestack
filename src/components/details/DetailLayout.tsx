@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { GlowCard } from "@/components/ui/GlowCard";
-import { cn } from "@/lib/utils";
+import { cn, isOptimizableImage } from "@/lib/utils";
 
 type HeroFact = {
   label: string;
@@ -47,7 +47,7 @@ export function DetailHero({
           >
             {eyebrow}
           </p>
-          <h1 className="font-display text-4xl font-bold tracking-tight text-white md:text-6xl">
+          <h1 className="font-display text-4xl font-bold tracking-tight text-[var(--text-strong)] md:text-6xl">
             {title}
           </h1>
           {summary ? (
@@ -63,7 +63,7 @@ export function DetailHero({
                   <dt className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--text-muted)]">
                     {fact.label}
                   </dt>
-                  <dd className="mt-1 text-sm text-white">{fact.value}</dd>
+                  <dd className="mt-1 text-sm text-[var(--text-strong)]">{fact.value}</dd>
                 </div>
               ))}
             </dl>
@@ -75,7 +75,7 @@ export function DetailHero({
               src={imageUrl}
               alt={imageAlt ?? ""}
               fill
-              unoptimized
+              unoptimized={!isOptimizableImage(imageUrl)}
               priority
               sizes="(min-width: 1024px) 44vw, 100vw"
               className="object-cover"
@@ -120,7 +120,7 @@ export function DetailSection({
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="font-display mb-8 text-2xl font-bold text-white md:text-4xl">
+      <h2 className="font-display mb-8 text-2xl font-bold text-[var(--text-strong)] md:text-4xl">
         {title}
       </h2>
       {children}
@@ -191,7 +191,7 @@ export function EmptyState({
 }) {
   return (
     <div className="hud-corners rounded-sm border border-dashed border-[var(--border-glow)] bg-[var(--bg-glass)] p-8">
-      <p className="font-display text-lg text-white">{title}</p>
+      <p className="font-display text-lg text-[var(--text-strong)]">{title}</p>
       <p className="mt-2 max-w-xl text-sm leading-6 text-[var(--text-muted)]">
         {body}
       </p>
@@ -222,8 +222,12 @@ export function MediaGallery({
             src={image}
             alt={`${title} gallery image ${index + 1}`}
             fill
-            unoptimized
-            sizes={index === 0 ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
+            unoptimized={!isOptimizableImage(image)}
+            sizes={
+              index === 0 && images.length % 2 === 1
+                ? "(min-width: 1152px) 1104px, 100vw"
+                : "(min-width: 1152px) 552px, (min-width: 768px) 50vw, 100vw"
+            }
             className="object-cover transition duration-500 hover:scale-[1.02]"
           />
         </div>
@@ -246,7 +250,7 @@ export function MetricGrid({
           <p className="font-mono-label text-[10px] uppercase tracking-[0.25em] text-[var(--text-muted)]">
             {metric.label || "Result"}
           </p>
-          <p className="font-display mt-3 text-2xl text-white">
+          <p className="font-display mt-3 text-2xl text-[var(--text-strong)]">
             {metric.value || "Outcome documented"}
           </p>
         </GlowCard>
@@ -265,7 +269,7 @@ export function InlineLink({
   return (
     <Link
       href={href}
-      className="font-mono-label text-xs uppercase tracking-wider text-[var(--neon-cyan)] transition hover:text-white"
+      className="font-mono-label text-xs uppercase tracking-wider text-[var(--neon-cyan)] transition hover:text-[var(--text-strong)]"
     >
       {children} →
     </Link>

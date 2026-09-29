@@ -6,7 +6,7 @@ import { submitContactAction, type ContactActionState } from "@/lib/contact/acti
 import type { ContactValues } from "@/lib/contact/schema";
 
 const inputClass =
-  "w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14]/90 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-[var(--neon-cyan)] focus:shadow-[var(--glow-sm)]";
+  "w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-4 py-3 text-[var(--text-strong)] outline-none transition placeholder:text-[var(--text-muted)]/70 focus:border-[var(--neon-cyan)] focus:shadow-[var(--glow-sm)]";
 
 type FieldErrors = Partial<Record<keyof ContactValues | "attachment", string>>;
 
@@ -112,9 +112,9 @@ export function ContactForm({
       onSubmit={onSubmit}
       className="hud-corners relative space-y-5 border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 backdrop-blur-xl md:p-8"
     >
-      <div className="flex items-center gap-3 border-b border-white/5 pb-5">
+      <div className="flex items-center gap-3 border-b border-[var(--line)] pb-5">
         <Terminal className="size-5 text-[var(--neon-cyan)]" />
-        <p className="font-mono-label text-xs uppercase tracking-[0.25em] text-white">
+        <p className="font-mono-label text-xs uppercase tracking-[0.25em] text-[var(--text-strong)]">
           Project request
         </p>
       </div>
@@ -201,7 +201,7 @@ export function ContactForm({
       <Field name="attachment" label="Project reference (optional)" error={errors.attachment}>
         <label className={`${inputClass} flex cursor-pointer items-center gap-3`}>
           <Paperclip className="size-4 shrink-0 text-[var(--neon-cyan)]" />
-          <span className="truncate text-sm text-slate-400">{fileLabel}</span>
+          <span className="truncate text-sm text-[var(--text-muted)]">{fileLabel}</span>
           <input
             name="attachment"
             type="file"

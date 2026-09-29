@@ -4,6 +4,7 @@ import { ExternalLink } from "lucide-react";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { NeonButton } from "@/components/ui/NeonButton";
 import type { Blog, Project, Service, Category } from "@/lib/data/content";
+import { originLabels, projectOrigin } from "@/lib/projects";
 
 export function ProjectCard({ project }: { project: Project }) {
   const results = Array.isArray(project.results)
@@ -28,15 +29,23 @@ export function ProjectCard({ project }: { project: Project }) {
               sizes="(min-width: 768px) 30vw, 100vw"
               className="object-cover transition duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#080c14] via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--scrim)] via-transparent to-transparent" />
           </div>
         ) : null}
         <div className="p-6 pb-4">
-          <span className="font-mono-label mb-3 inline-block text-[10px] uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
-            {project.year ?? "Project"}
-            {project.client_type ? ` · ${project.client_type}` : ""}
+          <span className="mb-3 flex flex-wrap items-center gap-2 text-sm text-[var(--text-muted)]">
+            <span
+              className={
+                projectOrigin(project) === "client"
+                  ? "rounded-full border border-[var(--neon-green)]/40 px-2.5 py-0.5 text-xs font-semibold text-[var(--neon-green)]"
+                  : "rounded-full border border-[var(--line-strong)] px-2.5 py-0.5 text-xs font-semibold"
+              }
+            >
+              {originLabels[projectOrigin(project)]}
+            </span>
+            {project.year ? <span>{project.year}</span> : null}
           </span>
-          <h3 className="font-display mb-2 text-xl text-white">{project.title}</h3>
+          <h3 className="font-display mb-2 text-xl text-[var(--text-strong)]">{project.title}</h3>
           <p className="mb-4 text-[var(--text-muted)]">
             {project.short_description}
           </p>
@@ -45,7 +54,7 @@ export function ProjectCard({ project }: { project: Project }) {
               {results.map((result) => (
                 <div
                   key={`${result.label}-${result.value}`}
-                  className="border border-[var(--border-glow)]/60 bg-black/20 px-3 py-2"
+                  className="border border-[var(--border-glow)]/60 bg-[var(--bg-secondary)] px-3 py-2"
                 >
                   <p className="font-display text-sm text-[var(--neon-cyan)]">
                     {result.value}
@@ -72,7 +81,7 @@ export function ProjectCard({ project }: { project: Project }) {
         </div>
       </Link>
       {project.live_url ? (
-        <div className="mt-auto border-t border-white/5 px-6 py-4">
+        <div className="mt-auto border-t border-[var(--line)] px-6 py-4">
           <NeonButton
             href={project.live_url}
             variant="secondary"
@@ -89,7 +98,7 @@ export function ProjectCard({ project }: { project: Project }) {
 
 export function ServiceCard({ service }: { service: Service }) {
   return (
-    <GlowCard href={`/services/${service.slug}`} className="p-0">
+    <GlowCard href={`/services/${service.slug}`} className="h-full p-0">
       {service.cover_image_url ? (
         <div className="relative aspect-[16/10] overflow-hidden">
           <Image
@@ -99,11 +108,11 @@ export function ServiceCard({ service }: { service: Service }) {
             sizes="(min-width: 768px) 30vw, 100vw"
             className="object-cover transition duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#080c14] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--scrim)] via-transparent to-transparent" />
         </div>
       ) : null}
       <div className="p-6">
-        <h3 className="font-display mb-2 text-xl text-white">{service.name}</h3>
+        <h3 className="font-display mb-2 text-xl text-[var(--text-strong)]">{service.name}</h3>
         <p className="mb-4 text-[var(--text-muted)]">
           {service.short_description}
         </p>
@@ -136,7 +145,7 @@ export function CategoryCard({ category }: { category: Category }) {
             sizes="(min-width: 768px) 30vw, 100vw"
             className="object-cover transition duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#080c14] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--scrim)] via-transparent to-transparent" />
         </div>
       ) : null}
       <div className="p-6">
@@ -144,7 +153,7 @@ export function CategoryCard({ category }: { category: Category }) {
           className="mb-4 h-1 w-12 rounded-full"
           style={{ backgroundColor: category.color ?? "var(--neon-cyan)" }}
         />
-        <h3 className="font-display mb-2 text-xl text-white">{category.name}</h3>
+        <h3 className="font-display mb-2 text-xl text-[var(--text-strong)]">{category.name}</h3>
         <p className="text-[var(--text-muted)]">{category.short_description}</p>
       </div>
     </GlowCard>
@@ -171,7 +180,7 @@ export function BlogCard({ blog }: { blog: Blog }) {
             sizes="(min-width: 768px) 30vw, 100vw"
             className="object-cover transition duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#080c14] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--scrim)] via-transparent to-transparent" />
         </div>
       ) : null}
       <div className="p-6">
@@ -179,7 +188,7 @@ export function BlogCard({ blog }: { blog: Blog }) {
           {dateLabel}
           {blog.reading_time_minutes ? ` · ${blog.reading_time_minutes} min` : ""}
         </span>
-        <h3 className="font-display mb-2 text-xl text-white">{blog.title}</h3>
+        <h3 className="font-display mb-2 text-xl text-[var(--text-strong)]">{blog.title}</h3>
         <p className="mb-4 text-[var(--text-muted)]">{blog.short_description}</p>
         {blog.tags?.length ? (
           <div className="flex flex-wrap gap-2">
@@ -212,7 +221,7 @@ export function SectionCta({
   return (
     <div className="text-center">
       {title ? (
-        <p className="font-display mb-4 text-2xl text-white md:text-3xl">
+        <p className="font-display mb-4 text-2xl text-[var(--text-strong)] md:text-3xl">
           {title}
         </p>
       ) : null}

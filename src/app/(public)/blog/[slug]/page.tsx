@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { BlogCard } from "@/components/cards/ContentCards";
 import { MarkdownBody } from "@/components/content/MarkdownBody";
@@ -42,15 +43,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     blog.short_description ||
     `Read ${blog.title} on QuoreStack.`;
 
-  return {
+  return pageMetadata({
+    path: `/blog/${slug}`,
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      images: blog.cover_image_url ? [blog.cover_image_url] : undefined,
-    },
-  };
+    image: blog.cover_image_url,
+    type: "article",
+  });
 }
 
 export default async function BlogDetailPage({ params }: Props) {

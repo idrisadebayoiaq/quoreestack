@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
+/*
+ * Theme tokens.
+ * :root            — dark admin chrome (and any surface without a theme class).
+ * .theme-atelier   — public site: bone paper, ink text, one copper accent.
+ * .surface-dark    — dark frames inside the public site (hero, footer, image heroes).
+ * Components use these variables instead of hardcoded colours so each surface can re-skin them.
+ */
 :root {
-  /* QuoreStack — Signal Blue */
   --bg-primary: #06080f;
   --bg-secondary: #0c1220;
   --bg-glass: rgba(12, 18, 32, 0.78);
@@ -9,14 +15,85 @@
   --neon-magenta: #d6b48a;
   --neon-green: #5ddea8;
   --text-primary: #e8edf5;
+  --text-strong: #ffffff;
+  --text-body: #cbd5e1;
   --text-muted: #919cb0;
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --field: #080c14;
+  --on-accent: #06080f;
+  --scrim: #080c14;
+  --danger: #fca5a5;
+  --warning: #fcd34d;
   --accent-rgb: 61, 139, 255;
   --secondary-rgb: 214, 180, 138;
   --border-glow: rgba(var(--accent-rgb), 0.26);
   --grid-line: rgba(var(--accent-rgb), 0.05);
   --glow-sm: 0 0 14px rgba(var(--accent-rgb), 0.16);
   --glow-md: 0 0 22px rgba(var(--accent-rgb), 0.24);
+  --radius: 2px;
   --cursor-size: 32px;
+}
+
+.theme-atelier {
+  --ink: #141311;
+  --bone: #f4f0e8;
+  --paper: #fffdf8;
+  --copper: #a4512f;
+  --sage: #3e6b58;
+
+  --bg-primary: var(--bone);
+  --bg-secondary: var(--paper);
+  --bg-glass: rgba(255, 253, 248, 0.9);
+  --neon-cyan: var(--copper);
+  --neon-magenta: #7a5a43;
+  --neon-green: var(--sage);
+  --text-primary: var(--ink);
+  --text-strong: var(--ink);
+  --text-body: #3a3631;
+  --text-muted: #5e5952;
+  --line: rgba(20, 19, 17, 0.09);
+  --line-strong: rgba(20, 19, 17, 0.18);
+  --field: var(--paper);
+  --on-accent: var(--paper);
+  --scrim: transparent;
+  --danger: #b42318;
+  --warning: #8a5a00;
+  --accent-rgb: 164, 81, 47;
+  --secondary-rgb: 122, 90, 67;
+  --border-glow: rgba(20, 19, 17, 0.12);
+  --grid-line: transparent;
+  --glow-sm: 0 1px 2px rgba(20, 19, 17, 0.04), 0 8px 24px -12px rgba(20, 19, 17, 0.12);
+  --glow-md: 0 2px 4px rgba(20, 19, 17, 0.05), 0 18px 40px -18px rgba(20, 19, 17, 0.22);
+  --radius: 14px;
+
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-source-sans), system-ui, sans-serif;
+}
+
+.theme-atelier .surface-dark,
+.theme-atelier.surface-dark {
+  --bg-primary: #141311;
+  --bg-secondary: #1c1a17;
+  --bg-glass: rgba(28, 26, 23, 0.82);
+  --neon-cyan: #e0906a;
+  --neon-magenta: #cdb49a;
+  --neon-green: #8fc1a8;
+  --text-primary: #f4f0e8;
+  --text-strong: #fffdf8;
+  --text-body: #ddd6ca;
+  --text-muted: #a9a194;
+  --line: rgba(244, 240, 232, 0.1);
+  --line-strong: rgba(244, 240, 232, 0.2);
+  --field: #1c1a17;
+  --on-accent: #141311;
+  --scrim: #141311;
+  --accent-rgb: 224, 144, 106;
+  --border-glow: rgba(244, 240, 232, 0.14);
+
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 @theme inline {
@@ -25,8 +102,8 @@
   --color-cyan: var(--neon-cyan);
   --color-magenta: var(--neon-magenta);
   --color-muted: var(--text-muted);
-  --font-sans: var(--font-rajdhani);
-  --font-display: var(--font-orbitron);
+  --font-sans: var(--font-source-sans);
+  --font-display: var(--font-fraunces);
   --font-mono: var(--font-jetbrains);
 }
 
@@ -41,28 +118,47 @@ html {
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-rajdhani), system-ui, sans-serif;
+  font-family: var(--font-source-sans), system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  body.has-cyber-cursor,
-  body.has-cyber-cursor a,
-  body.has-cyber-cursor button,
-  body.has-cyber-cursor [data-cursor] {
-    cursor: none;
-  }
-}
-
 .font-display {
-  font-family: var(--font-orbitron), sans-serif;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-optical-sizing: auto;
 }
 
 .font-mono-label {
   font-family: var(--font-jetbrains), monospace;
 }
 
+/* Public site: headings in a soft serif at a lighter weight, labels in the sans. */
+.theme-atelier .font-display {
+  font-weight: 500;
+  font-variation-settings: "SOFT" 50;
+  letter-spacing: -0.02em;
+}
+
+.theme-atelier .font-mono-label {
+  font-family: var(--font-source-sans), system-ui, sans-serif;
+  font-weight: 600;
+}
+
+.theme-atelier .font-mono-label.font-mono-keep {
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 400;
+}
+
+.theme-atelier :focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 3px;
+}
+
+.theme-atelier ::selection {
+  background: rgba(var(--accent-rgb), 0.22);
+}
+
+/* Legacy HUD decoration: still used by admin, hidden on the public site. */
 .hud-corners {
   position: relative;
 }
@@ -98,47 +194,14 @@ body {
   opacity: 1;
 }
 
-@keyframes glitch-skew {
-  0% {
-    transform: none;
-  }
-  20% {
-    transform: skewX(-2deg) translateX(-2px);
-  }
-  40% {
-    transform: skewX(2deg) translateX(2px);
-  }
-  60% {
-    transform: none;
-  }
-  80% {
-    transform: skewX(1deg);
-  }
-  100% {
-    transform: none;
-  }
+.theme-atelier .hud-corners::before,
+.theme-atelier .hud-corners::after {
+  display: none;
 }
 
-@keyframes neon-flicker {
-  0%,
-  19%,
-  21%,
-  23%,
-  25%,
-  54%,
-  56%,
-  100% {
-    opacity: 1;
-    text-shadow:
-      0 0 8px var(--neon-cyan),
-      0 0 20px rgba(var(--accent-rgb), 0.35);
-  }
-  20%,
-  24%,
-  55% {
-    opacity: 0.35;
-    text-shadow: none;
-  }
+/* Public cards and panels pick up the softer radius without touching every call site. */
+.theme-atelier .rounded-sm {
+  border-radius: var(--radius);
 }
 
 @keyframes marquee {
@@ -191,6 +254,15 @@ body {
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .animate-blog-slide {
   animation: blog-slide 0.45s ease-out both;
 }
@@ -203,16 +275,12 @@ body {
   animation: reviews-marquee 48s linear infinite;
 }
 
+.animate-reviews-marquee:hover {
+  animation-play-state: paused;
+}
+
 .animate-hero-float {
   animation: hero-float 9s ease-in-out infinite;
-}
-
-.animate-neon-flicker {
-  animation: neon-flicker 2.2s ease-in-out 1;
-}
-
-.animate-glitch {
-  animation: glitch-skew 0.45s ease-in-out 1;
 }
 
 .animate-hero-rise {
@@ -225,6 +293,10 @@ body {
 
 .animate-hero-rise-delay-2 {
   animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.9s ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -246,10 +318,8 @@ body {
     animation: none !important;
   }
 
-  body.has-cyber-cursor,
-  body.has-cyber-cursor a,
-  body.has-cyber-cursor button,
-  body.has-cyber-cursor [data-cursor] {
-    cursor: auto;
+  .theme-atelier [class*="hover:-translate-y"]:hover,
+  .theme-atelier [class*="group-hover:scale"] {
+    transform: none !important;
   }
 }

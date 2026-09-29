@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import {
@@ -10,6 +12,13 @@ import {
   getPublishedCategories,
   getPublishedProjects,
 } from "@/lib/data/content";
+
+export const metadata: Metadata = pageMetadata({
+  path: "/projects",
+  title: "Work",
+  description: "Case studies of websites, apps, and backends built by Quoreeb Adebayo.",
+});
+
 
 const processSteps = [
   {
@@ -99,7 +108,7 @@ export default async function ProjectsPage() {
             </div>
           ) : (
             <div className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center">
-              <p className="font-display text-xl text-white">Case studies coming soon</p>
+              <p className="font-display text-xl text-[var(--text-strong)]">Case studies coming soon</p>
               <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-[var(--text-muted)]">
                 Published work will appear here. Meanwhile, tell me what you want built.
               </p>
@@ -121,7 +130,7 @@ export default async function ProjectsPage() {
                   <p className="font-mono-label text-xs text-[var(--neon-cyan)]">
                     {item.step}
                   </p>
-                  <h3 className="font-display mt-2 text-lg text-white">{item.title}</h3>
+                  <h3 className="font-display mt-2 text-lg text-[var(--text-strong)]">{item.title}</h3>
                   <p className="mt-2 text-sm text-[var(--text-muted)]">{item.text}</p>
                 </div>
               </Reveal>

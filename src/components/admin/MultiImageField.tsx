@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { ImagePlus, X } from "lucide-react";
 
 const inputClass =
-  "w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14] px-3 py-2 text-sm text-white outline-none transition focus:border-[var(--neon-cyan)]";
+  "w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-3 py-2 text-sm text-[var(--text-strong)] outline-none transition focus:border-[var(--neon-cyan)]";
 
 function toUrlList(value: unknown) {
   if (Array.isArray(value)) {
@@ -54,14 +54,14 @@ export function MultiImageField({
           {existing.map((url) => (
             <div
               key={url}
-              className="group relative overflow-hidden rounded-xl border border-[var(--border-glow)] bg-black/30"
+              className="group relative overflow-hidden rounded-xl border border-[var(--border-glow)] bg-[var(--bg-secondary)]"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={url} alt="" className="aspect-[9/16] w-full object-cover" />
               <button
                 type="button"
                 onClick={() => setExisting((current) => current.filter((item) => item !== url))}
-                className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-black/70 text-white opacity-90 transition hover:bg-red-500"
+                className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-black/70 text-[var(--text-strong)] opacity-90 transition hover:bg-red-500"
                 aria-label={`Remove ${label}`}
               >
                 <X className="size-4" />
@@ -71,11 +71,11 @@ export function MultiImageField({
         </div>
       ) : null}
 
-      <label className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-[var(--border-glow)] bg-black/20 px-4 py-8 text-center transition hover:border-[var(--neon-cyan)]/50 hover:bg-[var(--neon-cyan)]/5">
+      <label className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-[var(--border-glow)] bg-[var(--bg-secondary)] px-4 py-8 text-center transition hover:border-[var(--neon-cyan)]/50 hover:bg-[var(--neon-cyan)]/5">
         <span className="grid size-12 place-items-center rounded-full border border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)]">
           <ImagePlus className="size-5" />
         </span>
-        <span className="font-display text-sm text-white">
+        <span className="font-display text-sm text-[var(--text-strong)]">
           {multiple ? "Add screenshots" : `Upload ${label.toLowerCase()}`}
         </span>
         <span className="max-w-sm text-xs leading-5 text-[var(--text-muted)]">

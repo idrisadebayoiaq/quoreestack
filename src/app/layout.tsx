@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Orbitron, Rajdhani } from "next/font/google";
+import { Fraunces, JetBrains_Mono, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/utils";
-import { socialLinks } from "@/lib/socials";
+import { defaultOgImage } from "@/lib/seo";
+import { getContactChannels } from "@/lib/data/content";
 
-const orbitron = Orbitron({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-orbitron",
+  variable: "--font-fraunces",
   display: "swap",
+  axes: ["opsz", "SOFT"],
 });
 
-const rajdhani = Rajdhani({
+const sourceSans = Source_Sans_3({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-rajdhani",
+  variable: "--font-source-sans",
   display: "swap",
 });
 
@@ -23,18 +24,23 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const defaultTitle = `${siteConfig.name} — ${siteConfig.title}`;
+const defaultDescription =
+  "Websites that turn local businesses into leads — plus the Android apps and backends behind them. Built by Quoreeb Adebayo.";
+
 export const metadata: Metadata = {
   title: {
-    default: `${siteConfig.name} — ${siteConfig.title}`,
+    default: defaultTitle,
     template: `%s | ${siteConfig.name}`,
   },
-  description: `Portfolio of ${siteConfig.author} — ${siteConfig.title}. Web projects, mobile apps, and full-stack development services.`,
+  description: defaultDescription,
   metadataBase: new URL(siteConfig.url),
   keywords: [
     "Quoreeb Adebayo",
-    "Full Stack Developer",
     "Web Developer Nigeria",
-    "Mobile App Developer",
+    "Small business website",
+    "Full Stack Developer",
+    "Android App Developer",
     "Next.js Developer",
     "Supabase Developer",
   ],
@@ -43,27 +49,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_NG",
-    url: siteConfig.url,
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — ${siteConfig.title}`,
-    description:
-      "Premium websites, mobile apps, APIs, and product platforms engineered from interface to infrastructure.",
-    images: [
-      {
-        url: "/images/quorestack-hero-poster.jpg",
-        width: 1536,
-        height: 1024,
-        alt: `${siteConfig.author} — ${siteConfig.title}`,
-      },
-    ],
+    title: defaultTitle,
+    description: defaultDescription,
+    images: [defaultOgImage],
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@idrisadebayoiaq",
-    title: `${siteConfig.name} — ${siteConfig.title}`,
-    description:
-      "Premium websites, mobile apps, APIs, and product platforms.",
-    images: ["/images/quorestack-hero-poster.jpg"],
+    title: defaultTitle,
+    description: defaultDescription,
+    images: [defaultOgImage.url],
   },
   robots: {
     index: true,
@@ -74,11 +69,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { socials } = await getContactChannels();
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -91,13 +87,13 @@ export default function RootLayout({
       addressLocality: "Osogbo",
       addressCountry: "NG",
     },
-    sameAs: socialLinks.map((social) => social.href),
+    sameAs: socials.map((social) => social.href),
   };
 
   return (
     <html lang="en">
       <body
-        className={`${orbitron.variable} ${rajdhani.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${fraunces.variable} ${sourceSans.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <script
           type="application/ld+json"

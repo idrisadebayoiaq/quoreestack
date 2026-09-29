@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Reveal } from "@/components/animations/Reveal";
-import { SectionHeading } from "@/components/animations/SectionHeading";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { yearsOfExperienceLabel } from "@/lib/experience";
 import { getSiteSetting } from "@/lib/data/content";
@@ -15,63 +14,54 @@ export async function HomeAboutSection() {
   const yearsLabel = yearsOfExperienceLabel();
 
   return (
-    <Reveal>
-      <section
-        id="about"
-        className="border-y border-[var(--border-glow)] bg-[var(--bg-glass)]"
-      >
-        <div className="mx-auto max-w-6xl px-4 py-24 md:px-6">
-          <SectionHeading
-            index={2}
-            eyebrow="About"
-            title={`Meet ${siteConfig.author.split(" ")[0]}`}
-          />
-          <div className="grid items-center gap-10 md:grid-cols-[0.85fr_1.15fr]">
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden border border-[var(--border-glow)]/70">
-              <Image
-                src="/images/quoreeb-adebayo.png"
-                alt={`${siteConfig.author}, Full Stack Developer`}
-                fill
-                sizes="(min-width: 768px) 32vw, 90vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#080c14] via-transparent to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <p className="font-display text-xl text-white">
-                  {siteConfig.author}
-                </p>
-                <p className="font-mono-label mt-1 text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
-                  {siteConfig.title}
-                </p>
-              </div>
-            </div>
+    <section id="about" className="mx-auto max-w-6xl px-4 py-24 md:px-6">
+      <Reveal>
+        <div className="grid items-center gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[var(--radius)] bg-[var(--bg-secondary)]">
+            <Image
+              src="/images/quoreeb-adebayo.png"
+              alt={`${siteConfig.author}, ${siteConfig.title}`}
+              fill
+              sizes="(min-width: 768px) 384px, 90vw"
+              className="object-cover"
+            />
+          </div>
 
-            <div>
-              <p className="text-lg leading-8 text-[var(--text-muted)]">
-                {about?.bio ??
-                  `I am ${siteConfig.author}, a Full Stack Developer building web platforms, Android apps, and backend systems that ship.`}
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <span className="font-mono-label rounded-sm border border-[var(--border-glow)] px-3 py-2 text-xs uppercase tracking-wider text-[var(--text-muted)]">
-                  {about?.location ?? "Osogbo, Nigeria · Remote worldwide"}
-                </span>
-                <span className="font-mono-label rounded-sm border border-[var(--neon-cyan)]/40 px-3 py-2 text-xs uppercase tracking-wider text-[var(--neon-cyan)]">
-                  {yearsLabel} years experience
-                </span>
-                <span className="font-mono-label rounded-sm border border-[var(--neon-green)]/40 px-3 py-2 text-xs uppercase tracking-wider text-[var(--neon-green)]">
-                  {about?.availability ?? "Open for projects"}
-                </span>
+          <div>
+            <p className="font-mono-label mb-4 text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
+              Who you&apos;ll work with
+            </p>
+            <h2 className="font-display text-3xl text-[var(--text-strong)] md:text-5xl">
+              {siteConfig.author}
+            </h2>
+            <p className="mt-6 text-lg leading-8 text-[var(--text-body)]">
+              {about?.bio ??
+                `I am ${siteConfig.author}, a full stack developer building websites, Android apps, and backend systems that ship.`}
+            </p>
+            <dl className="mt-8 grid grid-cols-2 gap-6 border-t border-[var(--line)] pt-6 sm:grid-cols-3">
+              <div>
+                <dt className="text-sm text-[var(--text-muted)]">Based in</dt>
+                <dd className="mt-1 font-semibold text-[var(--text-strong)]">
+                  {about?.location?.split("·")[0]?.trim() || "Osogbo, Nigeria"}
+                </dd>
               </div>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <NeonButton href="/start">Work with me</NeonButton>
-                <NeonButton href="/about" variant="secondary">
-                  Full profile
-                </NeonButton>
+              <div>
+                <dt className="text-sm text-[var(--text-muted)]">Experience</dt>
+                <dd className="mt-1 font-semibold text-[var(--text-strong)]">{yearsLabel} years</dd>
               </div>
+              <div>
+                <dt className="text-sm text-[var(--text-muted)]">Works with</dt>
+                <dd className="mt-1 font-semibold text-[var(--text-strong)]">Clients worldwide</dd>
+              </div>
+            </dl>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <NeonButton href="/about" variant="secondary">
+                More about me
+              </NeonButton>
             </div>
           </div>
         </div>
-      </section>
-    </Reveal>
+      </Reveal>
+    </section>
   );
 }

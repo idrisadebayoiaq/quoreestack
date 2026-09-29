@@ -21,7 +21,7 @@ export default async function LoginPage({ searchParams }: Props) {
 
   return (
     <GlowCard className="w-full">
-      <h1 className="font-display mb-2 text-2xl font-bold text-white">{title}</h1>
+      <h1 className="font-display mb-2 text-2xl font-bold text-[var(--text-strong)]">{title}</h1>
       <p className="mb-6 text-sm text-[var(--text-muted)]">{description}</p>
       <Suspense
         fallback={

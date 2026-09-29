@@ -13,13 +13,13 @@ type NeonButtonProps = {
 
 const variants = {
   primary:
-    "bg-[var(--neon-cyan)] text-[var(--bg-primary)] shadow-[var(--glow-md)] hover:brightness-110",
+    "bg-[var(--neon-cyan)] text-[var(--on-accent)] shadow-[var(--glow-sm)] hover:brightness-110",
   secondary:
-    "border border-[var(--neon-cyan)] bg-transparent text-[var(--neon-cyan)] hover:bg-[var(--neon-cyan)]/10",
+    "border border-[var(--line-strong)] bg-transparent text-[var(--text-strong)] hover:border-[var(--text-strong)]",
   ghost:
-    "bg-transparent text-[var(--text-primary)] underline-offset-4 hover:underline hover:text-[var(--neon-cyan)]",
+    "bg-transparent px-2 text-[var(--text-strong)] underline decoration-[var(--line-strong)] underline-offset-[6px] hover:decoration-[var(--neon-cyan)]",
   danger:
-    "border border-[var(--neon-magenta)] bg-[var(--neon-magenta)]/15 text-[var(--neon-magenta)] hover:bg-[var(--neon-magenta)]/25",
+    "border border-[var(--danger)]/50 bg-[var(--danger)]/10 text-[var(--danger)] hover:bg-[var(--danger)]/20",
 };
 
 export function NeonButton({
@@ -32,7 +32,7 @@ export function NeonButton({
   disabled,
 }: NeonButtonProps) {
   const classes = cn(
-    "font-mono-label inline-flex items-center justify-center gap-2 rounded-sm px-5 py-2.5 text-sm font-semibold uppercase tracking-wider transition disabled:opacity-50",
+    "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-[15px] font-semibold transition disabled:opacity-50",
     variants[variant],
     className,
   );

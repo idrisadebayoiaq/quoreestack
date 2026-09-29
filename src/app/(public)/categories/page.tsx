@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import {
@@ -7,6 +9,13 @@ import {
 import { GlowCard } from "@/components/ui/GlowCard";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { getPublishedCategories } from "@/lib/data/content";
+
+export const metadata: Metadata = pageMetadata({
+  path: "/categories",
+  title: "Domains",
+  description: "Browse work by domain: e-commerce, mobile apps, dashboards, and backends.",
+});
+
 
 export const revalidate = 60;
 
@@ -43,7 +52,7 @@ export default async function CategoriesPage() {
             </div>
           ) : (
             <div className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center">
-              <p className="font-display text-xl text-white">Categories coming soon</p>
+              <p className="font-display text-xl text-[var(--text-strong)]">Categories coming soon</p>
               <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-[var(--text-muted)]">
                 Domain filters will appear here. Browse projects directly or start a brief.
               </p>
@@ -66,7 +75,7 @@ export default async function CategoriesPage() {
               <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.3em] text-[var(--neon-magenta)]">
                 Featured
               </p>
-              <h3 className="font-display mb-3 text-3xl text-white">{featured.name}</h3>
+              <h3 className="font-display mb-3 text-3xl text-[var(--text-strong)]">{featured.name}</h3>
               <p className="max-w-2xl text-[var(--text-muted)]">
                 {featured.long_description ?? featured.short_description}
               </p>
@@ -92,7 +101,7 @@ export default async function CategoriesPage() {
                 data-cursor="hover"
                 className="flex items-center justify-between rounded-sm border border-[var(--border-glow)] bg-[var(--bg-glass)] px-4 py-3 backdrop-blur-md transition hover:-translate-y-1 hover:border-[var(--neon-cyan)]"
               >
-                <span className="font-display text-white">{category.name}</span>
+                <span className="font-display text-[var(--text-strong)]">{category.name}</span>
                 <span className="font-mono-label text-xs text-[var(--neon-cyan)]">
                   View →
                 </span>

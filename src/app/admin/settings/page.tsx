@@ -11,7 +11,7 @@ export default async function SettingsPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-7">
       <div><p className="text-xs uppercase tracking-widest text-[var(--neon-cyan)]">Configuration</p><h1 className="font-display mt-2 text-3xl">Site settings</h1><p className="mt-2 text-sm text-[var(--text-muted)]">Values are stored as JSON. Changes may affect the public site immediately.</p></div>
-      {error ? <p className="text-red-300">{error.message}</p> : null}
+      {error ? <p className="text-[var(--danger)]">{error.message}</p> : null}
       <section className="grid gap-5 lg:grid-cols-2">
         {data?.map((setting) => (
           <div key={setting.id} className="relative">

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,15 +20,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const step = getProcessStep(slug);
   if (!step) return { title: "Process not found" };
 
-  return {
+  return pageMetadata({
+    path: `/process/${step.slug}`,
     title: `${step.title} — My Process`,
     description: step.summary,
-    openGraph: {
-      title: `${step.title} | QuoreStack Process`,
-      description: step.summary,
-      images: [{ url: step.image, alt: `${step.title} process` }],
-    },
-  };
+    image: step.image,
+  });
 }
 
 export default async function ProcessDetailPage({ params }: Props) {
@@ -41,16 +39,16 @@ export default async function ProcessDetailPage({ params }: Props) {
 
   return (
     <main>
-      <section className="relative min-h-[70vh] overflow-hidden border-b border-[var(--border-glow)]">
+      <section className="surface-dark relative min-h-[70vh] overflow-hidden">
         <Image
           src={step.image}
           alt=""
           fill
           priority
-          sizes="100vw"
+          sizes="(min-width: 1536px) 1536px, 100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050810] via-[#050810]/88 to-[#050810]/35" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--scrim)] via-[var(--scrim)]/88 to-[var(--scrim)]/35" />
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-transparent to-black/20" />
 
         <div className="relative z-10 mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-end px-4 pb-16 pt-28 md:px-6">
@@ -63,10 +61,10 @@ export default async function ProcessDetailPage({ params }: Props) {
           <p className="font-mono-label text-xs uppercase tracking-[0.35em] text-[var(--neon-cyan)]">
             Process 0{index + 1}
           </p>
-          <h1 className="font-display mt-4 max-w-3xl text-4xl font-bold text-white md:text-6xl">
+          <h1 className="font-display mt-4 max-w-3xl text-4xl font-bold text-[var(--text-strong)] md:text-6xl">
             {step.title}
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--text-body)]">
             {step.summary}
           </p>
         </div>
@@ -96,7 +94,7 @@ export default async function ProcessDetailPage({ params }: Props) {
                       <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--neon-cyan)]">
                         Step 0{i + 1}
                       </p>
-                      <p className="mt-2 text-lg text-white">{item}</p>
+                      <p className="mt-2 text-lg text-[var(--text-strong)]">{item}</p>
                     </div>
                   </Reveal>
                 ))}
@@ -112,7 +110,7 @@ export default async function ProcessDetailPage({ params }: Props) {
               {step.deliverables.map((item) => (
                 <li
                   key={item}
-                  className="border-b border-white/5 pb-3 text-sm text-[var(--text-muted)] last:border-0"
+                  className="border-b border-[var(--line)] pb-3 text-sm text-[var(--text-muted)] last:border-0"
                 >
                   {item}
                 </li>
@@ -137,7 +135,7 @@ export default async function ProcessDetailPage({ params }: Props) {
                 <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--text-muted)]">
                   Previous
                 </p>
-                <p className="font-display mt-2 flex items-center gap-2 text-2xl text-white">
+                <p className="font-display mt-2 flex items-center gap-2 text-2xl text-[var(--text-strong)]">
                   <ArrowLeft className="size-5 text-[var(--neon-cyan)] transition group-hover:-translate-x-1" />
                   {previous.title}
                 </p>
@@ -153,7 +151,7 @@ export default async function ProcessDetailPage({ params }: Props) {
                 <p className="font-mono-label text-[10px] uppercase tracking-widest text-[var(--text-muted)]">
                   Next
                 </p>
-                <p className="font-display mt-2 flex items-center justify-end gap-2 text-2xl text-white">
+                <p className="font-display mt-2 flex items-center justify-end gap-2 text-2xl text-[var(--text-strong)]">
                   {next.title}
                   <ArrowRight className="size-5 text-[var(--neon-cyan)] transition group-hover:translate-x-1" />
                 </p>

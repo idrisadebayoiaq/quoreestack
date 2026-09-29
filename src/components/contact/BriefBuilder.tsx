@@ -153,7 +153,7 @@ export function BriefBuilder({ packages }: { packages: EngagementPackage[] }) {
           <div
             key={index}
             className={`h-1 flex-1 rounded-full ${
-              index <= step ? "bg-[var(--neon-cyan)]" : "bg-white/10"
+              index <= step ? "bg-[var(--neon-cyan)]" : "bg-[var(--line-strong)]"
             }`}
           />
         ))}
@@ -162,7 +162,7 @@ export function BriefBuilder({ packages }: { packages: EngagementPackage[] }) {
       {step === 0 ? (
         <div className="space-y-8">
           <div>
-            <h2 className="font-display text-2xl text-white">What do you want to build?</h2>
+            <h2 className="font-display text-2xl text-[var(--text-strong)]">What do you want to build?</h2>
             <p className="mt-2 text-sm text-[var(--text-muted)]">
               Pick a goal or an engagement package to get started.
             </p>
@@ -206,7 +206,7 @@ export function BriefBuilder({ packages }: { packages: EngagementPackage[] }) {
                         : "border-[var(--border-glow)] hover:border-[var(--neon-cyan)]/40"
                     }`}
                   >
-                    <p className="font-display text-white">{item.name}</p>
+                    <p className="font-display text-[var(--text-strong)]">{item.name}</p>
                     <p className="mt-2 text-xs text-[var(--text-muted)]">{item.timeline}</p>
                   </button>
                 ))}
@@ -219,7 +219,7 @@ export function BriefBuilder({ packages }: { packages: EngagementPackage[] }) {
       {step === 1 ? (
         <div className="space-y-8">
           <div>
-            <h2 className="font-display text-2xl text-white">Budget & timeline</h2>
+            <h2 className="font-display text-2xl text-[var(--text-strong)]">Budget & timeline</h2>
             <p className="mt-2 text-sm text-[var(--text-muted)]">
               This helps me propose a realistic scope.
             </p>
@@ -272,7 +272,7 @@ export function BriefBuilder({ packages }: { packages: EngagementPackage[] }) {
       {step === 2 ? (
         <div className="space-y-6">
           <div>
-            <h2 className="font-display text-2xl text-white">Project details</h2>
+            <h2 className="font-display text-2xl text-[var(--text-strong)]">Project details</h2>
             <p className="mt-2 text-sm text-[var(--text-muted)]">
               Share features, users, constraints, or links to references.
             </p>
@@ -283,7 +283,7 @@ export function BriefBuilder({ packages }: { packages: EngagementPackage[] }) {
               setBrief((current) => ({ ...current, details: event.target.value }))
             }
             rows={8}
-            className="w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14]/90 px-4 py-3 text-white outline-none focus:border-[var(--neon-cyan)]"
+            className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-4 py-3 text-[var(--text-strong)] outline-none focus:border-[var(--neon-cyan)]"
             placeholder="Example: I need an Android app for appointment booking with admin dashboard and WhatsApp notifications..."
           />
         </div>
@@ -294,7 +294,7 @@ export function BriefBuilder({ packages }: { packages: EngagementPackage[] }) {
           <button
             type="button"
             onClick={back}
-            className="font-mono-label inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[var(--text-muted)] hover:text-white"
+            className="font-mono-label inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[var(--text-muted)] hover:text-[var(--text-strong)]"
           >
             <ArrowLeft className="size-4" /> Back
           </button>

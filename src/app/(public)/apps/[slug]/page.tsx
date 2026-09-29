@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import {
@@ -122,16 +123,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     app.tagline ??
     `Explore and securely download ${app.name}.`;
 
-  return {
+  return pageMetadata({
+    path: `/apps/${slug}`,
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      images: app.icon_url ? [{ url: app.icon_url, alt: `${app.name} icon` }] : [],
-    },
-  };
+    image: app.icon_url,
+  });
 }
 
 export default async function AppDetailPage({ params }: Props) {
@@ -218,7 +215,7 @@ export default async function AppDetailPage({ params }: Props) {
       <div className="mx-auto max-w-3xl px-4 pt-6 md:px-6 md:pt-10">
         <Link
           href="/apps"
-          className="inline-flex items-center gap-2 text-sm text-[var(--text-muted)] transition hover:text-white"
+          className="inline-flex items-center gap-2 text-sm text-[var(--text-muted)] transition hover:text-[var(--text-strong)]"
         >
           <ArrowLeft className="size-4" /> Apps
         </Link>
@@ -230,7 +227,7 @@ export default async function AppDetailPage({ params }: Props) {
             <img
               src={app.icon_url}
               alt={`${app.name} icon`}
-              className="size-20 shrink-0 rounded-[1.35rem] border border-white/10 object-cover sm:size-28 sm:rounded-[1.75rem]"
+              className="size-20 shrink-0 rounded-[1.35rem] border border-[var(--line)] object-cover sm:size-28 sm:rounded-[1.75rem]"
             />
           ) : (
             <div className="grid size-20 shrink-0 place-items-center rounded-[1.35rem] bg-[var(--neon-cyan)]/10 sm:size-28 sm:rounded-[1.75rem]">
@@ -238,7 +235,7 @@ export default async function AppDetailPage({ params }: Props) {
             </div>
           )}
           <div className="min-w-0 flex-1">
-            <h1 className="font-display text-2xl leading-tight text-white sm:text-4xl">
+            <h1 className="font-display text-2xl leading-tight text-[var(--text-strong)] sm:text-4xl">
               {app.name}
             </h1>
             <p className="mt-1 text-sm font-medium text-[var(--neon-cyan)] sm:text-base">
@@ -256,15 +253,15 @@ export default async function AppDetailPage({ params }: Props) {
         </section>
 
         {/* Stats row like Play Store */}
-        <section className="mt-6 grid grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/8 bg-white/[0.03] py-4">
+        <section className="mt-6 grid grid-cols-3 divide-x divide-[var(--line)] rounded-2xl border border-[var(--line)] bg-white/[0.03] py-4">
           <div className="px-3 text-center">
-            <p className="text-sm font-semibold text-white">Free</p>
+            <p className="text-sm font-semibold text-[var(--text-strong)]">Free</p>
             <p className="mt-1 text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
               Price
             </p>
           </div>
           <div className="px-3 text-center">
-            <p className="text-sm font-semibold text-white">
+            <p className="text-sm font-semibold text-[var(--text-strong)]">
               {displaySize ?? "—"}
             </p>
             <p className="mt-1 text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
@@ -272,7 +269,7 @@ export default async function AppDetailPage({ params }: Props) {
             </p>
           </div>
           <div className="px-3 text-center">
-            <p className="text-sm font-semibold text-white">
+            <p className="text-sm font-semibold text-[var(--text-strong)]">
               {displayVersion ?? "—"}
             </p>
             <p className="mt-1 text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
@@ -292,7 +289,7 @@ export default async function AppDetailPage({ params }: Props) {
           />
           <Link
             href={`/start?app=${encodeURIComponent(app.slug)}&service=mobile-android`}
-            className="inline-flex size-11 items-center justify-center rounded-full border border-white/10 text-[var(--text-muted)] transition hover:border-[var(--neon-cyan)]/40 hover:text-white"
+            className="inline-flex size-11 items-center justify-center rounded-full border border-[var(--line)] text-[var(--text-muted)] transition hover:border-[var(--neon-cyan)]/40 hover:text-[var(--text-strong)]"
             aria-label="Share interest / commission similar app"
           >
             <Share2 className="size-4" />
@@ -302,7 +299,7 @@ export default async function AppDetailPage({ params }: Props) {
         <ScreenshotGallery appName={app.name} screenshots={screenshots} />
 
         {!screenshots.length ? (
-          <p className="mt-8 rounded-2xl border border-dashed border-white/10 px-4 py-8 text-center text-sm text-[var(--text-muted)]">
+          <p className="mt-8 rounded-2xl border border-dashed border-[var(--line)] px-4 py-8 text-center text-sm text-[var(--text-muted)]">
             Screenshots will appear here once uploaded in Admin → Apps.
           </p>
         ) : null}
@@ -310,8 +307,8 @@ export default async function AppDetailPage({ params }: Props) {
         <ExpandableAbout text={aboutText} />
 
         {latestVersion?.changelog ? (
-          <section className="border-b border-white/8 py-8">
-            <h2 className="font-display text-xl text-white md:text-2xl">What&apos;s new</h2>
+          <section className="border-b border-[var(--line)] py-8">
+            <h2 className="font-display text-xl text-[var(--text-strong)] md:text-2xl">What&apos;s new</h2>
             <p className="mt-2 text-xs text-[var(--text-muted)]">
               Version {displayVersion ?? latestVersion?.version ?? "—"}
               {updatedLabel !== "—" ? ` · Updated ${updatedLabel}` : ""}
@@ -323,14 +320,14 @@ export default async function AppDetailPage({ params }: Props) {
         ) : null}
 
         {features.length ? (
-          <section className="border-b border-white/8 py-8">
-            <h2 className="font-display text-xl text-white md:text-2xl">Features</h2>
+          <section className="border-b border-[var(--line)] py-8">
+            <h2 className="font-display text-xl text-[var(--text-strong)] md:text-2xl">Features</h2>
             <ul className="mt-5 space-y-3">
               {features.map((feature, index) => (
                 <li key={`${feature.title}-${index}`} className="flex gap-3">
                   <Check className="mt-0.5 size-4 shrink-0 text-[var(--neon-cyan)]" />
                   <div>
-                    <p className="text-sm font-medium text-white">{feature.title}</p>
+                    <p className="text-sm font-medium text-[var(--text-strong)]">{feature.title}</p>
                     {feature.description ? (
                       <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">
                         {feature.description}
@@ -343,8 +340,8 @@ export default async function AppDetailPage({ params }: Props) {
           </section>
         ) : null}
 
-        <section className="border-b border-white/8 py-8">
-          <h2 className="font-display mb-5 text-xl text-white md:text-2xl">App info</h2>
+        <section className="border-b border-[var(--line)] py-8">
+          <h2 className="font-display mb-5 text-xl text-[var(--text-strong)] md:text-2xl">App info</h2>
           <dl className="grid gap-4 sm:grid-cols-2">
             {[
               { label: "Version", value: displayVersion ?? "—" },
@@ -357,7 +354,7 @@ export default async function AppDetailPage({ params }: Props) {
                 <dt className="text-[11px] uppercase tracking-wider text-[var(--text-muted)]">
                   {item.label}
                 </dt>
-                <dd className="mt-1 text-sm text-white">{item.value}</dd>
+                <dd className="mt-1 text-sm text-[var(--text-strong)]">{item.value}</dd>
               </div>
             ))}
           </dl>
@@ -366,7 +363,7 @@ export default async function AppDetailPage({ params }: Props) {
               {app.tech_stack?.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-full border border-white/10 px-3 py-1 text-xs text-[var(--text-muted)]"
+                  className="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--text-muted)]"
                 >
                   {tech}
                 </span>
@@ -375,11 +372,11 @@ export default async function AppDetailPage({ params }: Props) {
           ) : null}
         </section>
 
-        <section className="border-b border-white/8 py-8">
-          <div className="flex items-start gap-3 rounded-2xl border border-white/8 bg-white/[0.03] p-4">
+        <section className="border-b border-[var(--line)] py-8">
+          <div className="flex items-start gap-3 rounded-2xl border border-[var(--line)] bg-white/[0.03] p-4">
             <Info className="mt-0.5 size-5 shrink-0 text-[var(--neon-cyan)]" />
             <div>
-              <h2 className="text-sm font-semibold text-white">Safe install</h2>
+              <h2 className="text-sm font-semibold text-[var(--text-strong)]">Safe install</h2>
               <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">
                 Downloads come from QuoreStack storage or a verified Expo build link.
                 Android may ask you to allow installs from your browser.
@@ -389,7 +386,7 @@ export default async function AppDetailPage({ params }: Props) {
         </section>
 
         <section className="py-10 text-center">
-          <h2 className="font-display text-2xl text-white">Need a custom build?</h2>
+          <h2 className="font-display text-2xl text-[var(--text-strong)]">Need a custom build?</h2>
           <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-[var(--text-muted)]">
             Commission an Android app like {app.name} — scoped, built, and launched with you.
           </p>
@@ -405,7 +402,7 @@ export default async function AppDetailPage({ params }: Props) {
 
         {relatedApps?.length ? (
           <section className="pb-10">
-            <h2 className="font-display mb-5 text-xl text-white md:text-2xl">Similar apps</h2>
+            <h2 className="font-display mb-5 text-xl text-[var(--text-strong)] md:text-2xl">Similar apps</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               {relatedApps.map((relatedApp) => (
                 <AppCard key={relatedApp.id} app={relatedApp} />
@@ -416,7 +413,7 @@ export default async function AppDetailPage({ params }: Props) {
       </div>
 
       {/* Sticky mobile install bar */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#070b12]/95 px-4 py-3 backdrop-blur md:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--line)] bg-[var(--bg-primary)]/95 px-4 py-3 backdrop-blur md:hidden">
         <DownloadButton
           slug={app.slug}
           version={displayVersion}

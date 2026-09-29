@@ -47,16 +47,16 @@ function ReviewPreview({
           />
         ))}
       </div>
-      <p className="flex-1 text-sm leading-6 text-slate-200">“{preview}”</p>
-      <div className="mt-4 flex items-center gap-3 border-t border-white/5 pt-4">
+      <p className="flex-1 text-sm leading-6 text-[var(--text-body)]">“{preview}”</p>
+      <div className="mt-4 flex items-center gap-3 border-t border-[var(--line)] pt-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={avatarFor(item)}
           alt=""
-          className="size-10 rounded-full border border-[var(--border-glow)] object-cover bg-[#0c1220]"
+          className="size-10 rounded-full border border-[var(--border-glow)] object-cover bg-[var(--bg-secondary)]"
         />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium text-white">
+          <p className="truncate text-sm font-medium text-[var(--text-strong)]">
             {item.author_name}
           </p>
           <p className="truncate text-xs text-[var(--text-muted)]">
@@ -84,7 +84,7 @@ function ReviewDetails({ item }: { item: Testimonial }) {
     <div className="mt-6 overflow-hidden border border-[var(--neon-cyan)]/35 bg-[var(--bg-secondary)]/80 shadow-[var(--glow-sm)]">
       <div className="grid md:grid-cols-[minmax(0,0.9fr)_1.1fr]">
         {item.image_url ? (
-          <div className="relative min-h-[200px] border-b border-white/5 md:border-b-0 md:border-r">
+          <div className="relative min-h-[200px] border-b border-[var(--line)] md:border-b-0 md:border-r">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={item.image_url}
@@ -105,18 +105,18 @@ function ReviewDetails({ item }: { item: Testimonial }) {
               />
             ))}
           </div>
-          <blockquote className="text-lg leading-8 text-slate-100 md:text-xl">
+          <blockquote className="text-lg leading-8 text-[var(--text-body)] md:text-xl">
             “{item.quote}”
           </blockquote>
-          <div className="mt-6 flex items-center gap-4 border-t border-white/5 pt-5">
+          <div className="mt-6 flex items-center gap-4 border-t border-[var(--line)] pt-5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={avatarFor(item)}
               alt=""
-              className="size-14 rounded-full border border-[var(--border-glow)] object-cover bg-[#0c1220]"
+              className="size-14 rounded-full border border-[var(--border-glow)] object-cover bg-[var(--bg-secondary)]"
             />
             <div>
-              <p className="font-display text-lg text-white">
+              <p className="font-display text-lg text-[var(--text-strong)]">
                 {item.author_name}
               </p>
               <p className="text-sm text-[var(--text-muted)]">

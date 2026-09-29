@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { siteConfig } from "@/lib/utils";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/faq",
   title: "FAQ",
   description: `Common questions about working with ${siteConfig.author} and QuoreStack.`,
-};
+});
 
 export const revalidate = 60;
 
@@ -52,7 +54,7 @@ export default function FaqPage() {
           <p className="font-mono-label mb-4 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
             FAQ
           </p>
-          <h1 className="font-display text-4xl text-white md:text-6xl">
+          <h1 className="font-display text-4xl text-[var(--text-strong)] md:text-6xl">
             Answers before the kickoff
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-muted)]">
@@ -68,7 +70,7 @@ export default function FaqPage() {
           <div className="mt-4 divide-y divide-[var(--border-glow)] border-y border-[var(--border-glow)]">
             {faqs.map((faq) => (
               <details key={faq.question} className="group py-5">
-                <summary className="font-display flex cursor-pointer list-none items-center justify-between gap-6 text-lg text-white">
+                <summary className="font-display flex cursor-pointer list-none items-center justify-between gap-6 text-lg text-[var(--text-strong)]">
                   {faq.question}
                   <span className="font-mono-label text-[var(--neon-cyan)] transition group-open:rotate-45">
                     +
@@ -84,7 +86,7 @@ export default function FaqPage() {
       </Reveal>
 
       <section className="mx-auto max-w-4xl px-4 pb-24 text-center md:px-6">
-        <p className="font-display text-2xl text-white">Still have a question?</p>
+        <p className="font-display text-2xl text-[var(--text-strong)]">Still have a question?</p>
         <p className="mt-3 text-[var(--text-muted)]">
           Send a note — I&apos;ll reply with practical next steps.
         </p>

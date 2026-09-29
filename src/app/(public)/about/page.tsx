@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
@@ -6,6 +8,13 @@ import { NeonButton } from "@/components/ui/NeonButton";
 import { yearsOfExperienceLabel } from "@/lib/experience";
 import { siteConfig } from "@/lib/utils";
 import { getSiteSetting } from "@/lib/data/content";
+
+export const metadata: Metadata = pageMetadata({
+  path: "/about",
+  title: "About",
+  description: "Quoreeb Adebayo — full stack developer in Osogbo, Nigeria, working with clients worldwide.",
+});
+
 
 const journey = [
   {
@@ -102,9 +111,9 @@ export default async function AboutPage() {
                   sizes="(min-width: 768px) 36vw, 100vw"
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#080c14] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--scrim)] via-transparent to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-5 text-left">
-                  <p className="font-display text-xl text-white">
+                  <p className="font-display text-xl text-[var(--text-strong)]">
                     {siteConfig.author}
                   </p>
                   <p className="font-mono-label mt-1 text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
@@ -150,7 +159,7 @@ export default async function AboutPage() {
                 <p className="font-mono-label text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
                   {item.year}
                 </p>
-                <h3 className="font-display mt-1 text-xl text-white">
+                <h3 className="font-display mt-1 text-xl text-[var(--text-strong)]">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-[var(--text-muted)]">{item.text}</p>
@@ -166,7 +175,7 @@ export default async function AboutPage() {
           <div className="grid gap-6 md:grid-cols-2">
             {skillGroups.map((group) => (
               <GlowCard key={group.name}>
-                <h3 className="font-display mb-4 text-lg text-white">
+                <h3 className="font-display mb-4 text-lg text-[var(--text-strong)]">
                   {group.name}
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -209,7 +218,7 @@ export default async function AboutPage() {
           <div className="grid gap-6 md:grid-cols-3">
             {values.map((item) => (
               <GlowCard key={item.title} hoverAccent="magenta">
-                <h3 className="font-display mb-2 text-xl text-white">
+                <h3 className="font-display mb-2 text-xl text-[var(--text-strong)]">
                   {item.title}
                 </h3>
                 <p className="text-[var(--text-muted)]">{item.text}</p>

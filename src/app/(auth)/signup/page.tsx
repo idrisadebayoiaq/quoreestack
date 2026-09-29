@@ -6,7 +6,7 @@ import { SignupForm } from "@/components/auth/SignupForm";
 export default function SignupPage() {
   return (
     <GlowCard className="w-full">
-      <h1 className="font-display mb-2 text-2xl font-bold text-white">
+      <h1 className="font-display mb-2 text-2xl font-bold text-[var(--text-strong)]">
         Sign up
       </h1>
       <p className="mb-6 text-sm text-[var(--text-muted)]">

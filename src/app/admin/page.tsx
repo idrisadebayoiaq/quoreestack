@@ -29,7 +29,7 @@ export default async function AdminPage() {
     <div className="mx-auto max-w-7xl space-y-8">
       <div>
         <p className="font-mono-label text-xs uppercase tracking-[0.25em] text-[var(--neon-cyan)]">System overview</p>
-        <h1 className="font-display mt-2 text-3xl text-white">Dashboard</h1>
+        <h1 className="font-display mt-2 text-3xl text-[var(--text-strong)]">Dashboard</h1>
       </div>
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {counts.map((item) => (
@@ -47,8 +47,8 @@ export default async function AdminPage() {
           </div>
           <div className="space-y-3">
             {contacts?.map((contact) => (
-              <div key={contact.id} className="flex justify-between gap-4 border-b border-white/5 pb-3 text-sm">
-                <div><p className="text-white">{contact.name}</p><p className="text-[var(--text-muted)]">{contact.subject || "No subject"}</p></div>
+              <div key={contact.id} className="flex justify-between gap-4 border-b border-[var(--line)] pb-3 text-sm">
+                <div><p className="text-[var(--text-strong)]">{contact.name}</p><p className="text-[var(--text-muted)]">{contact.subject || "No subject"}</p></div>
                 {!contact.is_read ? <span className="text-xs text-[var(--neon-green)]">NEW</span> : null}
               </div>
             ))}
@@ -62,7 +62,7 @@ export default async function AdminPage() {
           </div>
           <div className="space-y-3">
             {downloads?.map((download) => (
-              <div key={download.id} className="flex justify-between border-b border-white/5 pb-3 text-sm">
+              <div key={download.id} className="flex justify-between border-b border-[var(--line)] pb-3 text-sm">
                 <span className="text-[var(--text-muted)]">App {download.app_id.slice(0, 8)}</span>
                 <time>{new Date(download.created_at).toLocaleDateString()}</time>
               </div>

@@ -15,24 +15,21 @@ export function GlowCard({
   hoverAccent = "cyan",
 }: GlowCardProps) {
   const classes = cn(
-    "hud-corners group relative block overflow-hidden rounded-sm border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 backdrop-blur-md transition duration-300 ease-out",
-    "hover:-translate-y-1 hover:border-[var(--neon-cyan)]/60",
-    hoverAccent === "magenta" && "hover:border-[var(--neon-magenta)]/50",
-    "hover:shadow-[var(--glow-sm)]",
+    "hud-corners group relative block overflow-hidden rounded-sm border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 transition duration-300 ease-out",
+    href && "hover:-translate-y-0.5 hover:shadow-[var(--glow-md)]",
+    href && (hoverAccent === "magenta"
+      ? "hover:border-[var(--neon-magenta)]/50"
+      : "hover:border-[var(--line-strong)]"),
     className,
   );
 
   if (href) {
     return (
-      <Link href={href} data-cursor="hover" className={classes}>
+      <Link href={href} className={classes}>
         {children}
       </Link>
     );
   }
 
-  return (
-    <div data-cursor="hover" className={classes}>
-      {children}
-    </div>
-  );
+  return <div className={classes}>{children}</div>;
 }

@@ -23,7 +23,7 @@ export function BlogCarousel({ blogs }: { blogs: Blog[] }) {
   if (!blogs.length) {
     return (
       <div className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center">
-        <p className="font-display text-xl text-white">No posts published yet</p>
+        <p className="font-display text-xl text-[var(--text-strong)]">No posts published yet</p>
         <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-[var(--text-muted)]">
           Articles on shipping web, mobile, and API products will land here. In the
           meantime, browse the work or start a brief.
@@ -94,7 +94,7 @@ export function BlogCarousel({ blogs }: { blogs: Blog[] }) {
               className={`h-2 w-2 rounded-full transition ${
                 dot === index
                   ? "bg-[var(--neon-cyan)] shadow-[var(--glow-sm)]"
-                  : "bg-white/20"
+                  : "bg-[var(--line-strong)]"
               }`}
             />
           ))}

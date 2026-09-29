@@ -7,8 +7,8 @@ import { inputClass, SubmitButton } from "@/components/admin/ResourceForm";
 import { createClient } from "@/lib/supabase/client";
 
 function Notice({ state }: { state: { error?: string; success?: string } }) {
-  if (state.error) return <p className="text-sm text-red-300">{state.error}</p>;
-  if (state.success) return <p className="text-sm text-green-300">{state.success}</p>;
+  if (state.error) return <p className="text-sm text-[var(--danger)]">{state.error}</p>;
+  if (state.success) return <p className="text-sm text-[var(--neon-green)]">{state.success}</p>;
   return null;
 }
 
@@ -104,7 +104,7 @@ export function VersionForm({ appId }: { appId: string }) {
       <div className="md:col-span-2">
         <button
           disabled={uploading}
-          className="rounded-sm bg-[var(--neon-cyan)] px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-black disabled:opacity-50"
+          className="rounded-sm bg-[var(--neon-cyan)] px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-[var(--on-accent)] disabled:opacity-50"
         >
           {uploading ? "Uploading…" : "Upload version"}
         </button>

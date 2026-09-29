@@ -56,11 +56,11 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           Control center
         </p>
         <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-white">
+          <Link href="/" className="flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-[var(--text-strong)]">
             <Home size={15} /> <span className="hidden sm:inline">Site</span>
           </Link>
           <form action={logoutAction}>
-            <button className="rounded border border-[var(--neon-magenta)] px-3 py-1.5 text-xs uppercase text-[var(--neon-magenta)] hover:bg-[var(--neon-magenta)] hover:text-black">
+            <button className="rounded border border-[var(--neon-magenta)] px-3 py-1.5 text-xs uppercase text-[var(--neon-magenta)] hover:bg-[var(--neon-magenta)] hover:text-[var(--on-accent)]">
               Logout
             </button>
           </form>
@@ -80,7 +80,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         }`}
       >
         <Link href="/admin" className="flex h-16 items-center border-b border-[var(--border-glow)] px-6">
-          <span className="font-display text-lg tracking-wider text-white">
+          <span className="font-display text-lg tracking-wider text-[var(--text-strong)]">
             QUORE<span className="text-[var(--neon-cyan)]">STACK</span>
           </span>
         </Link>
@@ -94,8 +94,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 onClick={() => setOpen(false)}
                 className={`flex items-center gap-3 rounded-sm px-3 py-2.5 text-sm transition ${
                   active
-                    ? "bg-cyan-400/10 text-[var(--neon-cyan)]"
-                    : "text-[var(--text-muted)] hover:bg-white/5 hover:text-white"
+                    ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)]"
+                    : "text-[var(--text-muted)] hover:bg-[var(--line)] hover:text-[var(--text-strong)]"
                 }`}
               >
                 <Icon size={17} /> {label}

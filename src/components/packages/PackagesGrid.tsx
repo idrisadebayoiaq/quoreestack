@@ -1,71 +1,82 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { NeonButton } from "@/components/ui/NeonButton";
+import { cn } from "@/lib/utils";
 import type { EngagementPackage } from "@/lib/packages";
 
 export function PackagesGrid({
   packages,
-  eyebrow = "Engagements",
+  eyebrow = "Pricing",
   title = "Clear ways to work together",
+  bare = false,
 }: {
   packages: EngagementPackage[];
   eyebrow?: string;
   title?: string;
+  /** Render only the cards, for pages that supply their own heading. */
+  bare?: boolean;
 }) {
   if (!packages.length) return null;
 
+  const grid = (
+    <div className="grid gap-6 lg:grid-cols-3">
+      {packages.map((item) => (
+        <article
+          key={item.slug}
+          className={cn(
+            "flex h-full flex-col rounded-[var(--radius)] border p-7",
+            item.featured
+              ? "surface-dark border-transparent"
+              : "border-[var(--line)] bg-[var(--bg-secondary)]",
+          )}
+        >
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="font-display text-2xl text-[var(--text-strong)]">{item.name}</h3>
+            {item.featured ? (
+              <span className="rounded-full bg-[var(--neon-cyan)] px-2.5 py-0.5 text-xs font-semibold text-[var(--on-accent)]">
+                Most requested
+              </span>
+            ) : null}
+          </div>
+          <p className="mt-3 leading-7 text-[var(--text-muted)]">{item.summary}</p>
+          <p className="font-display mt-7 text-3xl text-[var(--text-strong)]">{item.price}</p>
+          <p className="mt-1 text-sm text-[var(--text-muted)]">{item.timeline}</p>
+          <ul className="mt-7 flex-1 space-y-3 border-t border-[var(--line)] pt-6">
+            {item.includes.map((line) => (
+              <li key={line} className="flex gap-2.5 text-[15px] text-[var(--text-body)]">
+                <Check className="mt-1 size-4 shrink-0 text-[var(--neon-cyan)]" />
+                {line}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8">
+            <NeonButton
+              href={`/start?package=${encodeURIComponent(item.slug)}`}
+              variant={item.featured ? "primary" : "secondary"}
+              className="w-full"
+            >
+              Choose {item.name}
+            </NeonButton>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+
+  if (bare) return grid;
+
   return (
-    <section className="mx-auto max-w-6xl px-4 py-20 md:px-6">
-      <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
+    <section className="mx-auto max-w-6xl px-4 py-24 md:px-6">
+      <p className="font-mono-label mb-4 text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
         {eyebrow}
       </p>
-      <h2 className="font-display mb-10 max-w-2xl text-3xl text-white md:text-4xl">
+      <h2 className="font-display mb-12 max-w-2xl text-3xl text-[var(--text-strong)] md:text-5xl">
         {title}
       </h2>
-      <div className="grid gap-6 lg:grid-cols-3">
-        {packages.map((item) => (
-          <article
-            key={item.slug}
-            className={`flex h-full flex-col border p-6 ${
-              item.featured
-                ? "border-[var(--neon-cyan)]/60 bg-[var(--neon-cyan)]/5"
-                : "border-[var(--border-glow)] bg-[var(--bg-glass)]"
-            }`}
-          >
-            {item.featured ? (
-              <p className="font-mono-label mb-3 text-[10px] uppercase tracking-[0.25em] text-[var(--neon-cyan)]">
-                Most requested
-              </p>
-            ) : null}
-            <h3 className="font-display text-2xl text-white">{item.name}</h3>
-            <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">{item.summary}</p>
-            <p className="mt-6 font-display text-xl text-[var(--neon-cyan)]">{item.price}</p>
-            <p className="font-mono-label mt-1 text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
-              {item.timeline}
-            </p>
-            <ul className="mt-6 flex-1 space-y-3">
-              {item.includes.map((line) => (
-                <li key={line} className="flex gap-2 text-sm text-[var(--text-muted)]">
-                  <Check className="mt-0.5 size-4 shrink-0 text-[var(--neon-green)]" />
-                  {line}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8">
-              <NeonButton
-                href={`/start?package=${encodeURIComponent(item.slug)}`}
-                variant={item.featured ? "primary" : "secondary"}
-                className="w-full"
-              >
-                Choose {item.name}
-              </NeonButton>
-            </div>
-          </article>
-        ))}
-      </div>
-      <p className="mt-8 text-center text-sm text-[var(--text-muted)]">
+      {grid}
+      <p className="mt-8 text-[var(--text-muted)]">
         Not sure which fits?{" "}
-        <Link href="/start" className="text-[var(--neon-cyan)] hover:underline">
+        <Link href="/start" className="font-semibold text-[var(--text-strong)] underline decoration-[var(--line-strong)] underline-offset-4 hover:decoration-[var(--neon-cyan)]">
           Build a project brief
         </Link>{" "}
         in under two minutes.

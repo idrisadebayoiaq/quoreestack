@@ -1,20 +1,21 @@
-import { CyberCursor } from "@/components/animations/CyberCursor";
 import { Footer } from "@/components/layout/Footer";
-import { GridBackground } from "@/components/layout/GridBackground";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { getContactChannels } from "@/lib/data/content";
 
-export default function PublicLayout({
+export default async function PublicLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { whatsapp } = await getContactChannels();
+
   return (
-    <div className="relative flex min-h-screen flex-col">
-      <GridBackground />
-      <CyberCursor />
+    <div className="theme-atelier relative flex min-h-screen flex-col">
       <SiteHeader />
-      <div className="relative z-10 flex flex-1 flex-col">{children}</div>
+      <div className="relative flex flex-1 flex-col">{children}</div>
       <Footer />
+      <WhatsAppButton href={whatsapp} />
     </div>
   );
 }

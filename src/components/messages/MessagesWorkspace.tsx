@@ -245,19 +245,19 @@ export function MessagesWorkspace({
   }
 
   return (
-    <div className="grid h-[min(720px,calc(100vh-8rem))] min-h-[520px] overflow-hidden border border-[var(--border-glow)] bg-[#070b14] lg:grid-cols-[280px_minmax(0,1fr)_280px]">
+    <div className="grid h-[min(720px,calc(100vh-8rem))] min-h-[520px] overflow-hidden border border-[var(--border-glow)] bg-[var(--bg-secondary)] lg:grid-cols-[280px_minmax(0,1fr)_280px]">
       {/* Left: conversation list */}
       <aside className="flex min-h-0 flex-col border-b border-[var(--border-glow)] lg:border-b-0 lg:border-r">
-        <div className="flex items-center justify-between border-b border-white/5 px-4 py-4">
-          <p className="font-display text-lg text-white">All messages</p>
+        <div className="flex items-center justify-between border-b border-[var(--line)] px-4 py-4">
+          <p className="font-display text-lg text-[var(--text-strong)]">All messages</p>
           <Search className="size-4 text-[var(--text-muted)]" />
         </div>
-        <div className="border-b border-white/5 px-3 py-3">
+        <div className="border-b border-[var(--line)] px-3 py-3">
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search conversations"
-            className="w-full rounded-sm border border-[var(--border-glow)] bg-black/30 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-600 focus:border-[var(--neon-cyan)]"
+            className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--bg-secondary)] px-3 py-2 text-sm text-[var(--text-strong)] outline-none placeholder:text-[var(--text-muted)]/70 focus:border-[var(--neon-cyan)]"
           />
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto">
@@ -268,14 +268,14 @@ export function MessagesWorkspace({
                 key={item.id}
                 type="button"
                 onClick={() => selectConversation(item.id)}
-                className={`flex w-full items-start gap-3 border-b border-white/5 px-4 py-3 text-left transition ${
-                  activeItem ? "bg-cyan-400/10" : "hover:bg-white/5"
+                className={`flex w-full items-start gap-3 border-b border-[var(--line)] px-4 py-3 text-left transition ${
+                  activeItem ? "bg-[var(--neon-cyan)]/10" : "hover:bg-[var(--line)]"
                 }`}
               >
                 <Avatar name={displayName(mode === "admin" ? item.profiles : detailProfile)} />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-2">
-                    <p className="truncate text-sm font-semibold text-white">
+                    <p className="truncate text-sm font-semibold text-[var(--text-strong)]">
                       {mode === "admin"
                         ? displayName(item.profiles)
                         : displayName(detailProfile)}
@@ -299,23 +299,23 @@ export function MessagesWorkspace({
           ) : null}
         </div>
         {mode === "user" ? (
-          <form onSubmit={onStartChat} className="space-y-2 border-t border-white/5 p-3">
+          <form onSubmit={onStartChat} className="space-y-2 border-t border-[var(--line)] p-3">
             <input
               name="subject"
               placeholder="Subject (optional)"
-              className="w-full rounded-sm border border-[var(--border-glow)] bg-black/30 px-3 py-2 text-xs text-white outline-none focus:border-[var(--neon-cyan)]"
+              className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--bg-secondary)] px-3 py-2 text-xs text-[var(--text-strong)] outline-none focus:border-[var(--neon-cyan)]"
             />
             <textarea
               name="body"
               required
               rows={3}
               placeholder="Start a new conversation…"
-              className="w-full rounded-sm border border-[var(--border-glow)] bg-black/30 px-3 py-2 text-xs text-white outline-none focus:border-[var(--neon-cyan)]"
+              className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--bg-secondary)] px-3 py-2 text-xs text-[var(--text-strong)] outline-none focus:border-[var(--neon-cyan)]"
             />
             <button
               type="submit"
               disabled={starting || pending}
-              className="font-mono-label inline-flex w-full items-center justify-center gap-2 rounded-sm bg-[var(--neon-cyan)] px-3 py-2 text-xs font-semibold uppercase tracking-wider text-black disabled:opacity-50"
+              className="font-mono-label inline-flex w-full items-center justify-center gap-2 rounded-sm bg-[var(--neon-cyan)] px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[var(--on-accent)] disabled:opacity-50"
             >
               <MessageSquarePlus className="size-3.5" />
               {starting ? "Starting…" : "New chat"}
@@ -328,11 +328,11 @@ export function MessagesWorkspace({
       <section className="flex min-h-0 min-w-0 flex-col border-b border-[var(--border-glow)] lg:border-b-0">
         {active ? (
           <>
-            <header className="flex items-center justify-between gap-3 border-b border-white/5 px-5 py-4">
+            <header className="flex items-center justify-between gap-3 border-b border-[var(--line)] px-5 py-4">
               <div className="flex min-w-0 items-center gap-3">
                 <Avatar name={displayName(mode === "admin" ? active.profiles : detailProfile)} />
                 <div className="min-w-0">
-                  <p className="truncate font-display text-lg text-white">
+                  <p className="truncate font-display text-lg text-[var(--text-strong)]">
                     {mode === "admin"
                       ? displayName(active.profiles)
                       : displayName(detailProfile)}
@@ -377,8 +377,8 @@ export function MessagesWorkspace({
                       <div
                         className={`rounded-sm border px-4 py-3 text-sm leading-6 whitespace-pre-wrap ${
                           mine
-                            ? "border-[var(--neon-cyan)]/40 bg-cyan-400/10 text-white"
-                            : "border-white/10 bg-white/5 text-slate-200"
+                            ? "border-[var(--neon-cyan)]/40 bg-[var(--neon-cyan)]/10 text-[var(--text-strong)]"
+                            : "border-[var(--line)] bg-[var(--line)] text-[var(--text-body)]"
                         }`}
                       >
                         {message.body}
@@ -397,7 +397,7 @@ export function MessagesWorkspace({
 
             <form
               onSubmit={onSend}
-              className="border-t border-white/5 p-4"
+              className="border-t border-[var(--line)] p-4"
               encType="multipart/form-data"
             >
               <textarea
@@ -407,7 +407,7 @@ export function MessagesWorkspace({
                 rows={3}
                 required
                 placeholder="Type a message..."
-                className="w-full rounded-sm border border-[var(--border-glow)] bg-black/30 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-600 focus:border-[var(--neon-cyan)]"
+                className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--bg-secondary)] px-4 py-3 text-sm text-[var(--text-strong)] outline-none placeholder:text-[var(--text-muted)]/70 focus:border-[var(--neon-cyan)]"
               />
               <div className="mt-3 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
@@ -430,7 +430,7 @@ export function MessagesWorkspace({
                 <button
                   type="submit"
                   disabled={pending || !draft.trim()}
-                  className="font-mono-label inline-flex items-center gap-2 rounded-sm bg-[var(--neon-cyan)] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-black disabled:opacity-50"
+                  className="font-mono-label inline-flex items-center gap-2 rounded-sm bg-[var(--neon-cyan)] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[var(--on-accent)] disabled:opacity-50"
                 >
                   <Send className="size-3.5" />
                   Send
@@ -442,7 +442,7 @@ export function MessagesWorkspace({
         ) : (
           <div className="flex flex-1 items-center justify-center p-8 text-center">
             <div>
-              <p className="font-display text-2xl text-white">Select a conversation</p>
+              <p className="font-display text-2xl text-[var(--text-strong)]">Select a conversation</p>
               <p className="mt-2 text-sm text-[var(--text-muted)]">
                 {mode === "user"
                   ? "Start a new chat from the left panel to message QuoreStack."
@@ -455,8 +455,8 @@ export function MessagesWorkspace({
 
       {/* Right: details */}
       <aside className="hidden min-h-0 flex-col overflow-y-auto border-l border-[var(--border-glow)] lg:flex">
-        <div className="border-b border-white/5 px-5 py-4">
-          <p className="font-display text-lg text-white">
+        <div className="border-b border-[var(--line)] px-5 py-4">
+          <p className="font-display text-lg text-[var(--text-strong)]">
             About {displayName(detailProfile)}
           </p>
         </div>
@@ -464,7 +464,7 @@ export function MessagesWorkspace({
           <div className="flex items-center gap-3">
             <Avatar name={displayName(detailProfile)} size="lg" />
             <div>
-              <p className="font-semibold text-white">{displayName(detailProfile)}</p>
+              <p className="font-semibold text-[var(--text-strong)]">{displayName(detailProfile)}</p>
               <p className="text-xs text-[var(--text-muted)]">{detailProfile?.email}</p>
             </div>
           </div>
@@ -523,7 +523,7 @@ function Avatar({
     size === "sm" ? "h-8 w-8 text-[10px]" : size === "lg" ? "h-14 w-14 text-base" : "h-10 w-10 text-xs";
   return (
     <div
-      className={`flex shrink-0 items-center justify-center rounded-full border border-[var(--neon-cyan)]/40 bg-cyan-400/10 font-mono-label text-[var(--neon-cyan)] ${sizeClass}`}
+      className={`flex shrink-0 items-center justify-center rounded-full border border-[var(--neon-cyan)]/40 bg-[var(--neon-cyan)]/10 font-mono-label text-[var(--neon-cyan)] ${sizeClass}`}
     >
       {initials || "QS"}
     </div>
@@ -532,9 +532,9 @@ function Avatar({
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-start justify-between gap-4 border-b border-white/5 pb-3">
+    <div className="flex items-start justify-between gap-4 border-b border-[var(--line)] pb-3">
       <dt className="text-[var(--text-muted)]">{label}</dt>
-      <dd className="max-w-[60%] text-right text-white">{value}</dd>
+      <dd className="max-w-[60%] text-right text-[var(--text-strong)]">{value}</dd>
     </div>
   );
 }

@@ -5,7 +5,20 @@
 > **Backend:** Supabase (`aztmrbygerrqkragsncz`)  
 > **Repo:** `denstore`
 
-This folder contains the complete implementation plan for the QuoreStack portfolio platform — a cyber-realistic full-stack developer portfolio with gated APK downloads, dynamic content, and an admin CMS.
+## Current work: public redesign
+
+The site structure is already built. The next effort is a full visual rebuild plus the content and trust fixes from the September 2026 review. Follow these two documents. Do not restyle from `03` or re-sequence from `07`.
+
+| Doc | Purpose |
+|-----|---------|
+| [09 — Redesign analysis report](./09-redesign-analysis-report.md) | What the review got right, what the code already does, design direction (Atelier), and where Three.js should and should not go |
+| [10 — Redesign implementation plan](./10-redesign-implementation-plan.md) | Step-by-step phases. Start at Phase 0. Do not build until that phase’s checks pass |
+
+Documents `01`–`08` below are the original cyber-realistic build plan. They remain as history for schema, routes, and deployment.
+
+---
+
+This folder also contains the original implementation plan for the QuoreStack portfolio platform — a cyber-realistic full-stack developer portfolio with gated APK downloads, dynamic content, and an admin CMS.
 
 ---
 
@@ -36,16 +49,16 @@ This folder contains the complete implementation plan for the QuoreStack portfol
 | 06 | [Database Schema & Migrations](./06-database-schema-and-migrations.md) | Tables, RLS, storage buckets, SQL migrations |
 | 07 | [Implementation Phases (Start → End)](./07-implementation-phases.md) | **Main timeline — follow this day by day** |
 | 08 | [Testing & Deployment](./08-testing-and-deployment.md) | QA checklist, Vercel deploy, go-live |
+| 09 | [Redesign analysis report](./09-redesign-analysis-report.md) | Review verdict, content gaps, Atelier direction, animation placement |
+| 10 | [Redesign implementation plan](./10-redesign-implementation-plan.md) | **Follow this for the redesign — phase by phase** |
 
 ---
 
 ## Quick start
 
-1. Read **01** and **04** to understand scope.
-2. Follow **07** phase by phase.
-3. For every Supabase task, use **05** (MCP tools — do not guess SQL in production without migrations).
-4. Apply design rules from **03** as you build each page.
-5. Run security checks from **05** (`get_advisors`) after each migration.
+**Redesign (current):** read **09**, then follow **10** from Phase 0. Use **05** for any Supabase migration, and run `get_advisors` after it.
+
+**Original build (already shipped):** **01** and **04** for scope, **07** for the old timeline, **03** for the cyber theme that the redesign replaces.
 
 ---
 

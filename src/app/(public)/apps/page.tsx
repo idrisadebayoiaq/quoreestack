@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Download, ShieldCheck, Smartphone } from "lucide-react";
 import { Reveal } from "@/components/animations/Reveal";
@@ -5,6 +7,13 @@ import { SectionHeading } from "@/components/animations/SectionHeading";
 import { AppsCatalog } from "@/components/apps/AppsCatalog";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { createClient } from "@/lib/supabase/server";
+
+export const metadata: Metadata = pageMetadata({
+  path: "/apps",
+  title: "Apps",
+  description: "Android apps built and published by Quoreeb Adebayo, with direct downloads.",
+});
+
 
 export const revalidate = 60;
 
@@ -47,13 +56,13 @@ export default async function AppsPage() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(var(--accent-rgb),0.12),transparent_32%),radial-gradient(circle_at_15%_70%,rgba(var(--secondary-rgb),0.08),transparent_26%)]" />
         <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-20 md:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-28">
           <div>
-            <p className="font-display mb-3 text-3xl font-bold text-white md:text-4xl">
+            <p className="font-display mb-3 text-3xl font-bold text-[var(--text-strong)] md:text-4xl">
               QuoreStack
             </p>
             <p className="font-mono-label mb-5 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
               Mobile systems // verified releases
             </p>
-            <h1 className="font-display max-w-3xl text-4xl leading-tight text-white md:text-6xl">
+            <h1 className="font-display max-w-3xl text-4xl leading-tight text-[var(--text-strong)] md:text-6xl">
               Purpose-built apps,
               <span className="block text-[var(--neon-cyan)]">ready to deploy.</span>
             </h1>
@@ -73,7 +82,7 @@ export default async function AppsPage() {
           {featuredApp ? (
             <Link
               href={`/apps/${featuredApp.slug}`}
-              className="hud-corners group relative border border-[var(--neon-cyan)]/35 bg-black/30 p-7 backdrop-blur-xl transition hover:border-[var(--neon-cyan)]"
+              className="hud-corners group relative border border-[var(--neon-cyan)]/35 bg-[var(--bg-secondary)] p-7 backdrop-blur-xl transition hover:border-[var(--neon-cyan)]"
             >
               <div className="absolute right-4 top-4 size-2 animate-pulse rounded-full bg-[var(--neon-cyan)] shadow-[0_0_12px_var(--neon-cyan)]" />
               <p className="font-mono-label text-[10px] uppercase tracking-[0.25em] text-[var(--neon-magenta)]">
@@ -85,7 +94,7 @@ export default async function AppsPage() {
                   <img
                     src={featuredApp.icon_url}
                     alt=""
-                    className="size-24 rounded-[1.4rem] border border-white/10 object-cover"
+                    className="size-24 rounded-[1.4rem] border border-[var(--line)] object-cover"
                   />
                 ) : (
                   <div className="grid size-24 place-items-center rounded-[1.4rem] border border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/10">
@@ -93,7 +102,7 @@ export default async function AppsPage() {
                   </div>
                 )}
                 <div>
-                  <h2 className="font-display text-3xl text-white">{featuredApp.name}</h2>
+                  <h2 className="font-display text-3xl text-[var(--text-strong)]">{featuredApp.name}</h2>
                   <p className="mt-2 text-sm text-[var(--text-muted)]">
                     {featuredApp.tagline ?? featuredApp.short_description}
                   </p>
@@ -140,14 +149,14 @@ export default async function AppsPage() {
                 text: "Allow installs from your browser when prompted, open the APK, then confirm.",
               },
             ].map(({ icon: Icon, title, text }, index) => (
-              <div key={title} className="hud-corners border border-[var(--border-glow)] bg-black/15 p-6 transition hover:-translate-y-1">
+              <div key={title} className="hud-corners border border-[var(--border-glow)] bg-[var(--bg-secondary)] p-6 transition hover:-translate-y-1">
                 <div className="flex items-center justify-between">
                   <Icon className="size-6 text-[var(--neon-cyan)]" />
                   <span className="font-mono-label text-[10px] text-[var(--text-muted)]">
                     0{index + 1}
                   </span>
                 </div>
-                <h3 className="font-display mt-6 text-xl text-white">{title}</h3>
+                <h3 className="font-display mt-6 text-xl text-[var(--text-strong)]">{title}</h3>
                 <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">{text}</p>
               </div>
             ))}
@@ -159,7 +168,7 @@ export default async function AppsPage() {
       <Reveal>
       <section className="mx-auto max-w-4xl px-4 py-16 md:px-6">
         <div className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center md:p-10">
-          <p className="font-display text-2xl text-white md:text-3xl">
+          <p className="font-display text-2xl text-[var(--text-strong)] md:text-3xl">
             Need a custom Android app?
           </p>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[var(--text-muted)]">
@@ -181,7 +190,7 @@ export default async function AppsPage() {
         <div className="divide-y divide-[var(--border-glow)] border-y border-[var(--border-glow)]">
           {faqs.map((faq) => (
             <details key={faq.question} className="group py-5">
-              <summary className="font-display flex cursor-pointer list-none items-center justify-between gap-6 text-lg text-white">
+              <summary className="font-display flex cursor-pointer list-none items-center justify-between gap-6 text-lg text-[var(--text-strong)]">
                 {faq.question}
                 <span className="font-mono-label text-[var(--neon-cyan)] transition group-open:rotate-45">+</span>
               </summary>

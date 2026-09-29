@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PackagesGrid } from "@/components/packages/PackagesGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
@@ -7,10 +8,11 @@ import { getSiteSetting } from "@/lib/data/content";
 import { defaultPackages, type EngagementPackage } from "@/lib/packages";
 import { siteConfig } from "@/lib/utils";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/pricing",
   title: "Pricing",
   description: `Engagement packages and pricing paths for ${siteConfig.author}.`,
-};
+});
 
 export const revalidate = 60;
 
@@ -22,13 +24,10 @@ export default async function PricingPage() {
     <main>
       <section className="border-b border-[var(--border-glow)]">
         <div className="mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-28">
-          <p className="font-display mb-3 text-3xl font-bold text-white md:text-4xl">
-            {siteConfig.name}
-          </p>
           <p className="font-mono-label mb-4 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
             Pricing
           </p>
-          <h1 className="font-display max-w-3xl text-4xl text-white md:text-6xl">
+          <h1 className="font-display max-w-3xl text-4xl text-[var(--text-strong)] md:text-6xl">
             Clear engagement paths
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-muted)]">

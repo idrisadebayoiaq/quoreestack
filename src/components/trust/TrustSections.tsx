@@ -7,12 +7,12 @@ export function ClientLogoStrip({ logos }: { logos: ClientLogo[] }) {
   if (!logos.length) return null;
 
   return (
-    <section className="border-y border-[var(--border-glow)]/50 bg-[var(--bg-secondary)]/40">
-      <div className="mx-auto max-w-6xl px-4 py-12 md:px-6">
-        <p className="font-mono-label mb-8 text-center text-[10px] uppercase tracking-[0.3em] text-[var(--text-muted)]">
-          Trusted by teams and founders
+    <section className="border-b border-[var(--line)]">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 md:flex-row md:items-center md:gap-12 md:px-6">
+        <p className="shrink-0 text-sm text-[var(--text-muted)]">
+          Recent websites and apps for
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-8">
+        <div className="flex flex-wrap items-center gap-x-10 gap-y-6">
           {logos.map((logo) => {
             const image = (
               // eslint-disable-next-line @next/next/no-img-element
@@ -21,7 +21,7 @@ export function ClientLogoStrip({ logos }: { logos: ClientLogo[] }) {
                 alt={logo.name}
                 width={140}
                 height={48}
-                className="h-10 w-auto max-w-[140px] object-contain opacity-80 transition hover:opacity-100"
+                className="h-9 w-auto max-w-[140px] rounded-md object-contain opacity-75 grayscale transition hover:opacity-100 hover:grayscale-0"
               />
             );
             return logo.website_url ? (
@@ -30,7 +30,6 @@ export function ClientLogoStrip({ logos }: { logos: ClientLogo[] }) {
                 href={logo.website_url}
                 target="_blank"
                 rel="noreferrer"
-                data-cursor="hover"
                 className="inline-flex"
                 title={logo.name}
               >
@@ -64,7 +63,7 @@ export function TestimonialsGrid({
           <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
             Client feedback
           </p>
-          <h2 className="font-display mb-4 max-w-2xl text-3xl text-white md:text-4xl">
+          <h2 className="font-display mb-4 max-w-2xl text-3xl text-[var(--text-strong)] md:text-4xl">
             What clients say after we ship
           </h2>
           <p className="mb-10 max-w-xl text-sm text-[var(--text-muted)]">

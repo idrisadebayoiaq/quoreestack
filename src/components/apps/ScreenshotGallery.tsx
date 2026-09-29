@@ -23,7 +23,7 @@ export function ScreenshotGallery({
               key={`${screenshot}-${index}`}
               type="button"
               onClick={() => setActive(index)}
-              className="group relative shrink-0 snap-start overflow-hidden rounded-[1.4rem] border border-white/10 bg-[#111827] shadow-[0_12px_40px_rgba(0,0,0,0.35)] transition hover:border-[var(--neon-cyan)]/40"
+              className="group relative shrink-0 snap-start overflow-hidden rounded-[1.4rem] border border-[var(--line)] bg-[var(--bg-secondary)] shadow-[0_12px_40px_rgba(0,0,0,0.35)] transition hover:border-[var(--neon-cyan)]/40"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -31,7 +31,7 @@ export function ScreenshotGallery({
                 alt={`${appName} screenshot ${index + 1}`}
                 className="h-[22rem] w-[11.5rem] object-cover sm:h-[26rem] sm:w-[13.5rem]"
               />
-              <span className="pointer-events-none absolute inset-0 rounded-[1.4rem] ring-1 ring-inset ring-white/10" />
+              <span className="pointer-events-none absolute inset-0 rounded-[1.4rem] ring-1 ring-inset ring-[var(--line)]" />
             </button>
           ))}
         </div>
@@ -47,7 +47,7 @@ export function ScreenshotGallery({
         >
           <button
             type="button"
-            className="absolute right-4 top-4 grid size-10 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20"
+            className="absolute right-4 top-4 grid size-10 place-items-center rounded-full bg-[var(--line-strong)] text-[var(--text-strong)] hover:bg-[var(--line-strong)]"
             onClick={() => setActive(null)}
             aria-label="Close screenshot"
           >

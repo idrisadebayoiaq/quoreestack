@@ -8,34 +8,22 @@ import type { RevealVariant } from "@/lib/motion";
 
 export type { RevealVariant };
 
+const calm = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+};
+
+/** Variant names are kept for call-site compatibility; motion is deliberately uniform. */
 const variants: Record<
   RevealVariant,
   { initial: Record<string, string | number>; animate: Record<string, string | number> }
 > = {
-  "fade-up": {
-    initial: { opacity: 0, y: 28 },
-    animate: { opacity: 1, y: 0 },
-  },
-  "fade-down": {
-    initial: { opacity: 0, y: -24 },
-    animate: { opacity: 1, y: 0 },
-  },
-  "fade-left": {
-    initial: { opacity: 0, x: -32 },
-    animate: { opacity: 1, x: 0 },
-  },
-  "fade-right": {
-    initial: { opacity: 0, x: 32 },
-    animate: { opacity: 1, x: 0 },
-  },
-  scale: {
-    initial: { opacity: 0, scale: 0.94 },
-    animate: { opacity: 1, scale: 1 },
-  },
-  blur: {
-    initial: { opacity: 0, filter: "blur(10px)" },
-    animate: { opacity: 1, filter: "blur(0px)" },
-  },
+  "fade-up": calm,
+  "fade-down": calm,
+  "fade-left": calm,
+  "fade-right": calm,
+  scale: calm,
+  blur: calm,
 };
 
 export function Reveal({

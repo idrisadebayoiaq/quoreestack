@@ -25,7 +25,7 @@ export function ConfirmForm({
       ))}
       <button
         type="submit"
-        className={`text-xs text-red-400 hover:text-red-300 ${className}`}
+        className={`text-xs text-[var(--danger)] hover:text-[var(--danger)] ${className}`}
       >
         {label}
       </button>

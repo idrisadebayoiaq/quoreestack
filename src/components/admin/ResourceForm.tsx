@@ -9,14 +9,14 @@ import { createClient } from "@/lib/supabase/client";
 import { MultiImageField } from "@/components/admin/MultiImageField";
 
 const inputClass =
-  "w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14] px-3 py-2 text-sm text-white outline-none transition focus:border-[var(--neon-cyan)]";
+  "w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-3 py-2 text-sm text-[var(--text-strong)] outline-none transition focus:border-[var(--neon-cyan)]";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <button
       disabled={pending}
-      className="rounded-sm bg-[var(--neon-cyan)] px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-black disabled:opacity-50"
+      className="rounded-sm bg-[var(--neon-cyan)] px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-[var(--on-accent)] disabled:opacity-50"
     >
       {pending ? "Saving…" : "Save"}
     </button>
@@ -277,24 +277,24 @@ export function ResourceForm({
         </fieldset>
       ) : null}
       {state.error ? (
-        <p className="rounded border border-red-500/50 bg-red-500/10 p-3 text-red-300">
+        <p className="rounded border border-red-500/50 bg-red-500/10 p-3 text-[var(--danger)]">
           {state.error}
         </p>
       ) : null}
       {clientError ? (
-        <p className="rounded border border-red-500/50 bg-red-500/10 p-3 text-red-300">
+        <p className="rounded border border-red-500/50 bg-red-500/10 p-3 text-[var(--danger)]">
           {clientError}
         </p>
       ) : null}
       {state.success ? (
-        <p className="rounded border border-green-500/50 bg-green-500/10 p-3 text-green-300">
+        <p className="rounded border border-green-500/50 bg-green-500/10 p-3 text-[var(--neon-green)]">
           {state.success}
         </p>
       ) : null}
       <div className="flex flex-wrap items-center gap-3">
         <button
           disabled={uploading || pending}
-          className="rounded-sm bg-[var(--neon-cyan)] px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-black disabled:opacity-50"
+          className="rounded-sm bg-[var(--neon-cyan)] px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-[var(--on-accent)] disabled:opacity-50"
         >
           {uploading ? "Uploading…" : pending ? "Saving…" : "Save"}
         </button>

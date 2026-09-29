@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/animations/Reveal";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { siteConfig } from "@/lib/utils";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/industries",
   title: "Industries",
   description: `Who ${siteConfig.author} builds for — local businesses, SaaS teams, logistics, and wellness products.`,
-};
+});
 
 export const revalidate = 60;
 
@@ -80,13 +82,10 @@ export default function IndustriesPage() {
     <main>
       <section className="border-b border-[var(--border-glow)]">
         <div className="mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-28">
-          <p className="font-display mb-3 text-3xl font-bold text-white md:text-4xl">
-            {siteConfig.name}
-          </p>
           <p className="font-mono-label mb-4 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
             Industries
           </p>
-          <h1 className="font-display max-w-3xl text-4xl text-white md:text-6xl">
+          <h1 className="font-display max-w-3xl text-4xl text-[var(--text-strong)] md:text-6xl">
             Built for operators who need software that ships
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-muted)]">
@@ -110,7 +109,7 @@ export default function IndustriesPage() {
                 <p className="font-mono-label text-[10px] uppercase tracking-wider text-[var(--neon-cyan)]">
                   0{index + 1}
                 </p>
-                <h2 className="font-display mt-3 text-2xl text-white md:text-3xl">
+                <h2 className="font-display mt-3 text-2xl text-[var(--text-strong)] md:text-3xl">
                   {industry.title}
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-muted)]">
@@ -126,7 +125,7 @@ export default function IndustriesPage() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="rounded-sm border border-[var(--border-glow)] px-3 py-1.5 text-sm text-white transition hover:border-[var(--neon-cyan)] hover:text-[var(--neon-cyan)]"
+                          className="rounded-sm border border-[var(--border-glow)] px-3 py-1.5 text-sm text-[var(--text-strong)] transition hover:border-[var(--neon-cyan)] hover:text-[var(--neon-cyan)]"
                         >
                           {item.label}
                         </Link>
@@ -160,7 +159,7 @@ export default function IndustriesPage() {
 
       <section className="mx-auto max-w-6xl px-4 pb-24 md:px-6">
         <div className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center md:p-10">
-          <p className="font-display text-2xl text-white md:text-3xl">
+          <p className="font-display text-2xl text-[var(--text-strong)] md:text-3xl">
             Don&apos;t see your industry?
           </p>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[var(--text-muted)]">

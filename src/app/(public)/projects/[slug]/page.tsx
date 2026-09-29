@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { ExternalLink } from "lucide-react";
 import {
@@ -10,7 +11,6 @@ import { MarkdownBody } from "@/components/content/MarkdownBody";
 import {
   DetailHero,
   DetailSection,
-  EmptyState,
   MediaGallery,
   MetricGrid,
   TagList,
@@ -50,15 +50,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     project.short_description ||
     `Explore the ${project.title} case study.`;
 
-  return {
+  return pageMetadata({
+    path: `/projects/${slug}`,
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      images: project.thumbnail_url ? [project.thumbnail_url] : undefined,
-    },
-  };
+    image: project.thumbnail_url,
+    type: "website",
+  });
 }
 
 export default async function ProjectDetailPage({ params }: Props) {
@@ -181,21 +179,14 @@ export default async function ProjectDetailPage({ params }: Props) {
         }
       />
 
-      <DetailSection eyebrow="01 · Challenge" title="The problem">
-        <MarkdownBody
-          content={project.short_description}
-          fallback="This case study overview is being prepared."
-        />
-      </DetailSection>
-
-      <DetailSection eyebrow="02 · Approach" title="How it was built">
+      <DetailSection eyebrow="The project" title="What was built">
         <div className="grid gap-10 lg:grid-cols-[1fr_18rem]">
           <MarkdownBody
             content={project.long_description}
             fallback="A deeper project narrative is being prepared. The overview above captures the current scope."
           />
           <aside>
-            <p className="font-display mb-4 text-lg text-white">03 · Stack</p>
+            <p className="font-display mb-4 text-lg text-[var(--text-strong)]">Stack</p>
             <TagList
               items={project.tech_stack}
               emptyLabel="Stack details coming soon"
@@ -205,15 +196,15 @@ export default async function ProjectDetailPage({ params }: Props) {
       </DetailSection>
 
       {results.length ? (
-        <DetailSection eyebrow="04 · Results" title="Measured outcomes">
+        <DetailSection eyebrow="Results" title="Outcomes">
           <MetricGrid metrics={results} />
         </DetailSection>
       ) : null}
 
       {relatedTestimonial ? (
-        <DetailSection eyebrow="05 · Client voice" title="What they said">
+        <DetailSection eyebrow="Client voice" title="What they said">
           <figure className="max-w-3xl border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 md:p-8">
-            <blockquote className="text-lg leading-8 text-slate-200">
+            <blockquote className="text-lg leading-8 text-[var(--text-body)]">
               “{relatedTestimonial.quote}”
             </blockquote>
             <figcaption className="mt-5 text-sm text-[var(--text-muted)]">
@@ -233,55 +224,42 @@ export default async function ProjectDetailPage({ params }: Props) {
         </DetailSection>
       ) : null}
 
-      <DetailSection eyebrow="Context" title="Domains and capabilities">
-        <div className="grid gap-12 lg:grid-cols-2">
-          <div>
-            <h3 className="font-display mb-5 text-xl text-white">Categories</h3>
+      {categories?.length || services?.length ? (
+        <DetailSection eyebrow="Context" title="Domains and capabilities">
+          <div className="grid gap-12 lg:grid-cols-2">
             {categories?.length ? (
-              <div className="grid gap-4">
-                {categories.map((category) => (
-                  <CategoryCard key={category.id} category={category} />
-                ))}
+              <div>
+                <h3 className="font-display mb-5 text-xl text-[var(--text-strong)]">Domains</h3>
+                <div className="grid gap-4">
+                  {categories.map((category) => (
+                    <CategoryCard key={category.id} category={category} />
+                  ))}
+                </div>
               </div>
-            ) : (
-              <EmptyState
-                title="No category assigned"
-                body="This case study has not been mapped to a public domain yet."
-              />
-            )}
-          </div>
-          <div>
-            <h3 className="font-display mb-5 text-xl text-white">Services</h3>
+            ) : null}
             {services?.length ? (
-              <div className="grid gap-4">
-                {services.map((service) => (
-                  <ServiceCard key={service.id} service={service} />
-                ))}
+              <div>
+                <h3 className="font-display mb-5 text-xl text-[var(--text-strong)]">Services</h3>
+                <div className="grid gap-4">
+                  {services.map((service) => (
+                    <ServiceCard key={service.id} service={service} />
+                  ))}
+                </div>
               </div>
-            ) : (
-              <EmptyState
-                title="Capabilities being mapped"
-                body="Related service offerings will appear here once linked."
-              />
-            )}
+            ) : null}
           </div>
-        </div>
-      </DetailSection>
+        </DetailSection>
+      ) : null}
 
-      <DetailSection eyebrow="Continue" title="Related projects">
-        {relatedProjects?.length ? (
+      {relatedProjects?.length ? (
+        <DetailSection eyebrow="Continue" title="Related projects">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {relatedProjects.map((related) => (
               <ProjectCard key={related.id} project={related} />
             ))}
           </div>
-        ) : (
-          <EmptyState
-            title="No related case studies yet"
-            body="Browse the complete project archive for more shipped work."
-          />
-        )}
-      </DetailSection>
+        </DetailSection>
+      ) : null}
 
       <section className="mx-auto flex max-w-6xl flex-wrap gap-4 px-4 pb-24 md:px-6">
         <NeonButton href={`/start?project=${encodeURIComponent(project.slug)}`}>

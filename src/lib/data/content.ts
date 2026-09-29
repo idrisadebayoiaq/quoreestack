@@ -1,5 +1,13 @@
 import { yearsOfExperience } from "@/lib/experience";
 import { createClient } from "@/lib/supabase/server";
+import { createStaticClient } from "@/lib/supabase/static";
+import {
+  fallbackEmail,
+  toSocialLinks,
+  whatsappHref,
+  type ContactSetting,
+  type SocialSetting,
+} from "@/lib/socials";
 import type { Tables } from "@/types/database.types";
 
 export type Project = Tables<"projects">;
@@ -111,13 +119,28 @@ export async function getPublishedCategories() {
 }
 
 export async function getSiteSetting<T = Record<string, unknown>>(key: string) {
-  const supabase = await createClient();
+  const supabase = createStaticClient();
   const { data } = await supabase
     .from("site_settings")
     .select("value")
     .eq("key", key)
     .maybeSingle();
   return (data?.value as T | undefined) ?? undefined;
+}
+
+export async function getContactChannels() {
+  const [contact, social] = await Promise.all([
+    getSiteSetting<ContactSetting>("contact"),
+    getSiteSetting<SocialSetting>("social"),
+  ]);
+  const socials = toSocialLinks(social);
+  return {
+    email: contact?.email?.trim() || fallbackEmail,
+    whatsapp: whatsappHref(contact?.whatsapp),
+    bookingUrl: contact?.booking_url?.trim() || null,
+    responseNote: contact?.response_note ?? null,
+    socials,
+  };
 }
 
 export async function getContentCounts() {

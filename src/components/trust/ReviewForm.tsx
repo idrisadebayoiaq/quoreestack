@@ -31,10 +31,10 @@ export function ReviewForm() {
           <input
             name="author_name"
             required
-            className="w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14]/90 px-4 py-3 text-white outline-none focus:border-[var(--neon-cyan)]"
+            className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-4 py-3 text-[var(--text-strong)] outline-none focus:border-[var(--neon-cyan)]"
           />
           {state.fieldErrors?.author_name ? (
-            <span className="mt-1 block text-xs text-red-400">{state.fieldErrors.author_name}</span>
+            <span className="mt-1 block text-xs text-[var(--danger)]">{state.fieldErrors.author_name}</span>
           ) : null}
         </label>
         <label className="block">
@@ -45,10 +45,10 @@ export function ReviewForm() {
             type="email"
             name="email"
             required
-            className="w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14]/90 px-4 py-3 text-white outline-none focus:border-[var(--neon-cyan)]"
+            className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-4 py-3 text-[var(--text-strong)] outline-none focus:border-[var(--neon-cyan)]"
           />
           {state.fieldErrors?.email ? (
-            <span className="mt-1 block text-xs text-red-400">{state.fieldErrors.email}</span>
+            <span className="mt-1 block text-xs text-[var(--danger)]">{state.fieldErrors.email}</span>
           ) : null}
         </label>
       </div>
@@ -60,7 +60,7 @@ export function ReviewForm() {
           </span>
           <input
             name="author_title"
-            className="w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14]/90 px-4 py-3 text-white outline-none focus:border-[var(--neon-cyan)]"
+            className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-4 py-3 text-[var(--text-strong)] outline-none focus:border-[var(--neon-cyan)]"
           />
         </label>
         <label className="block">
@@ -69,7 +69,7 @@ export function ReviewForm() {
           </span>
           <input
             name="company"
-            className="w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14]/90 px-4 py-3 text-white outline-none focus:border-[var(--neon-cyan)]"
+            className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-4 py-3 text-[var(--text-strong)] outline-none focus:border-[var(--neon-cyan)]"
           />
         </label>
       </div>
@@ -82,7 +82,7 @@ export function ReviewForm() {
           {[5, 4, 3, 2, 1].map((value) => (
             <label
               key={value}
-              className="inline-flex cursor-pointer items-center gap-1 rounded-sm border border-[var(--border-glow)] px-3 py-2 text-sm text-white has-[:checked]:border-[var(--neon-cyan)] has-[:checked]:bg-[var(--neon-cyan)]/10"
+              className="inline-flex cursor-pointer items-center gap-1 rounded-sm border border-[var(--border-glow)] px-3 py-2 text-sm text-[var(--text-strong)] has-[:checked]:border-[var(--neon-cyan)] has-[:checked]:bg-[var(--neon-cyan)]/10"
             >
               <input
                 type="radio"
@@ -108,10 +108,10 @@ export function ReviewForm() {
           rows={5}
           minLength={20}
           placeholder="What was the project, and how did working together go?"
-          className="w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14]/90 px-4 py-3 text-white outline-none focus:border-[var(--neon-cyan)]"
+          className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-4 py-3 text-[var(--text-strong)] outline-none focus:border-[var(--neon-cyan)]"
         />
         {state.fieldErrors?.quote ? (
-          <span className="mt-1 block text-xs text-red-400">{state.fieldErrors.quote}</span>
+          <span className="mt-1 block text-xs text-[var(--danger)]">{state.fieldErrors.quote}</span>
         ) : null}
       </label>
 
@@ -123,14 +123,14 @@ export function ReviewForm() {
           name="image_url"
           type="url"
           placeholder="https://…"
-          className="w-full rounded-sm border border-[var(--border-glow)] bg-[#080c14]/90 px-4 py-3 text-white outline-none focus:border-[var(--neon-cyan)]"
+          className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-4 py-3 text-[var(--text-strong)] outline-none focus:border-[var(--neon-cyan)]"
         />
         <span className="mt-1 block text-xs text-[var(--text-muted)]">
           Link a public image of the finished work or your logo. Reviews are moderated before publishing.
         </span>
       </label>
 
-      {state.error ? <p className="text-sm text-red-400">{state.error}</p> : null}
+      {state.error ? <p className="text-sm text-[var(--danger)]">{state.error}</p> : null}
       {state.success ? (
         <p className="text-sm text-[var(--neon-green)]">{state.success}</p>
       ) : null}

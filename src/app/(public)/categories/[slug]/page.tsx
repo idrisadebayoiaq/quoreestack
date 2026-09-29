@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import {
   CategoryCard,
@@ -49,15 +50,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     category.short_description ||
     `Explore work and services in ${category.name}.`;
 
-  return {
+  return pageMetadata({
+    path: `/categories/${slug}`,
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      images: category.cover_image_url ? [category.cover_image_url] : undefined,
-    },
-  };
+    image: category.cover_image_url,
+    type: "website",
+  });
 }
 
 export default async function CategoryDetailPage({ params }: Props) {
@@ -195,7 +194,7 @@ export default async function CategoryDetailPage({ params }: Props) {
                 <p className="font-mono-label mb-3 text-[10px] uppercase tracking-[0.3em] text-[var(--neon-magenta)]">
                   Mobile product
                 </p>
-                <h3 className="font-display text-xl text-white">{app.name}</h3>
+                <h3 className="font-display text-xl text-[var(--text-strong)]">{app.name}</h3>
                 <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
                   {app.tagline || app.short_description || "Product details coming soon."}
                 </p>

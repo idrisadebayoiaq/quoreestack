@@ -14,9 +14,9 @@ export function ExpandableAbout({
   const long = text.length > 320;
 
   return (
-    <section className="border-b border-white/8 py-8">
+    <section className="border-b border-[var(--line)] py-8">
       <div className="mb-4 flex items-center justify-between gap-4">
-        <h2 className="font-display text-xl text-white md:text-2xl">{title}</h2>
+        <h2 className="font-display text-xl text-[var(--text-strong)] md:text-2xl">{title}</h2>
         {long ? (
           <button
             type="button"

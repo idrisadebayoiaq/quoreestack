@@ -12,18 +12,10 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className="relative"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
     >
-      <motion.div
-        aria-hidden
-        initial={{ opacity: 0.35, y: "-100%" }}
-        animate={{ opacity: 0, y: "120%" }}
-        transition={{ duration: 0.45, ease: "easeOut" }}
-        className="pointer-events-none absolute inset-x-0 top-0 z-50 h-24 bg-gradient-to-b from-[var(--neon-cyan)]/20 to-transparent"
-      />
       {children}
     </motion.div>
   );

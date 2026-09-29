@@ -5,15 +5,16 @@ import { ContactForm } from "@/components/contact/ContactForm";
 import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import { NeonButton } from "@/components/ui/NeonButton";
-import { getPublishedServices, getSiteSetting } from "@/lib/data/content";
+import { getContactChannels, getPublishedServices, getSiteSetting } from "@/lib/data/content";
 import type { AvailabilitySetting } from "@/lib/packages";
-import { socialLinks } from "@/lib/socials";
 import { siteConfig } from "@/lib/utils";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/contact",
   title: "Contact",
   description: `Start a web, mobile, or backend project with ${siteConfig.author}.`,
-};
+});
 
 export const dynamic = "force-dynamic";
 
@@ -27,23 +28,12 @@ type Props = {
   }>;
 };
 
-function whatsappHref(raw?: string) {
-  if (!raw?.trim()) return null;
-  const digits = raw.replace(/[^\d]/g, "");
-  if (digits.length < 8) return null;
-  return `https://wa.me/${digits}`;
-}
 
 export default async function ContactPage({ searchParams }: Props) {
   const params = await searchParams;
-  const [services, contact, availability] = await Promise.all([
+  const [services, channels, availability] = await Promise.all([
     getPublishedServices(),
-    getSiteSetting<{
-      email?: string;
-      whatsapp?: string;
-      booking_url?: string;
-      response_note?: string;
-    }>("contact"),
+    getContactChannels(),
     getSiteSetting<AvailabilitySetting>("availability"),
   ]);
 
@@ -60,10 +50,8 @@ export default async function ContactPage({ searchParams }: Props) {
         ? `App like ${params.app.replace(/-/g, " ")}`
         : undefined);
 
-  const email = contact?.email || "adebayoquoreeb@gmail.com";
-  const whatsapp = whatsappHref(contact?.whatsapp);
-  const bookingUrl = contact?.booking_url?.trim() || null;
-  const responseNote = contact?.response_note || "Usually within 24–48 hours";
+  const { email, whatsapp, bookingUrl, socials } = channels;
+  const responseNote = channels.responseNote || "Usually within 24–48 hours";
   const statusLabel =
     availability?.label ??
     (availability?.status === "closed"
@@ -79,13 +67,10 @@ export default async function ContactPage({ searchParams }: Props) {
       <section className="relative overflow-hidden border-b border-[var(--border-glow)]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_30%,rgba(var(--accent-rgb),0.1),transparent_34%),radial-gradient(circle_at_12%_80%,rgba(var(--secondary-rgb),0.08),transparent_28%)]" />
         <div className="relative mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-28">
-          <p className="font-display mb-4 text-3xl font-bold tracking-tight text-white md:text-4xl">
-            {siteConfig.name}
-          </p>
           <p className="font-mono-label mb-5 text-xs uppercase tracking-[0.35em] text-[var(--neon-cyan)]">
             Start a project
           </p>
-          <h1 className="font-display max-w-4xl text-4xl font-bold leading-tight text-white md:text-6xl">
+          <h1 className="font-display max-w-4xl text-4xl font-bold leading-tight text-[var(--text-strong)] md:text-6xl">
             Tell me what you want to build
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-muted)]">
@@ -124,7 +109,7 @@ export default async function ContactPage({ searchParams }: Props) {
               ].map(({ icon: Icon, label, value, href }) => (
                 <div
                   key={label}
-                  className="flex gap-4 border-b border-white/5 py-4"
+                  className="flex gap-4 border-b border-[var(--line)] py-4"
                 >
                   <Icon className="mt-1 size-5 shrink-0 text-[var(--neon-cyan)]" />
                   <div>
@@ -132,11 +117,11 @@ export default async function ContactPage({ searchParams }: Props) {
                       {label}
                     </p>
                     {href ? (
-                      <a href={href} className="mt-1 block text-white hover:text-[var(--neon-cyan)]">
+                      <a href={href} className="mt-1 block text-[var(--text-strong)] hover:text-[var(--neon-cyan)]">
                         {value}
                       </a>
                     ) : (
-                      <p className="mt-1 text-white">{value}</p>
+                      <p className="mt-1 text-[var(--text-strong)]">{value}</p>
                     )}
                   </div>
                 </div>
@@ -145,7 +130,7 @@ export default async function ContactPage({ searchParams }: Props) {
 
             {(whatsapp || bookingUrl) && (
               <div className="mt-8 space-y-3">
-                <p className="font-display text-lg text-white">Prefer a faster channel?</p>
+                <p className="font-display text-lg text-[var(--text-strong)]">Prefer a faster channel?</p>
                 <div className="flex flex-col gap-3">
                   {whatsapp ? (
                     <a
@@ -174,9 +159,9 @@ export default async function ContactPage({ searchParams }: Props) {
             )}
 
             <div className="mt-10">
-              <p className="font-display text-lg text-white">Follow the build</p>
+              <p className="font-display text-lg text-[var(--text-strong)]">Follow the build</p>
               <div className="mt-4 flex flex-wrap gap-3">
-                {socialLinks.map((social) => (
+                {socials.map((social) => (
                   <Link
                     key={social.label}
                     href={social.href}

@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import { BlogCarousel } from "@/components/blog/BlogCarousel";
 import { SectionCta } from "@/components/cards/ContentCards";
 import { getPublishedBlogs } from "@/lib/data/content";
+
+export const metadata: Metadata = pageMetadata({
+  path: "/blog",
+  title: "Blog",
+  description: "Notes on shipping websites, apps, and backends for real clients.",
+});
+
 
 export const revalidate = 60;
 

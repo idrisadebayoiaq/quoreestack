@@ -1,16 +1,15 @@
 import {
+  getContactChannels,
   getFeaturedProjects,
   getPublishedServices,
-  getSiteSetting,
 } from "@/lib/data/content";
 import { createClient } from "@/lib/supabase/server";
-import type { AvailabilitySetting } from "@/lib/packages";
 import { Header, type NavItem } from "@/components/layout/Header";
 
 export async function SiteHeader() {
   const supabase = await createClient();
-  const [availability, services, projects, { data: apps }] = await Promise.all([
-    getSiteSetting<AvailabilitySetting>("availability"),
+  const [channels, services, projects, { data: apps }] = await Promise.all([
+    getContactChannels(),
     getPublishedServices(),
     getFeaturedProjects(6),
     supabase
@@ -28,7 +27,7 @@ export async function SiteHeader() {
       children: projects.map((project) => ({
         href: `/projects/${project.slug}`,
         label: project.title,
-        description: project.short_description?.slice(0, 80) || undefined,
+        description: project.short_description ?? undefined,
       })),
     },
     {
@@ -50,43 +49,19 @@ export async function SiteHeader() {
       })),
     },
     { href: "/pricing", label: "Pricing" },
+    { href: "/about", label: "About" },
     {
-      href: "/about",
-      label: "Explore",
+      href: "/industries",
+      label: "More",
       children: [
-        {
-          href: "/industries",
-          label: "Industries",
-          description: "Who I build for",
-        },
-        {
-          href: "/stack",
-          label: "Stack",
-          description: "Engineering toolkit",
-        },
-        {
-          href: "/reviews",
-          label: "Reviews",
-          description: "Client feedback & leave a review",
-        },
-        {
-          href: "/blog",
-          label: "Blog",
-          description: "Notes on shipping products",
-        },
-        {
-          href: "/faq",
-          label: "FAQ",
-          description: "Common questions",
-        },
-        {
-          href: "/about",
-          label: "About",
-          description: "Profile and approach",
-        },
+        { href: "/industries", label: "Industries", description: "Who I build for" },
+        { href: "/reviews", label: "Reviews", description: "What clients say" },
+        { href: "/blog", label: "Blog", description: "Notes on shipping products" },
+        { href: "/stack", label: "Stack", description: "Tools behind the work" },
+        { href: "/faq", label: "FAQ", description: "Common questions" },
       ],
     },
   ];
 
-  return <Header availability={availability} navItems={navItems} />;
+  return <Header navItems={navItems} bookingUrl={channels.bookingUrl} />;
 }

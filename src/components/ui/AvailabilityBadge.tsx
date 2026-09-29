@@ -24,8 +24,8 @@ export function AvailabilityBadge({
       : status === "limited"
         ? "text-[var(--neon-cyan)] border-[var(--neon-cyan)]/40 bg-[var(--neon-cyan)]/5"
         : status === "waitlist"
-          ? "text-amber-300 border-amber-300/40 bg-amber-300/5"
-          : "text-[var(--text-muted)] border-[var(--border-glow)] bg-white/5";
+          ? "text-[var(--warning)] border-[var(--warning)]/40 bg-[var(--warning)]/5"
+          : "text-[var(--text-muted)] border-[var(--border-glow)] bg-[var(--line)]";
 
   return (
     <div

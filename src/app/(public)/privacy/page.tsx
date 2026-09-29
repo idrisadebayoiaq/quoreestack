@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { siteConfig } from "@/lib/utils";
+import { getContactChannels } from "@/lib/data/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/privacy",
   title: "Privacy Policy",
   description: `How ${siteConfig.name} collects and uses information for the website, contact forms, and app downloads.`,
-};
+});
 
 const updated = "September 20, 2026";
 
@@ -40,22 +43,21 @@ const sections = [
   },
   {
     title: "Contact",
-    body: `Questions about privacy: adebayoquoreeb@gmail.com — or use the contact form on ${siteConfig.name}.`,
+    body: `Questions about privacy: {email} — or use the contact form on ${siteConfig.name}.`,
   },
 ];
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const { email } = await getContactChannels();
+
   return (
     <main>
       <section className="border-b border-[var(--border-glow)]">
         <div className="mx-auto max-w-3xl px-4 py-20 md:px-6 md:py-28">
-          <p className="font-display mb-3 text-3xl font-bold text-white md:text-4xl">
-            {siteConfig.name}
-          </p>
           <p className="font-mono-label mb-4 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
             Legal
           </p>
-          <h1 className="font-display text-4xl text-white md:text-5xl">
+          <h1 className="font-display text-4xl text-[var(--text-strong)] md:text-5xl">
             Privacy Policy
           </h1>
           <p className="mt-4 text-sm text-[var(--text-muted)]">
@@ -67,9 +69,9 @@ export default function PrivacyPage() {
       <section className="mx-auto max-w-3xl space-y-10 px-4 py-16 md:px-6 md:py-20">
         {sections.map((section) => (
           <div key={section.title}>
-            <h2 className="font-display text-2xl text-white">{section.title}</h2>
+            <h2 className="font-display text-2xl text-[var(--text-strong)]">{section.title}</h2>
             <p className="mt-4 text-sm leading-7 text-[var(--text-muted)]">
-              {section.body}
+              {section.body.replace("{email}", email)}
             </p>
           </div>
         ))}

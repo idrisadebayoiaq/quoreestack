@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import {
@@ -8,7 +10,13 @@ import { PackagesGrid } from "@/components/packages/PackagesGrid";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { getPublishedServices, getSiteSetting } from "@/lib/data/content";
 import { defaultPackages, type EngagementPackage } from "@/lib/packages";
-import { siteConfig } from "@/lib/utils";
+
+export const metadata: Metadata = pageMetadata({
+  path: "/services",
+  title: "Services",
+  description: "Websites, Android apps, and APIs — scoped, built, and launched end to end.",
+});
+
 
 const workflow = [
   {
@@ -42,13 +50,10 @@ export default async function ServicesPage() {
     <main>
       <section className="border-b border-[var(--border-glow)]">
         <div className="mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-28">
-          <p className="font-display mb-3 text-3xl font-bold text-white md:text-4xl">
-            {siteConfig.name}
-          </p>
           <p className="font-mono-label mb-4 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
             Services
           </p>
-          <h1 className="font-display max-w-3xl text-4xl text-white md:text-6xl">
+          <h1 className="font-display max-w-3xl text-4xl text-[var(--text-strong)] md:text-6xl">
             Capabilities built for shipping
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-muted)]">
@@ -104,7 +109,7 @@ export default async function ServicesPage() {
                 <p className="font-mono-label text-[10px] text-[var(--neon-cyan)]">
                   0{index + 1}
                 </p>
-                <h3 className="font-display mt-4 text-xl text-white">{step.title}</h3>
+                <h3 className="font-display mt-4 text-xl text-[var(--text-strong)]">{step.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
                   {step.text}
                 </p>

@@ -35,7 +35,7 @@ export default async function VersionsPage({ params }: { params: Promise<{ id: s
         {versions?.map((version) => (
           <div key={version.id} className="flex flex-wrap items-center justify-between gap-4 rounded-sm border border-[var(--border-glow)] bg-[var(--bg-glass)] p-4">
             <div>
-              <p className="font-medium text-white">v{version.version} <span className="text-xs text-[var(--text-muted)]">({version.version_code ?? "—"})</span></p>
+              <p className="font-medium text-[var(--text-strong)]">v{version.version} <span className="text-xs text-[var(--text-muted)]">({version.version_code ?? "—"})</span></p>
               <p className="text-xs text-[var(--text-muted)]">{version.file_size_bytes ? `${(version.file_size_bytes / 1048576).toFixed(1)} MB` : "Size unknown"} · {new Date(version.created_at).toLocaleString()}</p>
             </div>
             <div className="flex items-center gap-3">

@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { Reveal } from "@/components/animations/Reveal";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { createStaticClient } from "@/lib/supabase/static";
 import { siteConfig } from "@/lib/utils";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/stack",
   title: "Stack",
   description: `Engineering stack used by ${siteConfig.author} across web, mobile, and backend delivery.`,
-};
+});
 
 export const revalidate = 60;
 
@@ -68,13 +70,10 @@ export default async function StackPage() {
     <main>
       <section className="border-b border-[var(--border-glow)]">
         <div className="mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-28">
-          <p className="font-display mb-3 text-3xl font-bold text-white md:text-4xl">
-            {siteConfig.name}
-          </p>
           <p className="font-mono-label mb-4 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
             Stack
           </p>
-          <h1 className="font-display max-w-3xl text-4xl text-white md:text-6xl">
+          <h1 className="font-display max-w-3xl text-4xl text-[var(--text-strong)] md:text-6xl">
             Engineering depth without the home-page clutter
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-muted)]">
@@ -95,7 +94,7 @@ export default async function StackPage() {
           <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
             Layers
           </p>
-          <h2 className="font-display mb-10 text-3xl text-white md:text-4xl">
+          <h2 className="font-display mb-10 text-3xl text-[var(--text-strong)] md:text-4xl">
             What I build with
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
@@ -104,7 +103,7 @@ export default async function StackPage() {
                 key={layer.title}
                 className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6"
               >
-                <h3 className="font-display text-xl text-white">{layer.title}</h3>
+                <h3 className="font-display text-xl text-[var(--text-strong)]">{layer.title}</h3>
                 <ul className="mt-4 space-y-2">
                   {layer.items.map((item) => (
                     <li
@@ -128,14 +127,14 @@ export default async function StackPage() {
               <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
                 In published work
               </p>
-              <h2 className="font-display mb-8 text-3xl text-white">
+              <h2 className="font-display mb-8 text-3xl text-[var(--text-strong)]">
                 Technologies that show up most
               </h2>
               <div className="flex flex-wrap gap-3">
                 {popularTags.map(([tag, count]) => (
                   <span
                     key={tag}
-                    className="rounded-sm border border-[var(--border-glow)] bg-black/20 px-3 py-2 text-sm text-white"
+                    className="rounded-sm border border-[var(--border-glow)] bg-[var(--bg-secondary)] px-3 py-2 text-sm text-[var(--text-strong)]"
                   >
                     {tag}
                     <span className="ml-2 font-mono-label text-[10px] text-[var(--text-muted)]">
@@ -154,7 +153,7 @@ export default async function StackPage() {
           <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
             Evidence
           </p>
-          <h2 className="font-display mb-8 text-3xl text-white">
+          <h2 className="font-display mb-8 text-3xl text-[var(--text-strong)]">
             Stack by project
           </h2>
           <div className="space-y-4">
@@ -170,7 +169,7 @@ export default async function StackPage() {
                   href={`/projects/${project.slug}`}
                   className="block border border-[var(--border-glow)] bg-[var(--bg-glass)] p-5 transition hover:border-[var(--neon-cyan)]/50"
                 >
-                  <p className="font-display text-xl text-white">{project.title}</p>
+                  <p className="font-display text-xl text-[var(--text-strong)]">{project.title}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {tags.length ? (
                       tags.map((tag) => (
@@ -196,7 +195,7 @@ export default async function StackPage() {
 
       <section className="mx-auto max-w-6xl px-4 pb-24 md:px-6">
         <div className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center md:p-10">
-          <p className="font-display text-2xl text-white md:text-3xl">
+          <p className="font-display text-2xl text-[var(--text-strong)] md:text-3xl">
             Need a different stack?
           </p>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[var(--text-muted)]">

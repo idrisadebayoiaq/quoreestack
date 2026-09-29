@@ -55,7 +55,7 @@ export function AppsCatalog({ apps }: { apps: PublicApp[] }) {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search apps, features, or technology..."
-            className="w-full rounded-sm border border-[var(--border-glow)] bg-black/20 py-3 pl-11 pr-4 text-sm text-white outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--neon-cyan)]"
+            className="w-full rounded-sm border border-[var(--border-glow)] bg-[var(--bg-secondary)] py-3 pl-11 pr-4 text-sm text-[var(--text-strong)] outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--neon-cyan)]"
           />
         </label>
 
@@ -69,7 +69,7 @@ export function AppsCatalog({ apps }: { apps: PublicApp[] }) {
               className={`font-mono-label shrink-0 rounded-sm border px-3 py-2 text-[10px] uppercase tracking-wider transition ${
                 filter === item
                   ? "border-[var(--neon-cyan)] bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)]"
-                  : "border-[var(--border-glow)] text-[var(--text-muted)] hover:border-white/30 hover:text-white"
+                  : "border-[var(--border-glow)] text-[var(--text-muted)] hover:border-[var(--line-strong)] hover:text-[var(--text-strong)]"
               }`}
             >
               {item}
@@ -104,7 +104,7 @@ export function AppsCatalog({ apps }: { apps: PublicApp[] }) {
         </div>
       ) : (
         <div className="hud-corners border border-dashed border-[var(--border-glow)] px-6 py-16 text-center">
-          <p className="font-display text-xl text-white">No matching apps</p>
+          <p className="font-display text-xl text-[var(--text-strong)]">No matching apps</p>
           <p className="mt-2 text-sm text-[var(--text-muted)]">
             Try a different search phrase or reset the active filter.
           </p>

@@ -13,7 +13,7 @@ export function AppCard({ app }: { app: PublicApp }) {
             <img
               src={app.icon_url}
               alt=""
-              className="size-16 shrink-0 rounded-2xl border border-white/10 object-cover shadow-[var(--glow-sm)]"
+              className="size-16 shrink-0 rounded-2xl border border-[var(--line)] object-cover shadow-[var(--glow-sm)]"
             />
           ) : (
             <div className="grid size-16 shrink-0 place-items-center rounded-2xl border border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/10">
@@ -24,7 +24,7 @@ export function AppCard({ app }: { app: PublicApp }) {
             <p className="font-mono-label text-[10px] uppercase tracking-[0.22em] text-[var(--neon-cyan)]">
               Android release
             </p>
-            <h3 className="font-display mt-1 truncate text-xl text-white">
+            <h3 className="font-display mt-1 truncate text-xl text-[var(--text-strong)]">
               {app.name}
             </h3>
           </div>

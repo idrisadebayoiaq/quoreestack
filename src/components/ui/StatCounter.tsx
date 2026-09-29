@@ -13,19 +13,32 @@ type StatCounterProps = {
   durationMs?: number;
 };
 
+/** Server HTML always contains the final value; the count-up is a client-only enhancement. */
 export function StatCounter({
   value,
   label,
   suffix = "",
   className,
-  durationMs = 1400,
+  durationMs = 1200,
 }: StatCounterProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
   const reduced = usePrefersReducedMotion();
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState(value);
+  const [armed, setArmed] = useState(false);
+
+  // Only count up when the stat starts below the fold, so nobody sees the number drop.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || reduced || value <= 0) return;
+    if (el.getBoundingClientRect().top > window.innerHeight) {
+      setArmed(true);
+      setDisplay(0);
+    }
+  }, [reduced, value]);
 
   useEffect(() => {
+    if (!armed) return;
     if (!inView) return;
     if (reduced) {
       setDisplay(value);
@@ -38,23 +51,22 @@ export function StatCounter({
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / durationMs);
       const eased = 1 - Math.pow(1 - t, 3);
-      setDisplay(Math.round(value * eased));
+      setDisplay(Math.max(1, Math.round(value * eased)));
       if (t < 1) frame = requestAnimationFrame(tick);
     };
 
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [inView, value, durationMs, reduced]);
+  }, [armed, inView, value, durationMs, reduced]);
 
   return (
-    <div ref={ref} className={cn("text-center", className)}>
-      <p className="font-display text-4xl font-bold text-[var(--neon-cyan)] md:text-5xl">
-        {display}
+    <div ref={ref} className={cn("text-left", className)}>
+      <p className="font-display text-5xl font-medium tracking-tight text-[var(--text-strong)] md:text-6xl">
+        <span aria-hidden>{display}</span>
+        <span className="sr-only">{value}</span>
         {suffix}
       </p>
-      <p className="font-mono-label mt-2 text-xs uppercase tracking-[0.25em] text-[var(--text-muted)]">
-        {label}
-      </p>
+      <p className="mt-2 text-sm text-[var(--text-muted)]">{label}</p>
     </div>
   );
 }

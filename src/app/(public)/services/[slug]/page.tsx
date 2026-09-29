@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Check, MessageCircle, FolderKanban } from "lucide-react";
@@ -53,15 +54,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     service.short_description ||
     `Explore ${service.name} services.`;
 
-  return {
+  return pageMetadata({
+    path: `/services/${slug}`,
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      images: service.cover_image_url ? [service.cover_image_url] : undefined,
-    },
-  };
+    image: service.cover_image_url,
+    type: "website",
+  });
 }
 
 export default async function ServiceDetailPage({ params }: Props) {
@@ -185,13 +184,13 @@ export default async function ServiceDetailPage({ params }: Props) {
             />
             <aside className="space-y-8">
               <div>
-                <p className="font-display mb-4 text-lg text-white">Technology</p>
+                <p className="font-display mb-4 text-lg text-[var(--text-strong)]">Technology</p>
                 <TagList
                   items={service.technologies}
                   emptyLabel="Technology selected per project"
                 />
               </div>
-              <div className="rounded-sm border border-[var(--border-glow)] bg-black/20 p-5">
+              <div className="rounded-sm border border-[var(--border-glow)] bg-[var(--bg-secondary)] p-5">
                 <p className="font-mono-label text-[10px] uppercase tracking-wider text-[var(--neon-cyan)]">
                   Next step
                 </p>
@@ -217,12 +216,12 @@ export default async function ServiceDetailPage({ params }: Props) {
             {serviceProcess.map((step, index) => (
               <li
                 key={step.slug}
-                className="border border-[var(--border-glow)] bg-black/20 p-5"
+                className="border border-[var(--border-glow)] bg-[var(--bg-secondary)] p-5"
               >
                 <p className="font-mono-label text-[10px] text-[var(--neon-cyan)]">
                   0{index + 1}
                 </p>
-                <h3 className="font-display mt-3 text-xl text-white">{step.title}</h3>
+                <h3 className="font-display mt-3 text-xl text-[var(--text-strong)]">{step.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
                   {step.short}
                 </p>
@@ -244,7 +243,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                       <p className="font-mono-label text-[10px] text-[var(--neon-magenta)]">
                         0{index + 1}
                       </p>
-                      <p className="mt-2 leading-7 text-white">{deliverable}</p>
+                      <p className="mt-2 leading-7 text-[var(--text-strong)]">{deliverable}</p>
                     </div>
                   </div>
                 </GlowCard>
@@ -317,7 +316,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
       <section className="mx-auto max-w-6xl px-4 pb-24 md:px-6">
         <div className="border border-[var(--border-glow)] bg-[var(--bg-glass)] p-8 text-center md:p-10">
-          <p className="font-display text-2xl text-white md:text-3xl">
+          <p className="font-display text-2xl text-[var(--text-strong)] md:text-3xl">
             Ready to use {service.name}?
           </p>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[var(--text-muted)]">

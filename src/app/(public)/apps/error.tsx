@@ -15,7 +15,7 @@ export default function AppsError({
         <p className="font-mono-label mt-6 text-xs uppercase tracking-[0.3em] text-[var(--neon-magenta)]">
           Registry connection interrupted
         </p>
-        <h1 className="font-display mt-3 text-3xl text-white">
+        <h1 className="font-display mt-3 text-3xl text-[var(--text-strong)]">
           Apps are temporarily offline
         </h1>
         <p className="mx-auto mt-4 max-w-lg text-[var(--text-muted)]">
