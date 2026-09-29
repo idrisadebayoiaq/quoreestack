@@ -117,7 +117,7 @@ grep -r "SUPABASE_SERVICE" src/app/
 ```bash
 git init
 git add .
-git commit -m "Initial QuoreStack portfolio"
+git commit -m "Initial QuoreeStack portfolio"
 git remote add origin https://github.com/<your-username>/quorestack.git
 git push -u origin main
 ```
@@ -135,7 +135,7 @@ git push -u origin main
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://aztmrbygerrqkragsncz.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | From MCP `get_publishable_keys` |
 | `NEXT_PUBLIC_SITE_URL` | `https://quorestack.dev` |
-| `NEXT_PUBLIC_BRAND_NAME` | `QuoreStack` |
+| `NEXT_PUBLIC_BRAND_NAME` | `QuoreeStack` |
 | `SUPABASE_SERVICE_ROLE_KEY` | From Supabase Dashboard (server only) |
 
 ### Step 4 — Supabase Auth redirect URLs

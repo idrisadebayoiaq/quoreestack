@@ -29,7 +29,7 @@ const journey = [
   },
   {
     year: "2025–26",
-    title: "QuoreStack",
+    title: "QuoreeStack",
     text: "Building a branded portfolio + APK distribution system to showcase and share work professionally.",
   },
 ];

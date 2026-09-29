@@ -73,7 +73,7 @@ Running dev server with Supabase connected.
 - [x] Build `CyberCursor` (mouse animation) — desktop only
 - [x] Build `SectionHeading` with 5 animation variants
 - [x] Build `GlowCard`, `NeonButton`, `PageTransition`
-- [x] Build `Header` + `Footer` with QuoreStack branding
+- [x] Build `Header` + `Footer` with QuoreeStack branding
 - [x] Add `prefers-reduced-motion` fallbacks
 - [x] Test responsive breakpoints (mobile menu, cursor disabled on touch)
 - [x] `StatCounter` + `MarqueeStrip`
@@ -256,7 +256,7 @@ Portfolio populated with real work samples.
 - [x] Page transition animations between routes
 - [x] Loading skeletons for data fetching
 - [x] Open Graph images / meta tags for all pages
-- [x] Favicon + QuoreStack logo
+- [x] Favicon + QuoreeStack logo
 - [x] Smooth scroll for anchor links
 
 ### Deliverable
@@ -300,7 +300,7 @@ All tests pass, advisors clean.
 - [ ] Share link with a test client
 
 ### Deliverable
-**QuoreStack live at your domain.**
+**QuoreeStack live at your domain.**
 
 ---
 

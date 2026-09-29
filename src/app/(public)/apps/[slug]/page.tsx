@@ -378,7 +378,7 @@ export default async function AppDetailPage({ params }: Props) {
             <div>
               <h2 className="text-sm font-semibold text-[var(--text-strong)]">Safe install</h2>
               <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">
-                Downloads come from QuoreStack storage or a verified Expo build link.
+                Downloads come from QuoreeStack storage or a verified Expo build link.
                 Android may ask you to allow installs from your browser.
               </p>
             </div>

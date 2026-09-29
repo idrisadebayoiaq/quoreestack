@@ -121,7 +121,7 @@ Old cyber docs (`03`, `07`) are not the build order for this work.
 ### Steps
 
 1. Rebuild `Header` / `SiteHeader`:
-   - Wordmark “QuoreStack”, no neon QS badge required.
+   - Wordmark “QuoreeStack”, no neon QS badge required.
    - Nav: Work, Services, Apps, Pricing, About. Move Blog, FAQ, Stack, Industries, Reviews into a simple “More” group or the footer so the bar is short.
    - Actions: “Book a call” (Calendly from settings) and “Start a project”.
    - Mobile: a normal full-screen or dropdown menu. No cursor effects.

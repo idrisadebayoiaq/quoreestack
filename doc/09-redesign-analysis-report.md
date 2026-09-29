@@ -12,7 +12,7 @@ Documents `01`–`08` describe the original cyber-realistic build. They stay as 
 
 ## 1. What the site actually is
 
-QuoreStack is a Next.js 15 App Router portfolio with a Supabase CMS, admin, client messages, and Android app downloads.
+QuoreeStack is a Next.js 15 App Router portfolio with a Supabase CMS, admin, client messages, and Android app downloads.
 
 | Area | Current state |
 |------|----------------|

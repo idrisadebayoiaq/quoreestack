@@ -19,7 +19,7 @@ export function isOptimizableImage(src?: string | null) {
 }
 
 export const siteConfig = {
-  name: process.env.NEXT_PUBLIC_BRAND_NAME ?? "QuoreStack",
+  name: process.env.NEXT_PUBLIC_BRAND_NAME ?? "QuoreeStack",
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://quoreestack.online").replace(/\/$/, ""),
   author: "Quoreeb Adebayo",
   title: "Full Stack Developer",

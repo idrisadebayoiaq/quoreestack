@@ -31,7 +31,7 @@
 
 **Header nav:** Home · About · Projects · Services · Categories · Apps · Contact · Login
 
-**Footer:** QuoreStack © · Quoreeb Adebayo · Social links · "Built with Next.js & Supabase"
+**Footer:** QuoreeStack © · Quoreeb Adebayo · Social links · "Built with Next.js & Supabase"
 
 ---
 
@@ -233,10 +233,10 @@ Admin UI: cleaner, less animation — prioritize function.
 
 | Page | `title` pattern |
 |------|-----------------|
-| Home | `QuoreStack — Full Stack Developer` |
-| Project | `{title} — Project | QuoreStack` |
-| Service | `{title} — Services | QuoreStack` |
-| Category | `{title} — Category | QuoreStack` |
-| App | `{title} — App | QuoreStack` |
+| Home | `QuoreeStack — Full Stack Developer` |
+| Project | `{title} — Project | QuoreeStack` |
+| Service | `{title} — Services | QuoreeStack` |
+| Category | `{title} — Category | QuoreeStack` |
+| App | `{title} — App | QuoreeStack` |
 
 Use `generateMetadata` in Next.js with Supabase data.

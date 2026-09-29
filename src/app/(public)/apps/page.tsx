@@ -21,7 +21,7 @@ const faqs = [
   {
     question: "Are these APKs safe to install?",
     answer:
-      "Each release is distributed directly by QuoreStack through a short-lived, signed download link. Android may still ask you to approve installation from your browser.",
+      "Each release is distributed directly by QuoreeStack through a short-lived, signed download link. Android may still ask you to approve installation from your browser.",
   },
   {
     question: "Do I need an account to download?",
@@ -57,7 +57,7 @@ export default async function AppsPage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-20 md:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-28">
           <div>
             <p className="font-display mb-3 text-3xl font-bold text-[var(--text-strong)] md:text-4xl">
-              QuoreStack
+              QuoreeStack
             </p>
             <p className="font-mono-label mb-5 text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)]">
               Mobile systems // verified releases
@@ -67,7 +67,7 @@ export default async function AppsPage() {
               <span className="block text-[var(--neon-cyan)]">ready to deploy.</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-muted)]">
-              Browse focused Android tools engineered by QuoreStack. Every release
+              Browse focused Android tools engineered by QuoreeStack. Every release
               includes transparent requirements, version notes, and a free secure
               download — no account required.
             </p>

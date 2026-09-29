@@ -12,7 +12,7 @@ import { siteConfig } from "@/lib/utils";
 export const metadata: Metadata = pageMetadata({
   path: "/reviews",
   title: "Reviews",
-  description: `Client reviews for ${siteConfig.author} and QuoreStack — and a place to leave your own.`,
+  description: `Client reviews for ${siteConfig.author} and QuoreeStack — and a place to leave your own.`,
 });
 
 export const revalidate = 60;

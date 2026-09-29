@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
-import { HeroBackground } from "@/components/hero/HeroBackground";
+import { HeroPortrait } from "@/components/hero/HeroPortrait";
 import { Reveal } from "@/components/animations/Reveal";
 import { SectionHeading } from "@/components/animations/SectionHeading";
 import { ServiceCard } from "@/components/cards/ContentCards";
@@ -87,24 +87,22 @@ export default async function HomePage() {
 
   const engagementPackages = packages?.length ? packages : defaultPackages;
   const showcase = sortByProof(featuredProjects).slice(0, 3);
-  const posterSrc = hero?.background_image || "/images/quorestack-hero-poster.jpg";
-
   return (
     <main>
-      <section
-        id="hero"
-        className="surface-dark relative flex min-h-[88vh] items-end overflow-hidden"
-      >
-        <HeroBackground posterSrc={posterSrc} />
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-20 pt-32 md:px-6 md:pb-28">
-          <div className="max-w-3xl">
+      <section id="hero" className="surface-dark relative overflow-hidden bg-[var(--bg-primary)]">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[radial-gradient(circle_at_75%_45%,rgba(var(--accent-rgb),0.14),transparent_50%)]"
+        />
+        <div className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-12 px-4 pb-16 pt-28 sm:px-6 md:pb-24 md:pt-32 lg:min-h-[88vh] lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:pb-20">
+          <div className="max-w-2xl">
             <p className="animate-hero-rise font-mono-label text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
               {siteConfig.name} · {siteConfig.author}
             </p>
-            <h1 className="animate-hero-rise-delay font-display mt-6 text-5xl leading-[1.02] text-[var(--text-strong)] md:text-7xl lg:text-[5.5rem] text-balance">
+            <h1 className="animate-hero-rise-delay font-display mt-6 text-[2.75rem] leading-[1.02] text-[var(--text-strong)] sm:text-6xl lg:text-7xl xl:text-[5.25rem] text-balance">
               {hero?.headline ?? "Systems that ship."}
             </h1>
-            <p className="animate-hero-rise-delay-2 mt-7 max-w-xl text-lg leading-8 text-[var(--text-body)] md:text-xl">
+            <p className="animate-hero-rise-delay-2 mt-6 max-w-xl text-lg leading-8 text-[var(--text-body)] md:mt-7 md:text-xl">
               {hero?.subheadline ??
                 "Websites, Android apps, and backends engineered end to end — from first brief to production."}
             </p>
@@ -119,6 +117,12 @@ export default async function HomePage() {
             <div className="animate-hero-rise-delay-2 mt-10">
               <AvailabilityBadge availability={availability} />
             </div>
+          </div>
+          <div className="animate-hero-rise-delay-2">
+            <HeroPortrait
+              src="/images/quoreeb-adebayo.png"
+              alt={`${siteConfig.author}, ${siteConfig.title}`}
+            />
           </div>
         </div>
       </section>

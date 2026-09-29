@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Reveal } from "@/components/animations/Reveal";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { yearsOfExperienceLabel } from "@/lib/experience";
@@ -16,17 +15,7 @@ export async function HomeAboutSection() {
   return (
     <section id="about" className="mx-auto max-w-6xl px-4 py-24 md:px-6">
       <Reveal>
-        <div className="grid items-center gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[var(--radius)] bg-[var(--bg-secondary)]">
-            <Image
-              src="/images/quoreeb-adebayo.png"
-              alt={`${siteConfig.author}, ${siteConfig.title}`}
-              fill
-              sizes="(min-width: 768px) 384px, 90vw"
-              className="object-cover"
-            />
-          </div>
-
+        <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
           <div>
             <p className="font-mono-label mb-4 text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
               Who you&apos;ll work with
@@ -34,7 +23,10 @@ export async function HomeAboutSection() {
             <h2 className="font-display text-3xl text-[var(--text-strong)] md:text-5xl">
               {siteConfig.author}
             </h2>
-            <p className="mt-6 text-lg leading-8 text-[var(--text-body)]">
+          </div>
+
+          <div>
+            <p className="text-lg leading-8 text-[var(--text-body)]">
               {about?.bio ??
                 `I am ${siteConfig.author}, a full stack developer building websites, Android apps, and backend systems that ship.`}
             </p>

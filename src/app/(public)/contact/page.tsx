@@ -97,7 +97,7 @@ export default async function ContactPage({ searchParams }: Props) {
       </section>
 
       <Reveal>
-        <section className="mx-auto grid max-w-6xl gap-10 px-4 py-20 md:px-6 lg:grid-cols-[0.72fr_1.28fr]">
+        <section className="mx-auto grid max-w-6xl gap-10 px-4 py-20 md:px-6 lg:grid-cols-[0.72fr_1.28fr] [&>*]:min-w-0">
           <div>
             <SectionHeading index={1} eyebrow="Reach out" title="Contact details" />
             <div className="space-y-4">
@@ -117,7 +117,7 @@ export default async function ContactPage({ searchParams }: Props) {
                       {label}
                     </p>
                     {href ? (
-                      <a href={href} className="mt-1 block text-[var(--text-strong)] hover:text-[var(--neon-cyan)]">
+                      <a href={href} className="mt-1 block break-all text-[var(--text-strong)] hover:text-[var(--neon-cyan)]">
                         {value}
                       </a>
                     ) : (

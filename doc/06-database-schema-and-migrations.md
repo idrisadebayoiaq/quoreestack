@@ -629,7 +629,7 @@ INSERT INTO public.services (slug, name, short_description, long_description, de
 
 -- Site settings
 INSERT INTO public.site_settings (key, value) VALUES
-  ('hero', '{"headline": "QuoreStack", "subheadline": "Full Stack Development by Quoreeb Adebayo", "cta_primary": "View Projects", "cta_secondary": "Explore Apps"}'::jsonb),
+  ('hero', '{"headline": "QuoreeStack", "subheadline": "Full Stack Development by Quoreeb Adebayo", "cta_primary": "View Projects", "cta_secondary": "Explore Apps"}'::jsonb),
   ('stats', '{"years": 3, "projects": 15, "apps": 5, "technologies": 20}'::jsonb),
   ('social', '{"github": "", "linkedin": "", "twitter": "", "email": ""}'::jsonb);
 ```

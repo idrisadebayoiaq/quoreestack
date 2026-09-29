@@ -14,7 +14,7 @@ export default async function LoginPage({ searchParams }: Props) {
 
   const title = isAdmin ? "Admin login" : isPortal ? "Client portal" : "Sign in";
   const description = isAdmin
-    ? "Sign in to manage QuoreStack content, apps, and messages."
+    ? "Sign in to manage QuoreeStack content, apps, and messages."
     : isPortal
       ? "Sign in to view project messages and updates."
       : "Sign in to continue.";

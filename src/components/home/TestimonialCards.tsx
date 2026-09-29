@@ -32,7 +32,7 @@ export function TestimonialCards({ testimonials }: { testimonials: Testimonial[]
         return (
           <figure
             key={item.id}
-            className="flex h-full flex-col rounded-[var(--radius)] border border-[var(--line)] bg-[var(--bg-secondary)] p-7"
+            className="flex h-full min-w-0 flex-col rounded-[var(--radius)] border border-[var(--line)] bg-[var(--bg-secondary)] p-6 sm:p-7"
           >
             <span aria-hidden className="font-display text-5xl leading-none text-[var(--neon-cyan)]">
               “

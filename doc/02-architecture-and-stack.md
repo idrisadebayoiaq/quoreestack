@@ -120,7 +120,7 @@ denstore/
 NEXT_PUBLIC_SUPABASE_URL=https://aztmrbygerrqkragsncz.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<from get_publishable_keys MCP>
 NEXT_PUBLIC_SITE_URL=https://quorestack.dev
-NEXT_PUBLIC_BRAND_NAME=QuoreStack
+NEXT_PUBLIC_BRAND_NAME=QuoreeStack
 
 # Server-only (never expose to client)
 SUPABASE_SERVICE_ROLE_KEY=<Supabase dashboard — admin/server only>

@@ -1,6 +1,6 @@
-# QuoreStack — Implementation Documentation
+# QuoreeStack — Implementation Documentation
 
-> **Brand:** QuoreStack  
+> **Brand:** QuoreeStack  
 > **Owner:** Quoreeb Adebayo — Full Stack Developer  
 > **Backend:** Supabase (`aztmrbygerrqkragsncz`)  
 > **Repo:** `denstore`
@@ -18,7 +18,7 @@ Documents `01`–`08` below are the original cyber-realistic build plan. They re
 
 ---
 
-This folder also contains the original implementation plan for the QuoreStack portfolio platform — a cyber-realistic full-stack developer portfolio with gated APK downloads, dynamic content, and an admin CMS.
+This folder also contains the original implementation plan for the QuoreeStack portfolio platform — a cyber-realistic full-stack developer portfolio with gated APK downloads, dynamic content, and an admin CMS.
 
 ---
 
@@ -26,12 +26,12 @@ This folder also contains the original implementation plan for the QuoreStack po
 
 | Option | Name | Best for |
 |--------|------|----------|
-| **Recommended** | **QuoreStack** | Memorable, tech-forward, signals full-stack; works with cyber aesthetic |
+| **Recommended** | **QuoreeStack** | Memorable, tech-forward, signals full-stack; works with cyber aesthetic |
 | Alternative | Quoreeb Nexus | Personal name + futuristic feel |
 | Alternative | QuoreForge | Emphasizes building/crafting |
 | Formal | Quoreeb Adebayo Dev | Maximum personal branding |
 
-**Use:** **QuoreStack** as the primary brand  
+**Use:** **QuoreeStack** as the primary brand  
 **Subtitle:** *Full Stack Development by Quoreeb Adebayo*  
 **Suggested domain:** `quorestack.dev` or `quorestack.io`
 

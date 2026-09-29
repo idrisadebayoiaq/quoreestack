@@ -9,7 +9,7 @@ type LeadPayload = {
 
 function formatLeadText(lead: LeadPayload) {
   return [
-    `New QuoreStack lead`,
+    `New QuoreeStack lead`,
     ``,
     `Name: ${lead.name}`,
     `Email: ${lead.email}`,
@@ -32,7 +32,7 @@ async function notifyDiscord(lead: LeadPayload) {
       content: null,
       embeds: [
         {
-          title: "New QuoreStack lead",
+          title: "New QuoreeStack lead",
           color: 0x1ad4a8,
           fields: [
             { name: "Name", value: lead.name, inline: true },

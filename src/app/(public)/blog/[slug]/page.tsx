@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description =
     blog.meta_description ||
     blog.short_description ||
-    `Read ${blog.title} on QuoreStack.`;
+    `Read ${blog.title} on QuoreeStack.`;
 
   return pageMetadata({
     path: `/blog/${slug}`,

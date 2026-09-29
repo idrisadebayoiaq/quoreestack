@@ -445,7 +445,7 @@ export function MessagesWorkspace({
               <p className="font-display text-2xl text-[var(--text-strong)]">Select a conversation</p>
               <p className="mt-2 text-sm text-[var(--text-muted)]">
                 {mode === "user"
-                  ? "Start a new chat from the left panel to message QuoreStack."
+                  ? "Start a new chat from the left panel to message QuoreeStack."
                   : "Pick a client conversation to reply."}
               </p>
             </div>
@@ -474,7 +474,7 @@ export function MessagesWorkspace({
               value={detailProfile?.role === "admin" ? "Admin" : "Client"}
             />
             <DetailRow
-              label="On QuoreStack since"
+              label="On QuoreeStack since"
               value={
                 detailProfile?.created_at
                   ? new Date(detailProfile.created_at).toLocaleDateString(undefined, {
@@ -497,7 +497,7 @@ export function MessagesWorkspace({
             ) : null}
           </dl>
           <p className="text-xs leading-5 text-[var(--text-muted)]">
-            Chat directly inside QuoreStack. Keep project details, timelines, and files in
+            Chat directly inside QuoreeStack. Keep project details, timelines, and files in
             one place instead of bouncing to Gmail.
           </p>
         </div>

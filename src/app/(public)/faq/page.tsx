@@ -8,7 +8,7 @@ import { siteConfig } from "@/lib/utils";
 export const metadata: Metadata = pageMetadata({
   path: "/faq",
   title: "FAQ",
-  description: `Common questions about working with ${siteConfig.author} and QuoreStack.`,
+  description: `Common questions about working with ${siteConfig.author} and QuoreeStack.`,
 });
 
 export const revalidate = 60;
@@ -40,7 +40,7 @@ const faqs = [
       "Yes. Growth retainers cover feature iterations, performance care, and priority support after the first release.",
   },
   {
-    question: "How are apps downloaded from QuoreStack?",
+    question: "How are apps downloaded from QuoreeStack?",
     answer:
       "Published Android apps can be installed from the Apps section via secure download links or Expo build URLs — no account required for public releases.",
   },

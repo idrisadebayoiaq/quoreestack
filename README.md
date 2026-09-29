@@ -1,4 +1,4 @@
-# QuoreStack
+# QuoreeStack
 
 Portfolio platform for **Quoreeb Adebayo** — Full Stack Developer.
 

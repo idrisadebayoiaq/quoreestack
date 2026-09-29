@@ -1,8 +1,8 @@
 # 01 — Brand & Project Overview
 
-## Project name: QuoreStack
+## Project name: QuoreeStack
 
-**QuoreStack** blends your first name (*Quoreeb*) with *Stack*, signaling full-stack engineering. It is short, brandable, domain-friendly, and fits a cyber-realistic visual identity.
+**QuoreeStack** blends your first name (*Quoreeb*) with *Stack*, signaling full-stack engineering. It is short, brandable, domain-friendly, and fits a cyber-realistic visual identity.
 
 - **Legal / footer name:** Quoreeb Adebayo
 - **Title:** Full Stack Developer

@@ -6,7 +6,7 @@ import { submitContactAction, type ContactActionState } from "@/lib/contact/acti
 import type { ContactValues } from "@/lib/contact/schema";
 
 const inputClass =
-  "w-full rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-4 py-3 text-[var(--text-strong)] outline-none transition placeholder:text-[var(--text-muted)]/70 focus:border-[var(--neon-cyan)] focus:shadow-[var(--glow-sm)]";
+  "w-full min-w-0 rounded-sm border border-[var(--border-glow)] bg-[var(--field)] px-4 py-3 text-[var(--text-strong)] outline-none transition placeholder:text-[var(--text-muted)]/70 focus:border-[var(--neon-cyan)] focus:shadow-[var(--glow-sm)]";
 
 type FieldErrors = Partial<Record<keyof ContactValues | "attachment", string>>;
 
@@ -110,7 +110,7 @@ export function ContactForm({
       ref={formRef}
       action={formAction}
       onSubmit={onSubmit}
-      className="hud-corners relative space-y-5 border border-[var(--border-glow)] bg-[var(--bg-glass)] p-6 backdrop-blur-xl md:p-8"
+      className="hud-corners relative min-w-0 space-y-5 border border-[var(--border-glow)] bg-[var(--bg-glass)] p-5 backdrop-blur-xl sm:p-6 md:p-8"
     >
       <div className="flex items-center gap-3 border-b border-[var(--line)] pb-5">
         <Terminal className="size-5 text-[var(--neon-cyan)]" />
@@ -254,7 +254,7 @@ function Field({
 }) {
   void _name;
   return (
-    <div>
+    <div className="min-w-0">
       <span className="font-mono-label mb-2 block text-xs uppercase tracking-wider text-[var(--text-muted)]">
         {label}
       </span>
