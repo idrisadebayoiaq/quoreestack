@@ -1,6 +1,3 @@
--- DRAFT — not applied. Review the wording, then run this in the Supabase SQL editor
--- (or move it into supabase/migrations). The homepage "How we work together" section
--- appears as soon as this row exists.
 INSERT INTO public.site_settings (key, value)
 VALUES (
   'engagement_terms',
