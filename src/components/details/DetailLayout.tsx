@@ -69,7 +69,7 @@ export function DetailHero({
             </dl>
           ) : null}
         </div>
-        <div className="hud-corners relative aspect-[4/3] overflow-hidden rounded-sm border border-[var(--border-glow)] bg-[var(--bg-glass)]">
+        <div className="hud-corners relative aspect-[16/10] overflow-hidden rounded-sm border border-[var(--border-glow)] bg-[var(--bg-glass)]">
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -78,7 +78,7 @@ export function DetailHero({
               unoptimized={!isOptimizableImage(imageUrl)}
               priority
               sizes="(min-width: 1024px) 44vw, 100vw"
-              className="object-cover"
+              className="object-cover object-top"
             />
           ) : (
             <div className="flex h-full items-center justify-center">
@@ -228,7 +228,7 @@ export function MediaGallery({
                 ? "(min-width: 1152px) 1104px, 100vw"
                 : "(min-width: 1152px) 552px, (min-width: 768px) 50vw, 100vw"
             }
-            className="object-cover transition duration-500 hover:scale-[1.02]"
+            className="object-cover object-top transition duration-500 hover:scale-[1.02]"
           />
         </div>
       ))}

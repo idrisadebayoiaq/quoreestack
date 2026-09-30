@@ -34,7 +34,7 @@ function ShowcaseItem({
       <div
         className={cn(
           "hover-bar relative overflow-hidden rounded-[var(--radius)] border border-[var(--line)] bg-[var(--bg-secondary)] transition group-hover:border-[var(--line-strong)]",
-          large ? "aspect-[16/9]" : "aspect-[4/3]",
+          large ? "aspect-[16/9]" : "aspect-[16/10]",
         )}
       >
         {project.thumbnail_url ? (
@@ -44,7 +44,7 @@ function ShowcaseItem({
             fill
             unoptimized={!isOptimizableImage(project.thumbnail_url)}
             sizes={large ? "(min-width: 1152px) 1104px, 100vw" : "(min-width: 1152px) 540px, (min-width: 768px) 50vw, 100vw"}
-            className="object-cover transition duration-700 ease-out group-hover:scale-[1.025]"
+            className="object-cover object-top transition duration-700 ease-out group-hover:scale-[1.025]"
           />
         ) : null}
       </div>

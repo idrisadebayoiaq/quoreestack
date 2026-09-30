@@ -27,7 +27,7 @@ export function ProjectCard({ project }: { project: Project }) {
               alt=""
               fill
               sizes="(min-width: 768px) 30vw, 100vw"
-              className="object-cover transition duration-500 group-hover:scale-105"
+              className="object-cover object-top transition duration-500 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--scrim)] via-transparent to-transparent" />
           </div>
