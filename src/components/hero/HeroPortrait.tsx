@@ -9,95 +9,81 @@ const PortraitDepth = dynamic(() => import("@/components/hero/PortraitDepth"), {
 
 const TEXTURE_WIDTH = 1024;
 
+const edgeFade =
+  "linear-gradient(to top, transparent, #000 12%), linear-gradient(to right, transparent, #000 6%, #000 94%, transparent)";
+
 type HeroPortraitProps = {
+  /** Cut-out portrait with a transparent background. */
   src: string;
   alt: string;
 };
 
 export function HeroPortrait({ src, alt }: HeroPortraitProps) {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const sheenRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const pointer = useRef({ x: 0, y: 0, active: false });
   const reduced = usePrefersReducedMotion();
   const [depthEnabled, setDepthEnabled] = useState(false);
+  const [depthReady, setDepthReady] = useState(false);
 
   useEffect(() => {
     if (reduced) return;
     setDepthEnabled(true);
 
-    const frame = frameRef.current;
-    if (!frame) return;
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-    let raf = 0;
-    const tilt = { x: 0, y: 0 };
-    const apply = () => {
-      const target = pointer.current.active ? pointer.current : { x: 0, y: 0 };
-      tilt.x += (target.x - tilt.x) * 0.08;
-      tilt.y += (target.y - tilt.y) * 0.08;
-      frame.style.transform = `perspective(1100px) rotateY(${tilt.x * 6}deg) rotateX(${tilt.y * 5}deg)`;
-      if (sheenRef.current) {
-        sheenRef.current.style.background = `radial-gradient(circle at ${50 + tilt.x * 35}% ${50 - tilt.y * 35}%, rgba(255,248,238,0.16), transparent 55%)`;
-      }
-      raf = Math.abs(target.x - tilt.x) + Math.abs(target.y - tilt.y) > 0.001 ? requestAnimationFrame(apply) : 0;
-    };
-    const kick = () => {
-      if (!raf) raf = requestAnimationFrame(apply);
-    };
+    const stage = stageRef.current;
+    if (!stage) return;
 
     const onPointerMove = (event: PointerEvent) => {
-      if (event.pointerType !== "mouse" && !finePointer) return;
-      const rect = frame.getBoundingClientRect();
+      if (event.pointerType !== "mouse") return;
+      const rect = stage.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
+      const cy = rect.top + rect.height * 0.4;
       pointer.current.x = Math.max(-1, Math.min(1, (event.clientX - cx) / (window.innerWidth / 2)));
       pointer.current.y = Math.max(-1, Math.min(1, -(event.clientY - cy) / (window.innerHeight / 2)));
       pointer.current.active = true;
-      kick();
     };
     const onLeave = () => {
       pointer.current.active = false;
-      kick();
     };
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     document.documentElement.addEventListener("mouseleave", onLeave);
     return () => {
-      cancelAnimationFrame(raf);
       window.removeEventListener("pointermove", onPointerMove);
       document.documentElement.removeEventListener("mouseleave", onLeave);
     };
   }, [reduced]);
 
   const textureSrc = src.startsWith("/")
-    ? `/_next/image?url=${encodeURIComponent(src)}&w=${TEXTURE_WIDTH}&q=85`
+    ? `/_next/image?url=${encodeURIComponent(src)}&w=${TEXTURE_WIDTH}&q=90`
     : src;
 
   return (
-    <div className="relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-none">
+    <div ref={stageRef} className="relative mx-auto aspect-square w-full max-w-[24rem] sm:max-w-md lg:max-w-none">
       <div
         aria-hidden
-        className="absolute -inset-6 rounded-[calc(var(--radius)*2)] bg-[radial-gradient(circle_at_50%_40%,rgba(var(--accent-rgb),0.28),transparent_65%)] blur-2xl"
+        className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(var(--accent-rgb),0.38),rgba(var(--accent-rgb),0.08)_45%,transparent_70%)] blur-2xl"
       />
       <div
-        ref={frameRef}
-        className="relative aspect-[4/5] overflow-hidden rounded-[calc(var(--radius)*1.5)] border border-[var(--line-strong)] bg-[var(--bg-secondary)] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)] will-change-transform"
-      >
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          priority
-          sizes="(min-width: 1024px) 460px, (min-width: 640px) 384px, 352px"
-          className="object-cover"
-        />
-        {depthEnabled ? <PortraitDepth src={textureSrc} pointer={pointer} /> : null}
-        <div ref={sheenRef} aria-hidden className="pointer-events-none absolute inset-0" />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/35 to-transparent"
-        />
-      </div>
+        aria-hidden
+        className="absolute bottom-[2%] left-1/2 h-[7%] w-[62%] -translate-x-1/2 rounded-[50%] bg-black/45 blur-xl"
+      />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        priority
+        sizes="(min-width: 1024px) 520px, (min-width: 640px) 448px, 384px"
+        className={`object-contain object-bottom transition-opacity duration-700 ${depthReady ? "opacity-0" : "opacity-100"}`}
+        style={{
+          maskImage: edgeFade,
+          WebkitMaskImage: edgeFade,
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
+        }}
+      />
+      {depthEnabled ? (
+        <PortraitDepth src={textureSrc} pointer={pointer} onReady={() => setDepthReady(true)} />
+      ) : null}
     </div>
   );
 }

@@ -30,9 +30,9 @@ export function animationForIndex(index: 1 | 2 | 3 | 4 | 5): HeadingAnimation {
 }
 
 const headingClass =
-  "font-display text-3xl tracking-tight text-[var(--text-strong)] md:text-5xl text-balance";
+  "font-display text-4xl text-[var(--text-strong)] sm:text-5xl md:text-[3.5rem] text-balance";
 const eyebrowClass =
-  "font-mono-label mb-4 text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]";
+  "font-mono-label tag-dash mb-5 text-xs uppercase tracking-[0.18em] text-[var(--neon-cyan)]";
 
 export function SectionHeading({
   title,

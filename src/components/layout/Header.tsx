@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { siteConfig, cn } from "@/lib/utils";
 import { NeonButton } from "@/components/ui/NeonButton";
+import { Wordmark } from "@/components/ui/Wordmark";
 
 export type NavChild = { href: string; label: string; description?: string };
 
@@ -46,22 +47,33 @@ export function Header({
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
+    <>
+    <div className="relative z-50 border-b border-[var(--line)] bg-[#0a0c0e]">
+      <div className="font-mono-label mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 text-[11px] uppercase text-[var(--steel)] md:px-6">
+        <span className="inline-flex items-center gap-2">
+          <span aria-hidden className="size-1.5 rounded-full bg-[var(--neon-cyan)]" />
+          Full stack developer · Osogbo, Nigeria
+        </span>
+        <span className="hidden sm:inline">
+          Web <b className="font-normal text-[var(--neon-cyan)]">/</b> Android{" "}
+          <b className="font-normal text-[var(--neon-cyan)]">/</b> Backend
+        </span>
+      </div>
+    </div>
     <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[var(--bg-primary)]/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 md:px-6">
-        <Link href="/" className="flex shrink-0 items-baseline gap-2">
-          <span className="font-display text-xl text-[var(--text-strong)]">
-            {siteConfig.name}
-          </span>
+      <div className="mx-auto flex h-[4.5rem] max-w-6xl items-center justify-between gap-4 px-4 md:px-6">
+        <Link href="/" className="shrink-0" aria-label={`${siteConfig.name} home`}>
+          <Wordmark spin className="text-[1.7rem]" />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-0.5 lg:flex">
           {navItems.map((item) => {
             const active = isActive(item.href);
             const linkClass = cn(
-              "inline-flex items-center gap-1 rounded-full px-3 py-2 text-[15px] transition",
+              "font-display relative inline-flex items-center gap-1 px-3 py-2 text-[17px] !font-medium tracking-[0.1em] transition after:absolute after:bottom-0 after:left-3 after:h-0.5 after:bg-[var(--neon-cyan)] after:transition-all after:duration-300",
               active
-                ? "text-[var(--text-strong)]"
-                : "text-[var(--text-muted)] hover:text-[var(--text-strong)]",
+                ? "text-[var(--text-strong)] after:w-[calc(100%-1.5rem)]"
+                : "text-[var(--text-muted)] after:w-0 hover:text-[var(--text-strong)] hover:after:w-[calc(100%-1.5rem)]",
             );
 
             if (!item.children?.length) {
@@ -132,7 +144,7 @@ export function Header({
 
         <button
           type="button"
-          className="-mr-2 rounded-full p-2 text-[var(--text-strong)] lg:hidden"
+          className="grid size-11 place-items-center border border-[var(--line)] text-[var(--text-strong)] transition hover:border-[var(--neon-cyan)] lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-nav"
@@ -156,7 +168,7 @@ export function Header({
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="border-b border-[var(--line)] py-3.5 text-lg text-[var(--text-strong)]"
+                  className="font-display border-b border-[var(--line)] py-3.5 text-xl !font-semibold tracking-[0.08em] text-[var(--text-strong)]"
                 >
                   {item.label}
                 </Link>
@@ -169,7 +181,7 @@ export function Header({
                 <button
                   type="button"
                   aria-expanded={expanded}
-                  className="flex w-full items-center justify-between py-3.5 text-lg text-[var(--text-strong)]"
+                  className="font-display flex w-full items-center justify-between py-3.5 text-xl !font-semibold tracking-[0.08em] text-[var(--text-strong)]"
                   onClick={() => setMobileOpen(expanded ? null : item.label)}
                 >
                   {item.label}
@@ -208,5 +220,6 @@ export function Header({
         </nav>
       </div>
     </header>
+    </>
   );
 }

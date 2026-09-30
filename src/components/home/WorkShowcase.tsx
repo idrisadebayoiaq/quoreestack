@@ -11,7 +11,7 @@ function OriginTag({ project }: { project: Project }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold",
+        "font-mono-label inline-flex items-center border px-2 py-0.5 text-[10px] uppercase",
         origin === "client"
           ? "border-[var(--neon-green)]/40 text-[var(--neon-green)]"
           : "border-[var(--line-strong)] text-[var(--text-muted)]",
@@ -33,7 +33,7 @@ function ShowcaseItem({
     <Link href={`/projects/${project.slug}`} className="group block">
       <div
         className={cn(
-          "relative overflow-hidden rounded-[var(--radius)] border border-[var(--line)] bg-[var(--bg-secondary)]",
+          "hover-bar relative overflow-hidden rounded-[var(--radius)] border border-[var(--line)] bg-[var(--bg-secondary)] transition group-hover:border-[var(--line-strong)]",
           large ? "aspect-[16/9]" : "aspect-[4/3]",
         )}
       >
@@ -50,7 +50,7 @@ function ShowcaseItem({
       </div>
       <div className="mt-5 flex items-start justify-between gap-6">
         <div>
-          <div className="flex flex-wrap items-center gap-2 text-sm text-[var(--text-muted)]">
+          <div className="font-mono-label flex flex-wrap items-center gap-2 text-[11px] uppercase text-[var(--steel,var(--text-muted))]">
             <OriginTag project={project} />
             {project.client_type && projectOrigin(project) === "client" ? (
               <span>{project.client_type}</span>

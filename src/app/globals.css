@@ -3,8 +3,8 @@
 /*
  * Theme tokens.
  * :root            — dark admin chrome (and any surface without a theme class).
- * .theme-atelier   — public site: bone paper, ink text, one copper accent.
- * .surface-dark    — dark frames inside the public site (hero, footer, image heroes).
+ * .theme-atelier   — public site: industrial steel, blueprint grid, one safety-orange accent.
+ * .surface-dark    — deeper frames inside the public site (hero, footer, image heroes).
  * Components use these variables instead of hardcoded colours so each surface can re-skin them.
  */
 :root {
@@ -36,61 +36,57 @@
 }
 
 .theme-atelier {
-  --ink: #141311;
-  --bone: #f4f0e8;
-  --paper: #fffdf8;
-  --copper: #a4512f;
-  --sage: #3e6b58;
+  --steel: #8a95a3;
+  --accent-2: #ffb400;
 
-  --bg-primary: var(--bone);
-  --bg-secondary: var(--paper);
-  --bg-glass: rgba(255, 253, 248, 0.9);
-  --neon-cyan: var(--copper);
-  --neon-magenta: #7a5a43;
-  --neon-green: var(--sage);
-  --text-primary: var(--ink);
-  --text-strong: var(--ink);
-  --text-body: #3a3631;
-  --text-muted: #5e5952;
-  --line: rgba(20, 19, 17, 0.09);
-  --line-strong: rgba(20, 19, 17, 0.18);
-  --field: var(--paper);
-  --on-accent: var(--paper);
-  --scrim: transparent;
-  --danger: #b42318;
-  --warning: #8a5a00;
-  --accent-rgb: 164, 81, 47;
-  --secondary-rgb: 122, 90, 67;
-  --border-glow: rgba(20, 19, 17, 0.12);
-  --grid-line: transparent;
-  --glow-sm: 0 1px 2px rgba(20, 19, 17, 0.04), 0 8px 24px -12px rgba(20, 19, 17, 0.12);
-  --glow-md: 0 2px 4px rgba(20, 19, 17, 0.05), 0 18px 40px -18px rgba(20, 19, 17, 0.22);
-  --radius: 14px;
+  --bg-primary: #0d0f12;
+  --bg-secondary: #14171c;
+  --bg-glass: #1a1e24;
+  --neon-cyan: #ff6a13;
+  --neon-magenta: #ffb400;
+  --neon-green: #4ade80;
+  --text-primary: #e8ecf1;
+  --text-strong: #f4f6f9;
+  --text-body: #c3cad3;
+  --text-muted: #9aa4b1;
+  --line: #2a3038;
+  --line-strong: #3a424d;
+  --field: #0d0f12;
+  --on-accent: #111111;
+  --scrim: #0d0f12;
+  --danger: #f87171;
+  --warning: #ffb400;
+  --accent-rgb: 255, 106, 19;
+  --secondary-rgb: 255, 180, 0;
+  --border-glow: #2a3038;
+  --grid-line: rgba(255, 255, 255, 0.05);
+  --glow-sm: none;
+  --glow-md: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+  --radius: 2px;
 
+  isolation: isolate;
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-source-sans), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Blueprint grid behind every public page. */
+.theme-atelier::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
 .theme-atelier .surface-dark,
 .theme-atelier.surface-dark {
-  --bg-primary: #141311;
-  --bg-secondary: #1c1a17;
-  --bg-glass: rgba(28, 26, 23, 0.82);
-  --neon-cyan: #e0906a;
-  --neon-magenta: #cdb49a;
-  --neon-green: #8fc1a8;
-  --text-primary: #f4f0e8;
-  --text-strong: #fffdf8;
-  --text-body: #ddd6ca;
-  --text-muted: #a9a194;
-  --line: rgba(244, 240, 232, 0.1);
-  --line-strong: rgba(244, 240, 232, 0.2);
-  --field: #1c1a17;
-  --on-accent: #141311;
-  --scrim: #141311;
-  --accent-rgb: 224, 144, 106;
-  --border-glow: rgba(244, 240, 232, 0.14);
+  --bg-primary: #0a0c0e;
+  --bg-secondary: #14171c;
 
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -102,8 +98,8 @@
   --color-cyan: var(--neon-cyan);
   --color-magenta: var(--neon-magenta);
   --color-muted: var(--text-muted);
-  --font-sans: var(--font-source-sans);
-  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-barlow);
   --font-mono: var(--font-jetbrains);
 }
 
@@ -118,35 +114,133 @@ html {
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-source-sans), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
 .font-display {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-optical-sizing: auto;
+  font-family: var(--font-barlow), "Arial Narrow", sans-serif;
 }
 
 .font-mono-label {
   font-family: var(--font-jetbrains), monospace;
 }
 
-/* Public site: headings in a soft serif at a lighter weight, labels in the sans. */
+/* Public site: condensed uppercase display type, mono labels. */
 .theme-atelier .font-display {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.02;
+}
+
+.theme-atelier .font-display.font-display-plain {
+  text-transform: none;
   font-weight: 500;
-  font-variation-settings: "SOFT" 50;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .theme-atelier .font-mono-label {
-  font-family: var(--font-source-sans), system-ui, sans-serif;
-  font-weight: 600;
-}
-
-.theme-atelier .font-mono-label.font-mono-keep {
   font-family: var(--font-jetbrains), monospace;
   font-weight: 400;
+  letter-spacing: 0.14em;
+}
+
+/* Mono eyebrow with a leading accent dash; inline page eyebrows pick it up automatically. */
+.tag-dash,
+.theme-atelier p.font-mono-label.text-xs.uppercase[class*="text-[var(--neon-cyan)]"]:not(.no-dash) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.tag-dash::before,
+.theme-atelier p.font-mono-label.text-xs.uppercase[class*="text-[var(--neon-cyan)]"]:not(.no-dash)::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  flex: none;
+  background: var(--neon-cyan);
+}
+
+/* Machined corners on primary actions. */
+.chamfer {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+
+/* Accent tick in the top-left corner of a panel. */
+.corner-tick {
+  position: relative;
+}
+
+.corner-tick::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid var(--neon-cyan);
+  border-left: 2px solid var(--neon-cyan);
+  pointer-events: none;
+}
+
+/* Accent bar that draws along the bottom edge on hover. */
+.hover-bar {
+  position: relative;
+}
+
+.hover-bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  background: var(--neon-cyan);
+  transition: width 0.4s ease;
+  pointer-events: none;
+}
+
+.hover-bar:hover::after,
+.group:hover > .hover-bar::after {
+  width: 100%;
+}
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px #4a5461;
+  transition: -webkit-text-stroke-color 0.3s ease;
+}
+
+.group:hover .text-outline {
+  -webkit-text-stroke-color: var(--neon-cyan);
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 14s linear infinite;
+}
+
+.animate-spin-slower {
+  animation: spin-slow 40s linear infinite;
+}
+
+.animate-spin-rev {
+  animation: spin-slow-rev 60s linear infinite;
 }
 
 .theme-atelier :focus-visible {
@@ -199,8 +293,29 @@ body {
   display: none;
 }
 
-/* Public cards and panels pick up the softer radius without touching every call site. */
-.theme-atelier .rounded-sm {
+.theme-atelier .hud-corners.hover-bar::after {
+  display: block;
+  top: auto;
+  right: auto;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  border: 0;
+  opacity: 1;
+}
+
+.theme-atelier .hud-corners.hover-bar:hover::after {
+  width: 100%;
+}
+
+/* Public panels stay square-edged without touching every call site; dots and avatars keep rounded-full. */
+.theme-atelier .rounded-sm,
+.theme-atelier .rounded-md,
+.theme-atelier .rounded-lg,
+.theme-atelier .rounded-xl,
+.theme-atelier .rounded-2xl,
+.theme-atelier .rounded-3xl {
   border-radius: var(--radius);
 }
 
@@ -314,7 +429,10 @@ body {
 
   .animate-reviews-marquee,
   .animate-hero-float,
-  .animate-marquee {
+  .animate-marquee,
+  .animate-spin-slow,
+  .animate-spin-slower,
+  .animate-spin-rev {
     animation: none !important;
   }
 

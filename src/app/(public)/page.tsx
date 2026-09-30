@@ -16,6 +16,8 @@ import { WorkShowcase } from "@/components/home/WorkShowcase";
 import { TestimonialCards } from "@/components/home/TestimonialCards";
 import { ProcessTimeline } from "@/components/home/ProcessTimeline";
 import { EngagementTerms, type EngagementTerm } from "@/components/home/EngagementTerms";
+import { Ticker } from "@/components/home/Ticker";
+import { Gear } from "@/components/ui/Gear";
 import {
   getContactChannels,
   getFeaturedProjects,
@@ -56,6 +58,39 @@ const faqs = [
   },
 ];
 
+const tickerItems = [
+  "Web platforms",
+  "Android apps",
+  "APIs & backends",
+  "Admin dashboards",
+  "Supabase & Postgres",
+  "Launch & support",
+];
+
+function AccentLastWord({ text }: { text: string }) {
+  const trimmed = text.trim();
+  const split = trimmed.lastIndexOf(" ");
+  if (split < 0) return <span className="text-[var(--neon-cyan)]">{trimmed}</span>;
+  return (
+    <>
+      {trimmed.slice(0, split)}{" "}
+      <span className="text-[var(--neon-cyan)]">{trimmed.slice(split + 1)}</span>
+    </>
+  );
+}
+
+function Readout({ children, className }: { children: React.ReactNode; className?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={`font-mono-label absolute z-10 flex items-center gap-1.5 text-[11px] uppercase text-[var(--steel)] ${className ?? ""}`}
+    >
+      <span className="text-base leading-none text-[var(--neon-cyan)]">+</span>
+      {children}
+    </span>
+  );
+}
+
 export default async function HomePage() {
   const [
     hero,
@@ -89,20 +124,20 @@ export default async function HomePage() {
   const showcase = sortByProof(featuredProjects).slice(0, 3);
   return (
     <main>
-      <section id="hero" className="surface-dark relative overflow-hidden bg-[var(--bg-primary)]">
+      <section id="hero" className="relative overflow-hidden">
         <div
           aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(circle_at_75%_45%,rgba(var(--accent-rgb),0.14),transparent_50%)]"
+          className="absolute inset-0 bg-[radial-gradient(circle_at_75%_45%,rgba(var(--accent-rgb),0.12),transparent_50%)]"
         />
-        <div className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-12 px-4 pb-16 pt-28 sm:px-6 md:pb-24 md:pt-32 lg:min-h-[88vh] lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:pb-20">
+        <div className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-12 px-4 pb-16 pt-16 sm:px-6 md:pb-20 md:pt-24 lg:min-h-[calc(100vh-7rem)] lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
           <div className="max-w-2xl">
-            <p className="animate-hero-rise font-mono-label text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
+            <p className="animate-hero-rise font-mono-label tag-dash text-xs uppercase tracking-[0.18em] text-[var(--neon-cyan)]">
               {siteConfig.name} · {siteConfig.author}
             </p>
-            <h1 className="animate-hero-rise-delay font-display mt-6 text-[2.75rem] leading-[1.02] text-[var(--text-strong)] sm:text-6xl lg:text-7xl xl:text-[5.25rem] text-balance">
-              {hero?.headline ?? "Systems that ship."}
+            <h1 className="animate-hero-rise-delay font-display mt-6 text-[3.25rem] text-[var(--text-strong)] sm:text-7xl lg:text-[5.5rem] xl:text-[6.5rem]">
+              <AccentLastWord text={hero?.headline ?? "Systems that ship."} />
             </h1>
-            <p className="animate-hero-rise-delay-2 mt-6 max-w-xl text-lg leading-8 text-[var(--text-body)] md:mt-7 md:text-xl">
+            <p className="animate-hero-rise-delay-2 mt-6 max-w-xl text-lg leading-8 text-[var(--text-muted)] md:mt-7 md:text-[1.15rem]">
               {hero?.subheadline ??
                 "Websites, Android apps, and backends engineered end to end — from first brief to production."}
             </p>
@@ -118,14 +153,22 @@ export default async function HomePage() {
               <AvailabilityBadge availability={availability} />
             </div>
           </div>
-          <div className="animate-hero-rise-delay-2">
+          <div className="animate-hero-rise-delay-2 relative mx-auto w-full max-w-[24rem] sm:max-w-md lg:max-w-none">
+            <div aria-hidden className="absolute inset-[2%] rounded-full border border-dashed border-[var(--line)]" />
+            <div aria-hidden className="absolute inset-[13%] rounded-full border border-[rgba(var(--accent-rgb),0.25)]" />
+            <Gear className="animate-spin-rev absolute -right-[6%] -top-[4%] w-[26%] text-white/[0.04]" />
             <HeroPortrait
-              src="/images/quoreeb-adebayo.png"
+              src="/images/quoreeb-cutout.png"
               alt={`${siteConfig.author}, ${siteConfig.title}`}
             />
+            <Readout className="left-0 top-0">Stack · Next.js</Readout>
+            <Readout className="left-0 top-[42%] hidden sm:flex">DB · PostgreSQL</Readout>
+            <Readout className="bottom-0 right-0">Apps · Android</Readout>
           </div>
         </div>
       </section>
+
+      <Ticker items={tickerItems} />
 
       <ClientLogoStrip logos={logos} />
 
@@ -206,12 +249,18 @@ export default async function HomePage() {
         <ProcessTimeline steps={processSteps} />
       </section>
 
-      <section id="stats" className="border-y border-[var(--line)]">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-10 px-4 py-20 md:grid-cols-4 md:px-6">
-          <StatCounter value={trackRecord.years} label="Years building" suffix="+" />
-          <StatCounter value={trackRecord.projects} label="Projects shipped" />
-          <StatCounter value={trackRecord.apps} label="Android apps released" />
-          <StatCounter value={trackRecord.technologies} label="Technologies in use" />
+      <section id="stats" className="mx-auto max-w-6xl px-4 py-16 md:px-6">
+        <div className="grid grid-cols-2 gap-px border border-[var(--line)] bg-[var(--line)] md:grid-cols-4">
+          {[
+            { value: trackRecord.years, label: "Years building", suffix: "+" },
+            { value: trackRecord.projects, label: "Projects shipped" },
+            { value: trackRecord.apps, label: "Android apps released" },
+            { value: trackRecord.technologies, label: "Technologies in use" },
+          ].map((stat) => (
+            <div key={stat.label} className="corner-tick bg-[var(--bg-primary)] px-6 py-9 md:px-8 md:py-10">
+              <StatCounter value={stat.value} label={stat.label} suffix={stat.suffix} />
+            </div>
+          ))}
         </div>
       </section>
 
@@ -220,11 +269,11 @@ export default async function HomePage() {
         <div className="divide-y divide-[var(--line)] border-y border-[var(--line)]">
           {faqs.map((faq) => (
             <details key={faq.question} className="group py-6">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-semibold text-[var(--text-strong)]">
+              <summary className="font-display flex cursor-pointer list-none items-center justify-between gap-6 text-xl !font-semibold text-[var(--text-strong)] md:text-2xl">
                 {faq.question}
                 <span
                   aria-hidden
-                  className="text-2xl font-light text-[var(--neon-cyan)] transition group-open:rotate-45"
+                  className="text-3xl font-light text-[var(--neon-cyan)] transition group-open:rotate-45"
                 >
                   +
                 </span>

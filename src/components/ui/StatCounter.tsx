@@ -61,12 +61,14 @@ export function StatCounter({
 
   return (
     <div ref={ref} className={cn("text-left", className)}>
-      <p className="font-display text-5xl font-medium tracking-tight text-[var(--text-strong)] md:text-6xl">
+      <p className="font-display text-5xl leading-none text-[var(--text-strong)] md:text-6xl">
         <span aria-hidden>{display}</span>
         <span className="sr-only">{value}</span>
-        {suffix}
+        {suffix ? <sup className="ml-0.5 text-[0.5em] text-[var(--neon-cyan)]">{suffix}</sup> : null}
       </p>
-      <p className="mt-2 text-sm text-[var(--text-muted)]">{label}</p>
+      <p className="font-mono-label mt-3 text-xs uppercase text-[var(--steel,var(--text-muted))]">
+        {label}
+      </p>
     </div>
   );
 }

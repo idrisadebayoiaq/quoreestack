@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { Fraunces, JetBrains_Mono, Source_Sans_3 } from "next/font/google";
+import { Barlow_Condensed, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/utils";
 import { defaultOgImage } from "@/lib/seo";
 import { getContactChannels } from "@/lib/data/content";
 
-const fraunces = Fraunces({
+const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-barlow",
   display: "swap",
-  axes: ["opsz", "SOFT"],
 });
 
-const sourceSans = Source_Sans_3({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-source-sans",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -93,7 +93,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${fraunces.variable} ${sourceSans.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${barlowCondensed.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <script
           type="application/ld+json"

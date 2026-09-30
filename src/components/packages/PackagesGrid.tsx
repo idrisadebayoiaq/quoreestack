@@ -24,23 +24,23 @@ export function PackagesGrid({
         <article
           key={item.slug}
           className={cn(
-            "flex h-full flex-col rounded-[var(--radius)] border p-7",
+            "corner-tick hover-bar flex h-full flex-col overflow-hidden rounded-[var(--radius)] border p-7",
             item.featured
-              ? "surface-dark border-transparent"
-              : "border-[var(--line)] bg-[var(--bg-secondary)]",
+              ? "border-[rgba(var(--accent-rgb),0.55)] bg-[radial-gradient(circle_at_85%_0%,rgba(var(--accent-rgb),0.16),transparent_55%),var(--bg-glass)]"
+              : "border-[var(--line)] bg-[var(--bg-glass)]",
           )}
         >
           <div className="flex items-center justify-between gap-3">
             <h3 className="font-display text-2xl text-[var(--text-strong)]">{item.name}</h3>
             {item.featured ? (
-              <span className="rounded-full bg-[var(--neon-cyan)] px-2.5 py-0.5 text-xs font-semibold text-[var(--on-accent)]">
+              <span className="font-mono-label bg-[var(--neon-cyan)] px-2.5 py-1 text-[10px] uppercase text-[var(--on-accent)]">
                 Most requested
               </span>
             ) : null}
           </div>
           <p className="mt-3 leading-7 text-[var(--text-muted)]">{item.summary}</p>
           <p className="font-display mt-7 text-3xl text-[var(--text-strong)]">{item.price}</p>
-          <p className="mt-1 text-sm text-[var(--text-muted)]">{item.timeline}</p>
+          <p className="font-mono-label mt-2 text-xs uppercase text-[var(--steel,var(--text-muted))]">{item.timeline}</p>
           <ul className="mt-7 flex-1 space-y-3 border-t border-[var(--line)] pt-6">
             {item.includes.map((line) => (
               <li key={line} className="flex gap-2.5 text-[15px] text-[var(--text-body)]">
@@ -67,10 +67,10 @@ export function PackagesGrid({
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-24 md:px-6">
-      <p className="font-mono-label mb-4 text-xs uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
+      <p className="font-mono-label tag-dash mb-5 text-xs uppercase tracking-[0.18em] text-[var(--neon-cyan)]">
         {eyebrow}
       </p>
-      <h2 className="font-display mb-12 max-w-2xl text-3xl text-[var(--text-strong)] md:text-5xl">
+      <h2 className="font-display mb-12 max-w-2xl text-4xl text-[var(--text-strong)] sm:text-5xl md:text-[3.5rem]">
         {title}
       </h2>
       {grid}

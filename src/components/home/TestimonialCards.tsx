@@ -32,12 +32,12 @@ export function TestimonialCards({ testimonials }: { testimonials: Testimonial[]
         return (
           <figure
             key={item.id}
-            className="flex h-full min-w-0 flex-col rounded-[var(--radius)] border border-[var(--line)] bg-[var(--bg-secondary)] p-6 sm:p-7"
+            className="corner-tick flex h-full min-w-0 flex-col rounded-[var(--radius)] border border-[var(--line)] bg-[var(--bg-glass)] p-6 sm:p-8"
           >
-            <span aria-hidden className="font-display text-5xl leading-none text-[var(--neon-cyan)]">
+            <span aria-hidden className="font-display text-6xl leading-[0.6] text-[var(--neon-cyan)]">
               “
             </span>
-            <blockquote className="mt-2 flex-1 text-lg leading-8 text-[var(--text-body)]">
+            <blockquote className="font-display font-display-plain mt-4 flex-1 text-2xl text-[var(--text-strong)]">
               {item.quote}
             </blockquote>
             <figcaption className="mt-7 flex items-center gap-3 border-t border-[var(--line)] pt-5">
@@ -54,7 +54,7 @@ export function TestimonialCards({ testimonials }: { testimonials: Testimonial[]
               )}
               <div className="min-w-0">
                 <p className="font-semibold text-[var(--text-strong)]">{item.author_name}</p>
-                <p className="truncate text-sm text-[var(--text-muted)]">
+                <p className="font-mono-label truncate text-[11px] uppercase text-[var(--steel,var(--text-muted))]">
                   {[item.author_title, item.company].filter(Boolean).join(", ")}
                 </p>
               </div>
