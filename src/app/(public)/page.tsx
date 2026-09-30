@@ -17,7 +17,6 @@ import { TestimonialCards } from "@/components/home/TestimonialCards";
 import { ProcessTimeline } from "@/components/home/ProcessTimeline";
 import { EngagementTerms, type EngagementTerm } from "@/components/home/EngagementTerms";
 import { Ticker } from "@/components/home/Ticker";
-import { Gear } from "@/components/ui/Gear";
 import {
   getContactChannels,
   getFeaturedProjects,
@@ -124,7 +123,7 @@ export default async function HomePage() {
   const showcase = sortByProof(featuredProjects).slice(0, 3);
   return (
     <main>
-      <section id="hero" className="relative overflow-hidden">
+      <section id="hero" className="relative overflow-hidden border-b border-[var(--line)]">
         <div
           aria-hidden
           className="absolute inset-0 bg-[radial-gradient(circle_at_75%_45%,rgba(var(--accent-rgb),0.12),transparent_50%)]"
@@ -153,17 +152,21 @@ export default async function HomePage() {
               <AvailabilityBadge availability={availability} />
             </div>
           </div>
-          <div className="animate-hero-rise-delay-2 relative mx-auto w-full max-w-[24rem] sm:max-w-md lg:max-w-none">
-            <div aria-hidden className="absolute inset-[2%] rounded-full border border-dashed border-[var(--line)]" />
-            <div aria-hidden className="absolute inset-[13%] rounded-full border border-[rgba(var(--accent-rgb),0.25)]" />
-            <Gear className="animate-spin-rev absolute -right-[6%] -top-[4%] w-[26%] text-white/[0.04]" />
+          <div className="relative mx-auto -mb-16 w-full max-w-[22rem] self-end sm:max-w-[26rem] md:-mb-20 lg:mx-0 lg:max-w-none">
+            <div
+              aria-hidden
+              className="absolute left-1/2 top-0 aspect-square w-[98%] -translate-x-1/2 rounded-full border border-dashed border-[var(--line)]"
+            />
+            <div
+              aria-hidden
+              className="absolute left-1/2 top-[9%] aspect-square w-[80%] -translate-x-1/2 rounded-full border border-[rgba(var(--accent-rgb),0.3)] bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.3),rgba(var(--accent-rgb),0.07)_55%,transparent_72%)]"
+            />
             <HeroPortrait
               src="/images/quoreeb-cutout.png"
               alt={`${siteConfig.author}, ${siteConfig.title}`}
             />
-            <Readout className="left-0 top-0">Stack · Next.js</Readout>
-            <Readout className="left-0 top-[42%] hidden sm:flex">DB · PostgreSQL</Readout>
-            <Readout className="bottom-0 right-0">Apps · Android</Readout>
+            <Readout className="left-0 top-[6%]">Stack · Next.js</Readout>
+            <Readout className="right-0 top-[30%] hidden sm:flex">DB · PostgreSQL</Readout>
           </div>
         </div>
       </section>
