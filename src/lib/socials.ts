@@ -24,6 +24,8 @@ const SOCIAL_ORDER: Array<{ key: keyof SocialSetting; label: string }> = [
 ];
 
 export const fallbackSocial: SocialSetting = {
+  github: "https://github.com/idrisadebayoiaq",
+  linkedin: "https://www.linkedin.com/in/idris-quoreeb-58331b438",
   x: "https://x.com/idrisadebayoiaq",
   instagram: "https://instagram.com/idrisadebayoiaq",
   facebook: "https://facebook.com/idrisadebayoiaq",

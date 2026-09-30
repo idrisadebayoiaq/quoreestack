@@ -8,11 +8,11 @@ export function ClientLogoStrip({ logos }: { logos: ClientLogo[] }) {
 
   return (
     <section className="border-b border-[var(--line)]">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 md:flex-row md:items-center md:gap-12 md:px-6">
-        <p className="shrink-0 text-sm text-[var(--text-muted)]">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-10 text-center md:px-6">
+        <p className="text-sm text-[var(--text-muted)]">
           Recent websites and apps for
         </p>
-        <div className="flex flex-wrap items-center gap-x-10 gap-y-6">
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
           {logos.map((logo) => {
             const image = (
               // eslint-disable-next-line @next/next/no-img-element
