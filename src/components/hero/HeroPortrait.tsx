@@ -35,10 +35,10 @@ export function HeroPortrait({ src, alt }: HeroPortraitProps) {
     const onPointerMove = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") return;
       const rect = stage.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height * 0.4;
-      pointer.current.x = Math.max(-1, Math.min(1, (event.clientX - cx) / (window.innerWidth / 2)));
-      pointer.current.y = Math.max(-1, Math.min(1, -(event.clientY - cy) / (window.innerHeight / 2)));
+      const faceX = rect.left + rect.width * 0.47;
+      const faceY = rect.top + rect.height * 0.38;
+      pointer.current.x = Math.max(-1, Math.min(1, (event.clientX - faceX) / (rect.width * 0.7)));
+      pointer.current.y = Math.max(-1, Math.min(1, -(event.clientY - faceY) / (rect.height * 0.7)));
       pointer.current.active = true;
     };
     const onLeave = () => {

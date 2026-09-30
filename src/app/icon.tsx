@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { GEAR_PATH } from "@/components/ui/Gear";
 
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
@@ -13,15 +14,13 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#3d8bff",
-          background: "#06080f",
-          border: "3px solid #3d8bff",
-          fontSize: 22,
-          fontWeight: 800,
-          letterSpacing: "-1px",
+          background: "#0d0f12",
+          borderRadius: 12,
         }}
       >
-        QS
+        <svg width="52" height="52" viewBox="0 0 100 100">
+          <path d={GEAR_PATH} fill="#ff6a13" fillRule="evenodd" />
+        </svg>
       </div>
     ),
     size,

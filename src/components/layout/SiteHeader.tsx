@@ -14,7 +14,7 @@ export async function SiteHeader() {
     getFeaturedProjects(6),
     supabase
       .from("mobile_apps")
-      .select("name, slug, tagline")
+      .select("name, slug")
       .eq("status", "published")
       .order("sort_order", { ascending: true })
       .limit(6),
@@ -27,7 +27,6 @@ export async function SiteHeader() {
       children: projects.map((project) => ({
         href: `/projects/${project.slug}`,
         label: project.title,
-        description: project.short_description ?? undefined,
       })),
     },
     {
@@ -36,7 +35,6 @@ export async function SiteHeader() {
       children: services.map((service) => ({
         href: `/services/${service.slug}`,
         label: service.name,
-        description: service.short_description ?? undefined,
       })),
     },
     {
@@ -45,7 +43,6 @@ export async function SiteHeader() {
       children: (apps ?? []).map((app) => ({
         href: `/apps/${app.slug}`,
         label: app.name,
-        description: app.tagline ?? undefined,
       })),
     },
     { href: "/pricing", label: "Pricing" },
@@ -54,11 +51,11 @@ export async function SiteHeader() {
       href: "/industries",
       label: "More",
       children: [
-        { href: "/industries", label: "Industries", description: "Who I build for" },
-        { href: "/reviews", label: "Reviews", description: "What clients say" },
-        { href: "/blog", label: "Blog", description: "Notes on shipping products" },
-        { href: "/stack", label: "Stack", description: "Tools behind the work" },
-        { href: "/faq", label: "FAQ", description: "Common questions" },
+        { href: "/industries", label: "Industries" },
+        { href: "/reviews", label: "Reviews" },
+        { href: "/blog", label: "Blog" },
+        { href: "/stack", label: "Stack" },
+        { href: "/faq", label: "FAQ" },
       ],
     },
   ];

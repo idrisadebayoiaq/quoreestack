@@ -98,7 +98,7 @@ export function Header({
                   {item.label}
                   <ChevronDown className="size-3.5 opacity-60 transition group-hover:rotate-180 group-focus-within:rotate-180" />
                 </Link>
-                <div className="invisible absolute left-0 top-full z-50 min-w-[19rem] translate-y-1 pt-2 opacity-0 transition group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="invisible absolute left-0 top-full z-50 min-w-[14rem] translate-y-1 pt-2 opacity-0 transition group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
                   <div className="rounded-2xl border border-[var(--line)] bg-[var(--bg-secondary)] p-2 shadow-[var(--glow-md)]">
                     {preview.map((child) => (
                       <Link

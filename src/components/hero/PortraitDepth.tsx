@@ -14,11 +14,14 @@ type PortraitDepthProps = {
  * The cut-out photo is mapped onto a dense plane and pushed into relief in the vertex shader:
  * a blurred copy of the alpha mask rounds the body's edges, and an ellipsoid plus a nose bump
  * (hand-placed for this portrait, texture space with origin bottom-left) shape the head.
- * Rotating the mesh toward the pointer then reads as the figure turning in 3D.
+ * The body stays still; only vertices inside the head region rotate toward the pointer,
+ * blending out across the neck, so the face turns to look at the cursor.
  */
 const vertexShader = /* glsl */ `
   uniform sampler2D uImage;
   uniform float uDepth;
+  uniform vec2 uLook;
+  uniform vec2 uPlane;
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vView;
@@ -54,6 +57,17 @@ const vertexShader = /* glsl */ `
     float dy = depthAt(uv + vec2(0.0, e)) - d;
     vec3 displaced = position + vec3(0.0, 0.0, d * uDepth);
     vec3 localNormal = normalize(vec3(-dx * uDepth / (e * 2.0), -dy * uDepth / (e * 2.0), 1.0));
+
+    vec2 headOffset = (uv - uHead.xy) / (uHead.zw * vec2(1.3, 1.12));
+    float weight = 1.0 - smoothstep(0.7, 1.0, length(headOffset));
+    float yaw = uLook.x * 0.34 * weight;
+    float pitch = -uLook.y * 0.18 * weight;
+    mat3 rotY = mat3(cos(yaw), 0.0, -sin(yaw), 0.0, 1.0, 0.0, sin(yaw), 0.0, cos(yaw));
+    mat3 rotX = mat3(1.0, 0.0, 0.0, 0.0, cos(pitch), sin(pitch), 0.0, -sin(pitch), cos(pitch));
+    mat3 turn = rotY * rotX;
+    vec3 pivot = vec3((uHead.x - 0.5) * uPlane.x, (uHead.y - 0.5) * uPlane.y, 0.0);
+    displaced = pivot + turn * (displaced - pivot);
+    localNormal = turn * localNormal;
     vNormal = normalize(normalMatrix * localNormal);
     vec4 mv = modelViewMatrix * vec4(displaced, 1.0);
     vView = normalize(-mv.xyz);
@@ -82,10 +96,6 @@ const fragmentShader = /* glsl */ `
     #include <colorspace_fragment>
   }
 `;
-
-// The figure turns around a point behind the photo so it swings toward the
-// pointer; pivoting at the photo plane makes it read as leaning away.
-const PIVOT_OFFSET = 0.6;
 
 function makeDotTexture() {
   const canvas = document.createElement("canvas");
@@ -133,6 +143,8 @@ export default function PortraitDepth({ src, pointer, onReady }: PortraitDepthPr
       uNose: { value: new THREE.Vector2(0.398, 0.589) },
       uLight: { value: new THREE.Vector3(-0.5, 0.6, 1) },
       uRim: { value: new THREE.Color(0xff7a2e) },
+      uLook: { value: new THREE.Vector2(0, 0) },
+      uPlane: { value: new THREE.Vector2(2, 2) },
     };
     const material = new THREE.ShaderMaterial({
       uniforms,
@@ -180,7 +192,7 @@ export default function PortraitDepth({ src, pointer, onReady }: PortraitDepthPr
       const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
       const fitHeight = planeSize.h / 2 / Math.tan(halfFov);
       const fitWidth = planeSize.w / 2 / (Math.tan(halfFov) * camera.aspect);
-      camera.position.set(0, 0, Math.max(fitHeight, fitWidth) * 1.06 + 0.3 + PIVOT_OFFSET);
+      camera.position.set(0, 0, Math.max(fitHeight, fitWidth) * 1.06 + 0.3);
       camera.updateProjectionMatrix();
     };
     const resizeObserver = new ResizeObserver(fitCamera);
@@ -200,10 +212,11 @@ export default function PortraitDepth({ src, pointer, onReady }: PortraitDepthPr
       const image = texture.image as { width: number; height: number };
       const aspect = image.width / image.height;
       planeSize = aspect >= 1 ? { w: 2, h: 2 / aspect } : { w: 2 * aspect, h: 2 };
+      uniforms.uPlane.value.set(planeSize.w, planeSize.h);
       const geometry = new THREE.PlaneGeometry(planeSize.w, planeSize.h, 200, 200);
       disposables.push(geometry);
       mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(0, -planeSize.h * 0.08, PIVOT_OFFSET);
+      mesh.position.y = -planeSize.h * 0.08;
       figure.add(mesh);
       fitCamera();
       start();
@@ -221,7 +234,6 @@ export default function PortraitDepth({ src, pointer, onReady }: PortraitDepthPr
     document.addEventListener("visibilitychange", onVisibility);
 
     const eased = { x: 0, y: 0 };
-    let elapsed = 0;
     let last = 0;
     let frame = 0;
     let running = false;
@@ -233,19 +245,14 @@ export default function PortraitDepth({ src, pointer, onReady }: PortraitDepthPr
         return;
       }
       const delta = Math.min((now - (last || now)) / 1000, 0.1);
-      elapsed += delta;
       last = now;
 
-      const target = pointer.current.active
-        ? pointer.current
-        : { x: Math.sin(elapsed * 0.5) * 0.5, y: Math.sin(elapsed * 0.37) * 0.25 };
-      eased.x += (target.x - eased.x) * 0.07;
-      eased.y += (target.y - eased.y) * 0.07;
+      const target = pointer.current.active ? pointer.current : { x: 0, y: 0 };
+      eased.x += (target.x - eased.x) * 0.08;
+      eased.y += (target.y - eased.y) * 0.08;
 
-      figure.rotation.y = eased.x * 0.36;
-      figure.rotation.x = -eased.y * 0.18;
-      figure.position.y = Math.sin(elapsed * 0.9) * 0.025;
-      uniforms.uLight.value.set(-0.5 + eased.x * 0.6, 0.6 + eased.y * 0.4, 1);
+      uniforms.uLook.value.set(eased.x, eased.y);
+      uniforms.uLight.value.set(-0.5 + eased.x * 0.4, 0.6 + eased.y * 0.25, 1);
 
       const array = particleGeometry.attributes.position.array as Float32Array;
       for (let i = 0; i < particleCount; i++) {
@@ -253,7 +260,6 @@ export default function PortraitDepth({ src, pointer, onReady }: PortraitDepthPr
         if (array[i * 3 + 1] > 1.6) array[i * 3 + 1] = -1.6;
       }
       particleGeometry.attributes.position.needsUpdate = true;
-      particles.rotation.y = eased.x * 0.12;
 
       renderer.render(scene, camera);
       if (firstFrame) {
